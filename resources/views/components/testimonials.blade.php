@@ -1,4 +1,4 @@
-<section class="py-5 bg-light">
+<section class="testimonial-responsive-padding-top bg-light">
 	<div class="container">
 		<h2 class="text-center mb-4">{{ __('default.testimonials.heading') }}</h2>
 		<div class="main-carousel" style="max-width: 700px; margin:0 auto;">
@@ -39,6 +39,16 @@
         font-style: italic;
         font-weight: bold;
         font-size: 14px;
+    }
+
+    .testimonial-responsive-padding-top {
+        padding-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+        .testimonial-responsive-padding-top {
+            padding-top: 30px;
+        }
     }
 </style>
 

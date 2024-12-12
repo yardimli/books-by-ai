@@ -1,13 +1,13 @@
-<section class="py-5 mt-5">
+<section class="hero-responsive-padding-top pb-3 mt-5">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-6 mb-4">
-				<img src="/images/hero-image.webp" alt="{{ __('default.hero.title') }}" class="img-fluid hero-image">
-			</div>
-			<div class="col-lg-6 mb-4">
+			<div class="col-lg-6 mb-3">
 				<h1>{{ __('default.hero.title') }}</h1>
 				<p class="lead serif-font">{{ __('default.hero.subtitle') }}</p>
-				<a href="#" class="btn btn-primary">{{ __('default.hero.cta') }}</a>
+				<a href="{{route('create-book')}}" class="btn btn-lg btn-primary d-none d-lg-inline-block">{{ __('default.hero.cta') }}</a>
+			</div>
+			<div class="col-lg-6 mb-3">
+				<img src="/images/hero-image.webp" alt="{{ __('default.hero.title') }}" class="img-fluid hero-image">
 			</div>
 		</div>
 	</div>
@@ -19,5 +19,15 @@
         height: 100%;
         object-fit: cover;
         border-radius: 12px;
+    }
+    
+    .hero-responsive-padding-top {
+		    				padding-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+		    .hero-responsive-padding-top {
+		    				padding-top: 30px;
+		    }
     }
 </style>

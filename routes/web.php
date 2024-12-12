@@ -30,6 +30,8 @@
 
 	//-------------------------------------------------------------------------
 	Route::get('/', [StaticPagesController::class, 'landing'])->name('landing-page');
+	Route::get('/kitap-yaz', [StaticPagesController::class, 'createBook'])->name('create-book');
+	Route::post('/kitap-sakla', [StaticPagesController::class, 'saveBook'])->name('save-book');
 
 	Route::get('/lang/home', [LanguageController::class, 'index']);
 	Route::get('/lang/change', [LanguageController::class, 'change'])->name('changeLang');

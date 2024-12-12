@@ -532,16 +532,31 @@
 				],
 				[
 					'question' => 'Is there customer support if I need help?',
-					'answer' => 'Yes, send us an email at hi@bookbyanyone.com, and we\'ll gladly help with anything you need.'
+					'answer' => 'Yes, send us an email at hi@kitabimzade.com, and we\'ll gladly help with anything you need.'
 				],
 				[
 					'question' => 'What is your return policy?',
-					'answer' => 'We provide a refund only if the book is defective or damaged upon arrival. Notify us within 7 days of receiving the book by emailing hi@bookbyanyone.com with your order number and a description of the issue, and we\'ll resolve it quickly.'
+					'answer' => 'We provide a refund only if the book is defective or damaged upon arrival. Notify us within 7 days of receiving the book by emailing hi@kitabimzade.com with your order number and a description of the issue, and we\'ll resolve it quickly.'
 				],
 				[
 					'question' => 'Is the book intended for commercial use?',
 					'answer' => 'No, the books you create using our service are strictly intended as gag gifts and for entertainment purposes only. They are not meant to be taken seriously and should not be used for commercial purposes or as a source of factual information. These books are purely for fun, to bring a smile to someone\'s face, and to make a memorable, humorous gift!'
 				]
+			]
+		],
+
+		//-----------------------------
+
+
+		'create' => [
+			'step1' => [
+				'title' => 'Create Book - Step 1',
+				'author_question' => 'Who will be the author of the book?',
+				'author_hint' => 'Whoever you like, this can be a friend, family member or even you',
+				'author_placeholder' => "Author's full name",
+			],
+			'buttons' => [
+				'continue' => 'Continue'
 			]
 		]
 	];

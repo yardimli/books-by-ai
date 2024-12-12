@@ -1,10 +1,9 @@
-<!-- components/how-it-works.blade.php -->
 <section class="how-it-works py-5">
 	<div class="container">
-		<h2 class="text-center mb-5">{{ __('default.how_it_works.title') }}</h2>
+		<h2 class="text-center mb-2">{{ __('default.how_it_works.title') }}</h2>
 		
 		<!-- Step 1 -->
-		<div class="row mb-5">
+		<div class="row step-content-dynamic-margin">
 			<div class="col-lg-6 d-flex align-items-center">
 				<div class="step-content">
 					<div class="step-number serif-font">{{ __('default.how_it_works.step1.number') }}</div>
@@ -43,7 +42,7 @@
 		</div>
 		
 		<!-- Step 2 -->
-		<div class="row mb-5 mt-5">
+		<div class="row step-content-dynamic-margin">
 			<div class="col-lg-6 d-flex align-items-center">
 				<div class="step-content">
 					<div class="step-number serif-font">{{ __('default.how_it_works.step2.number') }}</div>
@@ -63,7 +62,7 @@
 		</div>
 		
 		<!-- Step 3 -->
-		<div class="row mt-5 pt-5">
+		<div class="row step-content-dynamic-margin">
 			<div class="col-lg-6 d-flex align-items-center">
 				<div class="step-content">
 					<div class="step-number serif-font">{{ __('default.how_it_works.step3.number') }}</div>
@@ -97,8 +96,8 @@
 
     .step-number {
         padding-bottom: 5px;
-        color: #ff6b6b;
-        background-color: #222222;
+        color: rgb(227, 111, 61, 1);
+        background-color: rgba(227, 111, 61, .1);
         display: flex;
         width: 40px;
         height: 40px;
@@ -109,21 +108,31 @@
         margin-bottom: 1rem;
     }
 
+    [data-bs-theme=dark] .step-number {
+        color: #ff6b6b;
+        background-color: #222222;
+    }
+
     .step-content h3 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .step-content-dynamic-margin {
+        margin-bottom: 50px;
+        margin-top: 50px;
     }
 
     .step-description {
         color: #a0a0a0;
-        font-size: 1.1rem;
+        font-size: 16px;
         line-height: 1.6;
     }
 
     .question-card {
         background-color: #fff1e6;
-        border-radius: 1rem;
-        padding: 1rem;
+        border-radius: 10px;
+        padding: 10px;
         color: #1c1c1c !important;
         max-width: 300px;
     }
@@ -181,14 +190,26 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
 
-    @media (max-width: 991.98px) {
+    @media (max-width: 768px) {
+
+        .step-number {
+		        margin-left: auto;
+		        margin-right: auto;
+        }
         .step-content {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 5px;
+		        margin-top:15px;
         }
 
         .question-card {
-            margin-bottom: 3rem;
+            margin-bottom: 10px;
         }
+
+        .step-content-dynamic-margin {
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
     }
 </style>

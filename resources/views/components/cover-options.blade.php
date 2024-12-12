@@ -1,29 +1,30 @@
-<section class="py-5 bg-light">
+<section class="pt-5 bg-light">
 	<div class="container">
 		<h2 class="text-center mb-2">{{ __('default.cover_options.title') }}</h2>
 		<p class="step-description text-center serif-font mb-4">{{ __('default.cover_options.description') }}</p>
-	</div>
-	<div class="row justify-content-center">
-		<div class="d-flex justify-content-center gap-4 flex-wrap">
-			<div class="cover-option">
-				<div class="card border-0">
-					<div class="cover-image-wrapper">
-						<img src="/images/paperback.webp" alt="Paperback" class="cover-image">
-					</div>
-					<div class="card-body text-center">
-						<h4 class="serif-font">{{ __('default.cover_options.paperback.title') }}</h4>
-						<p class="mb-0 serif-font">{{ __('default.cover_options.paperback.description') }}</p>
+		
+		<div class="row justify-content-center">
+			<div class="d-flex justify-content-center gap-4 flex-wrap">
+				<div class="cover-option">
+					<div class="card border-0">
+						<div class="cover-image-wrapper">
+							<img src="/images/paperback.webp" alt="Paperback" class="cover-image">
+						</div>
+						<div class="card-body cover-options-text-center">
+							<h4 class="serif-font">{{ __('default.cover_options.paperback.title') }}</h4>
+							<p class="mb-0 serif-font">{{ __('default.cover_options.paperback.description') }}</p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="cover-option">
-				<div class="card border-0">
-					<div class="cover-image-wrapper">
-						<img src="/images/hardcover.webp" alt="Hardcover" class="cover-image">
-					</div>
-					<div class="card-body text-center">
-						<h4 class="serif-font">{{ __('default.cover_options.hardcover.title') }}</h4>
-						<p class="mb-0 serif-font">{{ __('default.cover_options.hardcover.description') }}</p>
+				<div class="cover-option">
+					<div class="card border-0">
+						<div class="cover-image-wrapper">
+							<img src="/images/hardcover.webp" alt="Hardcover" class="cover-image">
+						</div>
+						<div class="card-body cover-options-text-center">
+							<h4 class="serif-font">{{ __('default.cover_options.hardcover.title') }}</h4>
+							<p class="mb-0 serif-font">{{ __('default.cover_options.hardcover.description') }}</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -48,11 +49,23 @@
         object-fit: cover;
         border-radius: 12px;
     }
+    
+    .cover-options-text-center {
+		    				text-align: center;
+    }
 
     @media (max-width: 768px) {
         .cover-image-wrapper {
-            width: 160px;
-            height: 160px;
+            width: 150px;
+            height: 150px;
         }
+		    .card-body {
+						padding-left: 0px;
+				    padding-right: 0px;
+				}
+		    .cover-options-text-center {
+				    		    				text-align: left !important;
+		    }
+		  
     }
 </style>

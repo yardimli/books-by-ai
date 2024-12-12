@@ -4,7 +4,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
-					<h3>Books by AI</h3>
+					<h3>KitabiZade</h3>
 					<ul class="list-unstyled">
 						<li>
 							<a class="nav-link" href="{{route('about-page')}}"><i
@@ -40,12 +40,11 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<h3>Need some help?</h3>
-					<p>Our dedicated customer support team is available to help</p>
-					<button class="btn btn-dark">Contact us</button>
+					<h3>{{__('default.Need some help?')}}</h3>
+					<p>{{__('default.Our dedicated customer support team is available to help')}}</p>
+					<button class="btn btn-dark">{{__('default.Contact us')}}</button>
 					
-					<p class="mt-3">©2024 <a class="text-body"
-					                                                 href="https://www.my-laravel-saas-site.com"> {{__('default.Books By AI')}}
+					<p class="mt-3">©2024 <a class="text-body" href="https://kitabimzade.com"> {{__('default.Books By AI')}}
 				</div>
 			</div>
 		</div>

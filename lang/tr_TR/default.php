@@ -6,7 +6,7 @@
 		'Codex saved successfully' => 'Kodeks başarıyla kaydedildi',
 
 // Found in: resources\views\auth\forgot-password.blade.php, resources\views\emails\reset_password.blade.php, resources\views\emails\thankyouforyourorder.blade.php, resources\views\emails\verify-email.blade.php, resources\views\emails\welcome.blade.php, resources\views\errors\error-404.blade.php, resources\views\landing\landing.blade.php, resources\views\layouts\app.blade.php, resources\views\layouts\footer.blade.php, resources\views\user\codex.blade.php, resources\views\user\edit-book.blade.php, resources\views\user\my-books.blade.php, resources\views\user\privacy.blade.php, resources\views\user\showcase-library.blade.php, resources\views\user\stories.blade.php, resources\views\user\terms.blade.php, resources\views\welcome.blade.php
-		'Books By AI' => 'SaaS Laravel Kalıbı',
+		'Books By AI' => 'KitabimZade',
 
 // Found in: resources\views\auth\forgot-password.blade.php, resources\views\auth\login.blade.php, resources\views\auth\register.blade.php, resources\views\emails\welcome.blade.php, resources\views\errors\error-404.blade.php, resources\views\landing\landing.blade.php, resources\views\layouts\app.blade.php, resources\views\paypal\paypal-finish-page.blade.php, resources\views\user\my-books.blade.php, resources\views\user\showcase-library.blade.php, resources\views\user\stories.blade.php
 		'Boilerplate Site Tagline' => 'Kalıp Site Sloganı',
@@ -265,7 +265,7 @@
 		'Delete account' => 'Hesabı sil',
 		'We are sorry to hear that you wish to delete your account.' => 'Hesabınızı silmek istediğinizi duyduğumuza üzüldük.',
 		'Please note that deleting your account may result in the permanent loss of your data.' => 'Lütfen hesabınızı silmenin verilerinizin kalıcı olarak kaybına neden olabileceğini unutmayın.',
-		'We are sad to see you go, but we hope that Books By AI has been an enjoyable experience for you. We wish you the best in your future endeavors. Goodbye!' => 'Gitmenize üzülüyoruz, ancak Books By AI\'ın sizin için keyifli bir deneyim olduğunu umuyoruz. Gelecekteki çalışmalarınızda size en iyisini diliyoruz. Hoşça kalın!',
+		'We are sad to see you go, but we hope that Books By AI has been an enjoyable experience for you. We wish you the best in your future endeavors. Goodbye!' => 'Gitmenize üzülüyoruz, ancak KitabimZade\'ın sizin için keyifli bir deneyim olduğunu umuyoruz. Gelecekteki çalışmalarınızda size en iyisini diliyoruz. Hoşça kalın!',
 		'Before you go...' => 'Gitmeden önce...',
 		'If you delete your account, you will lose your all data.' => 'Hesabınızı silerseniz, tüm verilerinizi kaybedeceksiniz.',
 		'Keep my account' => 'Hesabımı koru',
@@ -331,7 +331,7 @@
 		'Privacy' => 'Gizlilik',
 		'Change Log' => 'Değişiklik Günlüğü',
 
-		'Welcome to Books By AI' => 'Books By AI\'e Hoş Geldiniz',
+		'Welcome to Books By AI' => 'KitabimZade\'ye Hoş Geldiniz',
 
 		'I can\'t believe it\'s free!' => 'İnanamıyorum, ücretsiz!',
 
@@ -456,6 +456,10 @@
 		'Update Article' => 'Makaleyi Güncelle',
 		'Create Article' => 'Makale Oluştur',
 
+		'Need some help?' => 'Yardıma mı ihtiyacınız var?',
+		'Our dedicated customer support team is available to help' => 'Uzman müşteri destek ekibimiz yardımcı olmaya hazır',
+		'Contact us' => 'Bize ulaşın',
+
 		//----------------------------------------
 		'hero' => [
 			'title' => '2 dakika içinde komik ve hafif bir kitap yazıp yazdırın',
@@ -537,7 +541,7 @@
 			'title' => 'Sıkça Sorulan Sorular',
 			'items' => [
 				[
-					'question' => 'Books by AI nasıl çalışır?',
+					'question' => 'KitabimZade nasıl çalışır?',
 					'answer' => 'Kitap başlığı, içindekiler tablosu ve 240 sayfalık içeriğin tamamı tamamen yapay zekamız tarafından oluşturulur (ve gerçekten komiktir). Yazar hakkındaki detayları doldurduktan sonra, beğendiğiniz kitap fikrini seçebilir, içindekiler tablosunu görebilir, bir kapak seçebilir ve siparişinizi verebilirsiniz.'
 				],
 				[
@@ -558,17 +562,31 @@
 				],
 				[
 					'question' => 'Yardıma ihtiyacım olursa müşteri desteği var mı?',
-					'answer' => 'Evet, hi@bookbyanyone.com adresine e-posta gönderin, ihtiyacınız olan her konuda size memnuniyetle yardımcı olacağız.'
+					'answer' => 'Evet, hi@kitabimzade.com adresine e-posta gönderin, ihtiyacınız olan her konuda size memnuniyetle yardımcı olacağız.'
 				],
 				[
 					'question' => 'İade politikanız nedir?',
-					'answer' => 'Sadece kitap kusurlu veya hasarlı geldiğinde iade sağlıyoruz. Kitabı aldıktan sonra 7 gün içinde hi@bookbyanyone.com adresine sipariş numaranız ve sorunun açıklamasıyla birlikte e-posta gönderin, sorunu hızlıca çözeceğiz.'
+					'answer' => 'Sadece kitap kusurlu veya hasarlı geldiğinde iade sağlıyoruz. Kitabı aldıktan sonra 7 gün içinde hi@kitabimzade.com adresine sipariş numaranız ve sorunun açıklamasıyla birlikte e-posta gönderin, sorunu hızlıca çözeceğiz.'
 				],
 				[
 					'question' => 'Kitap ticari kullanım için mi tasarlanmıştır?',
 					'answer' => 'Hayır, hizmetimizi kullanarak oluşturduğunuz kitaplar sadece şaka hediyesi ve eğlence amaçlı olarak tasarlanmıştır. Ciddiye alınmaması ve ticari amaçlarla veya gerçek bilgi kaynağı olarak kullanılmaması gerekir. Bu kitaplar tamamen eğlence amaçlı, birinin yüzünde gülümseme oluşturmak ve unutulmaz, eğlenceli bir hediye yaratmak içindir!'
 				]
 			]
-		]
+		],
 
+		//-----------------------------
+
+
+		'create' => [
+			'step1' => [
+				'title' => 'Kitap Oluştur - Adım 1',
+				'author_question' => 'Kitabın yazarı kim olacak?',
+				'author_hint' => 'Kim olursa olsun, bu bir arkadaşınız, aile üyeniz hatta siz olabilirsiniz',
+				'author_placeholder' => 'Yazarın tam adı',
+			],
+			'buttons' => [
+				'continue' => 'Devam Et'
+			]
+		]
 	];

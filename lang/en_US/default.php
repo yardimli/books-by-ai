@@ -555,8 +555,36 @@
 				'author_hint' => 'Whoever you like, this can be a friend, family member or even you',
 				'author_placeholder' => "Author's full name",
 			],
+			'step2' => [
+				'title' => "Let's get to know #author#",
+				'subtitle' => 'Answer as many questions as possible to get a great book',
+				'select_question' => 'Select a question and answer it',
+				'modal' => [
+					'title' => 'Pick a question',
+					'answer_placeholder' => 'Be specific and include funny details'
+				],
+				'questions' => [
+					'job' => "What is #author#'s job?",
+					'family' => "Who are #author#'s family members?",
+					'friends' => "Who are #author#'s best friends?",
+					'hobbies' => "What are #author#'s hobbies?",
+					'dream' => "What is #author#'s dream?",
+					'genre' => "What genre will #author# write a book in?"
+				]
+			],
+			'step3' => [
+				'title' => "Let's pick a book idea",
+				'loading' => 'Loading...',
+				'error' => [
+					'no_suggestions' => 'No suggestions available',
+					'loading_error' => 'Error loading suggestions'
+				],
+				'author_prefix' => 'by', // for the "by [author name]" text
+			],
 			'buttons' => [
-				'continue' => 'Continue'
+				'continue' => 'Continue',
+				'save_answer' => 'Save answer',
+				'regenerate' => 'Regenerate',
 			]
 		]
 	];

@@ -1,6 +1,7 @@
 <?php
 
 	use App\Http\Controllers\ArticleController;
+	use App\Http\Controllers\BookController;
 	use App\Http\Controllers\CategoryController;
 	use App\Http\Controllers\ChatController;
 	use App\Http\Controllers\ImageController;
@@ -30,8 +31,13 @@
 
 	//-------------------------------------------------------------------------
 	Route::get('/', [StaticPagesController::class, 'landing'])->name('landing-page');
-	Route::get('/kitap-yaz', [StaticPagesController::class, 'createBook'])->name('create-book');
-	Route::post('/kitap-sakla', [StaticPagesController::class, 'saveBook'])->name('save-book');
+	Route::get('/kitap-yaz', [BookController::class, 'createBook'])->name('create-book');
+
+	Route::post('/kitap-sakla', [BookController::class, 'saveBook'])->name('save-book');
+	Route::post('/kitap-oneri', [BookController::class, 'suggestBookTitleAndShortDescription'])->name('suggest-book-title-and-short-description');
+	Route::post('/yazar-foto-yukle', [BookController::class, 'uploadAuthorImage'])->name('upload-author-image');
+	Route::post('/zemin-sil', [BookController::class, 'removeBg'])->name('remove-bg');
+
 
 	Route::get('/lang/home', [LanguageController::class, 'index']);
 	Route::get('/lang/change', [LanguageController::class, 'change'])->name('changeLang');

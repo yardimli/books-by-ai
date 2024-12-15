@@ -585,8 +585,39 @@
 				'author_hint' => 'Kim olursa olsun, bu bir arkadaşınız, aile üyeniz hatta siz olabilirsiniz',
 				'author_placeholder' => 'Yazarın tam adı',
 			],
+			'step2' => [
+				'title' => ':author ile tanışalım',
+				'subtitle' => 'Harika bir kitap için mümkün olduğunca çok soruyu cevaplayın',
+				'select_question' => 'Bir soru seçin ve cevaplayın',
+				'modal' => [
+					'title' => 'Bir soru seçin',
+					'answer_placeholder' => 'Detaylı olun ve komik ayrıntılar ekleyin'
+				],
+				'questions' => [
+					'job' => '#author# ne iş yapıyor?',
+					'family' => '#author# aile üyeleri kimler?',
+					'friends' => '#author# en iyi arkadaşları kimler?',
+					'hobbies' => '#author# hobileri neler?',
+					'dream' => '#author# hayali ne?',
+					'genre' => '#author# hangi türde bir kitap yazacak?',
+					'sayoften' => '#author# sık sık ne der?',
+					'expertise' => '#author# hangi konuda uzmandır?',
+					'funny' => '#author# en komik özelliği nedir?',
+				]
+			],
+			'step3' => [
+				'title' => "Bir kitap fikri seçelim",
+				'loading' => 'Yükleniyor...',
+				'error' => [
+					'no_suggestions' => 'Öneri bulunmamaktadır',
+					'loading_error' => 'Öneriler yüklenirken hata oluştu'
+				],
+				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
+			],
 			'buttons' => [
-				'continue' => 'Devam Et'
+				'continue' => 'Devam et',
+				'save_answer' => 'Cevabı kaydet',
+				'regenerate' => 'Yeniden oluştur',
 			]
 		]
 	];

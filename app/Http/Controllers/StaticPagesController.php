@@ -38,10 +38,7 @@
 			return view('landing.landing');
 		}
 
-		public function createBook(Request $request)
-		{
-			return view('landing.create-book');
-		}
+
 
 		public function about(Request $request)
 		{

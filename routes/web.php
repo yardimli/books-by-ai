@@ -38,6 +38,9 @@
 	Route::post('/yazar-foto-yukle', [BookController::class, 'uploadAuthorImage'])->name('upload-author-image');
 	Route::post('/zemin-sil', [BookController::class, 'removeBg'])->name('remove-bg');
 
+	Route::get('/kapak-yukle/{style?}', [BookController::class, 'loadCover'])->name('load-cover');
+	Route::get('/sirt-yukle/{style?}', [BookController::class, 'loadSpine'])->name('load-spine');
+	Route::get('/arka-yukle/{style?}', [BookController::class, 'loadBack'])->name('load-back');
 
 	Route::get('/lang/home', [LanguageController::class, 'index']);
 	Route::get('/lang/change', [LanguageController::class, 'change'])->name('changeLang');

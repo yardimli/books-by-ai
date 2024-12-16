@@ -14,6 +14,7 @@
 		<div class="upload-container text-center">
 			<div id="imagePreviewContainer" class="mb-4 d-none">
 				<img id="imagePreview" class="img-fluid rounded" style="max-height: 300px;" alt="Preview">
+				<br>
 				<button type="button" class="btn btn-link text-danger mt-2" id="removeImage">Remove Image</button>
 			</div>
 			
@@ -89,19 +90,20 @@
 					contentType: false,
 					data: formData,
 					success: function(response) {
+						let authorOriginalImage = response.url;
 						// Now call removeBg with the temporary URL
 						$.ajax({
 							url: '{{ route("remove-bg") }}',
 							method: 'POST',
 							data: {
-								image_url: response.url,
+								image_url: 'https://kitabimzade.com/storage/author-images/author.jpg', // authorOriginalImage,
 								_token: $('meta[name="csrf-token"]').attr('content')
 							},
 							success: function(response) {
 								const result = JSON.parse(response);
 								if (result.success) {
 									// Save both versions to localStorage
-									localStorage.setItem('characterImage', imagePreview.attr('src'));
+									localStorage.setItem('characterImage', authorOriginalImage);
 									localStorage.setItem('characterImageNoBg', result.image_large_filename);
 									continueBtn.prop('disabled', false);
 								} else {

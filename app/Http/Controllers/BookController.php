@@ -20,6 +20,21 @@
 			return view('landing.create-book')->with('step', $request->get('step', 1));
 		}
 
+		public function loadCover($style = 1)
+		{
+			return view('landing.cover' . $style);
+		}
+
+		public function loadSpine($style = 1)
+		{
+			return view('landing.spine' . $style);
+		}
+
+		public function loadBack($style = 1)
+		{
+			return view('landing.back' . $style);
+		}
+
 		function suggestBookTitleAndShortDescription(Request $request)
 		{
 			$user_prompt = $request->input('user_answers', 'A fantasy picture of a cat');
@@ -151,16 +166,17 @@
 			return response()->json(['error' => 'No image uploaded'], 400);
 		}
 
-		public function removeBg(Request $request)
-		{
+		public function removeBg(Request $request) {
 			$model = 'https://queue.fal.run/fal-ai/imageutils/rembg';
 			$falApiKey = $_ENV['FAL_API_KEY'];
+
 			if (empty($falApiKey)) {
-				echo json_encode(['error' => 'FAL_API_KEY environment variable is not set']);
+				return json_encode(['error' => 'FAL_API_KEY environment variable is not set']);
 			}
 
 			$client = new \GuzzleHttp\Client();
 
+			// Initial request to queue the job
 			$response = $client->post($model, [
 				'headers' => [
 					'Authorization' => 'Key ' . $falApiKey,
@@ -170,76 +186,107 @@
 					'image_url' => $request->input('image_url'),
 				]
 			]);
-			Log::info('FLUX remove BG response');
-			Log::info($response->getBody());
 
-			$body = $response->getBody();
-			$data = json_decode($body, true);
+			$initialData = json_decode($response->getBody(), true);
+			Log::info('Initial FAL response:', $initialData);
 
-			if ($response->getStatusCode() == 200) {
-
-				if (isset($data['images'][0]['url'])) {
-					$image_url = $data['images'][0]['url'];
-					$image = file_get_contents($image_url);
-
-					if (!Storage::disk('public')->exists('author-images')) {
-						Storage::disk('public')->makeDirectory('author-images');
-					}
-
-					// Create directories if they don't exist
-					$directories = ['original', 'large', 'medium', 'small'];
-					foreach ($directories as $dir) {
-						if (!Storage::disk('public')->exists("author-images/$dir")) {
-							Storage::disk('public')->makeDirectory("author-images/$dir");
-						}
-					}
-
-					$guid = Str::uuid();
-
-					$extension = 'jpg';
-
-					// Generate filenames
-					$originalFilename = $guid . '.' . $extension;
-					$largeFilename = $guid . '_large.' . $extension;
-					$mediumFilename = $guid . '_medium.' . $extension;
-					$smallFilename = $guid . '_small.' . $extension;
-
-					$outputFile = Storage::disk('public')->path('author-images/' . $originalFilename);
-					file_put_contents($outputFile, $image);
-
-					// Create resized versions
-					$this->resizeImage(
-						$outputFile,
-						storage_path('app/public/author-images/large/' . $largeFilename),
-						1024,
-					);
-					$this->resizeImage(
-						$outputFile,
-						storage_path('app/public/author-images/medium/' . $mediumFilename),
-						600
-					);
-					$this->resizeImage(
-						$outputFile,
-						storage_path('app/public/author-images/small/' . $smallFilename),
-						300
-					);
-
-					return json_encode([
-						'success' => true,
-						'message' => __('Image generated successfully'),
-						'image_large_filename' => $largeFilename,
-						'image_medium_filename' => $mediumFilename,
-						'image_small_filename' => $smallFilename,
-						'data' => json_encode($data),
-						'seed' => $data['seed'],
-						'status_code' => $response->getStatusCode(),
-					]);
-				} else {
-					return json_encode(['success' => false, 'message' => __('Error (2) generating image'), 'status_code' => $response->getStatusCode()]);
-				}
-			} else {
-				return json_encode(['success' => false, 'message' => __('Error (1) generating image'), 'status_code' => $response->getStatusCode()]);
+			if (!isset($initialData['request_id'])) {
+				return json_encode(['success' => false, 'message' => 'No request ID received']);
 			}
+
+			// Poll for results
+			$maxAttempts = 10;
+			$attempt = 0;
+			$delay = 2; // seconds
+
+			while ($attempt < $maxAttempts) {
+				sleep($delay);
+
+				try {
+					$statusResponse = $client->get("https://queue.fal.run/fal-ai/imageutils/requests/{$initialData['request_id']}", [
+						'headers' => [
+							'Authorization' => 'Key ' . $falApiKey
+						]
+					]);
+
+					$result = json_decode($statusResponse->getBody(), true);
+					Log::info('Poll response:', $result);
+
+					if (isset($result['image']['url'])) {
+						// Process successful result
+						$image_url = $result['image']['url'];
+						$image = file_get_contents($image_url);
+
+						if (!Storage::disk('public')->exists('author-images')) {
+							Storage::disk('public')->makeDirectory('author-images');
+						}
+
+						// Create directories if they don't exist
+						$directories = ['original', 'large', 'medium', 'small'];
+						foreach ($directories as $dir) {
+							if (!Storage::disk('public')->exists("author-images/$dir")) {
+								Storage::disk('public')->makeDirectory("author-images/$dir");
+							}
+						}
+
+						$guid = Str::uuid();
+						$extension = 'png';
+
+						// Generate filenames
+						$originalFilename = $guid . '.' . $extension;
+						$largeFilename = $guid . '_large.' . $extension;
+						$mediumFilename = $guid . '_medium.' . $extension;
+						$smallFilename = $guid . '_small.' . $extension;
+
+						$outputFile = Storage::disk('public')->path('author-images/original/' . $originalFilename);
+						file_put_contents($outputFile, $image);
+
+						// Create resized versions
+						$this->resizeImage(
+							$outputFile,
+							storage_path('app/public/author-images/large/' . $largeFilename),
+							1024
+						);
+						$this->resizeImage(
+							$outputFile,
+							storage_path('app/public/author-images/medium/' . $mediumFilename),
+							600
+						);
+						$this->resizeImage(
+							$outputFile,
+							storage_path('app/public/author-images/small/' . $smallFilename),
+							300
+						);
+
+						return json_encode([
+							'success' => true,
+							'message' => __('Image generated successfully'),
+							'image_large_filename' => $largeFilename,
+							'image_medium_filename' => $mediumFilename,
+							'image_small_filename' => $smallFilename,
+							'data' => json_encode($result),
+						]);
+					}
+
+					if (isset($result['status']) && $result['status'] === 'FAILED') {
+						return json_encode([
+							'success' => false,
+							'message' => 'Processing failed',
+							'error' => $result['error'] ?? 'Unknown error'
+						]);
+					}
+
+				} catch (\Exception $e) {
+					Log::error('Error polling FAL API: ' . $e->getMessage());
+				}
+
+				$attempt++;
+			}
+
+			return json_encode([
+				'success' => false,
+				'message' => 'Timeout waiting for image processing'
+			]);
 		}
 
 	}

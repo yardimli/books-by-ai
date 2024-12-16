@@ -71,6 +71,7 @@
         height: 100%;
         border-radius: 50%;
         overflow: hidden;
+		    background-color: #BBBB55;
     }
 
     .author-image {
@@ -103,19 +104,3 @@
 	</div>
 	<div class="author-name"></div>
 </div>
-
-@push('scripts')
-	<script>
-		const bookData = {
-			title: "REALTY GONE ROGUE!",
-			subtitle: "Chronicles of Mischief with Mick and Lara in the Home-Buying World",
-			authorName: "Lala Lulu"
-		};
-		
-		$(document).ready(function () {
-			$('.title').text(bookData.title);
-			$('.subtitle').text(bookData.subtitle);
-			$('.author-name').text(bookData.authorName);
-		});
-	</script>
-@endpush

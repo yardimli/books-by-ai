@@ -2,7 +2,7 @@
     .spine {
         width: 34px;
         height: 480px;
-        background-color: #993333;
+        background-color: black;
         position: relative;
     }
 

@@ -1,27 +1,16 @@
 <style>
-    .back-book-cover-border {
-        width: 314px; /* Slightly larger to accommodate inner div + margin */
-        height: 474px;
-        border-color: #999933;
-        position: absolute;
-        top: 3px;
-        left: 3px;
-        border-width: 0.2rem;
-        border-style: solid;
-    }
-
     .back-book-cover {
         width: 320px;
         height: 480px;
-        background-color: #993333;
+        background-color: black;
         position: relative;
 		    padding:20px;
 		    color: #EEFFAA !important;
+        font-family: monospace;
     }
 
     .back-main-title {
         font-size: 1rem;
-		    font-family: serif;
         margin-bottom: 1.2rem;
     }
 
@@ -30,18 +19,16 @@
     }
 
     .back-review-text {
-		    font-size: 0.6rem;
+		    font-size: 0.5rem;
         font-style: italic;
         margin-bottom: 0.1rem;
         line-height: 1.4;
-		    font-family: serif;
     }
 
     .back-review-source {
 		    font-size: 0.5rem;
         font-style: normal;
         margin-bottom: 0.2rem;
-        font-family: serif;
     }
 
     .back-footer {
@@ -76,7 +63,6 @@
 </head>
 <body>
 <div class="back-book-cover">
-	<div class="back-book-cover-border"></div>
 	<div class="back-main-title">PRAISES FOR REALTY GONE ROGUE!</div>
 	
 	<div class="back-reviews">

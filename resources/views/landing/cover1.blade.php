@@ -1,43 +1,32 @@
 <style>
-    .book-cover-border {
-        width: 314px; /* Slightly larger to accommodate inner div + margin */
-        height: 474px;
-        border-color: #999933;
-        position: absolute;
-        top: 3px;
-		    left: 3px;
-		    border-width: 0.2rem;
-				border-style: solid;
-    }
-
     .book-cover {
         width: 320px;
         height: 480px;
-        background-color: #993333;
+        background: url('/cover-images/cover1.png');
+        background-size: cover;
         position: relative;
     }
 
-    .title {
-        position: absolute;
-        top: 5%;
+    .uppercase-title {
+        padding: 20px;
         width: 100%;
         text-align: center;
-        color: white;
-        font-size: 2.5em;
-        font-family: serif;
-        line-height: 1.1;
-		    color: #EEFFAA;
+        font-size: 2.0rem;
+        line-height: 1;
+        color: #F9F9F9;
+        text-transform: uppercase;
+    }
+
+    .uppercase-title-first-letter {
+        font-size: 2.2rem;
     }
 
     .subtitle {
-        position: absolute;
-        top: 25%;
-        left: 20%;
-        width: 60%;
+		    padding-left: 40px;
+		    padding-right: 40px;
         text-align: center;
-        font-family: serif;
-        font-size: 0.7em;
-        color: #EEFFAA;
+        font-size: 0.7rem;
+        color: #F9F9F9;
     }
 
     .author-image-container {
@@ -47,7 +36,6 @@
         transform: translateX(-50%);
         width: 55%;
         aspect-ratio: 4/5;
-        position: relative; /* Added to handle absolute positioning of inner container */
     }
 
     /* New inner container for the border */
@@ -59,7 +47,7 @@
         height: calc(100% + 20px);
         border-radius: 50%;
         border: 0.2rem solid #999933;
-		    z-index: 2;
+        z-index: 2;
     }
 
     /* Modified author image styles */
@@ -71,7 +59,7 @@
         height: 100%;
         border-radius: 50%;
         overflow: hidden;
-		    background-color: #BBBB55;
+        background-color: #ead0b3;
     }
 
     .author-image {
@@ -80,27 +68,31 @@
         object-fit: cover;
     }
 
-    .author-name {
+    .uppercase-author-name {
         position: absolute;
-        bottom: 5%;
+        bottom: 20px;
         width: 100%;
         text-align: center;
-        font-size: 1.2em;
-        font-family: serif;
-        color: #EEFFAA;
+        font-size: 1.1rem;
+        color: #F9F9F9;
+        text-transform: uppercase;
     }
+
+    .uppercase-author-name-first-letter {
+        font-size: 1.2rem;
+    }
+
 </style>
 </head>
 <body>
 <div class="book-cover">
-	<div class="book-cover-border"></div>
-	<div class="title"></div>
-	<div class="subtitle"></div>
+	<div class="title uppercase-title eb-garamond-bold"></div>
+	<div class="subtitle eb-garamond-regular"></div>
 	<div class="author-image-container">
 		<div class="author-image-border"></div>
 		<div class="author-image-wrapper">
 			<img class="author-image" src="/author-images/author2.jpg">
 		</div>
 	</div>
-	<div class="author-name"></div>
+	<div class="uppercase-author-name author-name eb-garamond-regular"></div>
 </div>

@@ -585,6 +585,7 @@
 				'continue' => 'Continue',
 				'save_answer' => 'Save answer',
 				'regenerate' => 'Regenerate',
+				'adjust_image' => 'Adjust Image',
 			]
 		]
 	];

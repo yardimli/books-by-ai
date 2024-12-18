@@ -21,7 +21,9 @@
 	
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+	@stack('google-fonts')
 	
 	<!-- Plugins CSS -->
 	<link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap-icons/bootstrap-icons.css">
@@ -31,8 +33,6 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css">
 	
-	{{--	@lemonJS--}}
-
 </head>
 @php
 	use Carbon\Carbon;

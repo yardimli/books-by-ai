@@ -166,7 +166,8 @@
 			return response()->json(['error' => 'No image uploaded'], 400);
 		}
 
-		public function removeBg(Request $request) {
+		public function removeBg(Request $request)
+		{
 			$model = 'https://queue.fal.run/fal-ai/imageutils/rembg';
 			$falApiKey = $_ENV['FAL_API_KEY'];
 
@@ -288,5 +289,31 @@
 				'message' => 'Timeout waiting for image processing'
 			]);
 		}
+
+
+		public function removeBg2(Request $request)
+		{
+			$client = new GuzzleHttp\Client();
+			$res = $client->post('https://api.remove.bg/v1.0/removebg', [
+				'multipart' => [
+					[
+						'name'     => 'image_file',
+						'contents' => fopen('/path/to/file.jpg', 'r')
+					],
+					[
+						'name'     => 'size',
+						'contents' => 'auto'
+					]
+				],
+				'headers' => [
+					'X-Api-Key' => 'INSERT_YOUR_API_KEY_HERE'
+				]
+			]);
+
+			$fp = fopen("no-bg.png", "wb");
+			fwrite($fp, $res->getBody());
+			fclose($fp);
+		}
+		//zsDLK4dtznBvzXQmNLkkMmkb
 
 	}

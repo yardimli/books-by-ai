@@ -2,9 +2,9 @@
     .spine {
         width: 34px;
         height: 480px;
-        background-color: black;
+        background-color: #ff92cb;
         position: relative;
-        overflow: hidden;
+        overflow: hidden; /* Add this to contain child elements */
     }
 
     .spine-text {
@@ -23,23 +23,23 @@
 
     .spine-author-name {
         line-height: 34px;
-        height: 34px;
-        min-height: 34px;
-        font-size: 1.0rem;
-        color: #FFFFDD;
+		    height: 34px;
+		    min-height: 34px;
+        font-size: 1.2rem;
+        color: #333333;
         margin-right: 20px;
         overflow: hidden;
-        display: inline-block;
+		    display: inline-block;
     }
 
     .spine-title {
         line-height: 34px;
-        height: 34px;
-        min-height: 34px;
+		    height: 34px;
+		    min-height: 34px;
         font-size: 1.1rem;
-        color: #DDEE99;
+        color: #333333;
         overflow: hidden;
-        display: inline-block;
+		    display: inline-block;
     }
 
     .uppercase-spine-title {
@@ -47,9 +47,9 @@
         height: 34px;
         min-height: 34px;
         font-size: 1.1rem;
-        color: #DDEE99;
-        text-transform: uppercase;
+        color: #333333;
         overflow: hidden;
+        text-transform: uppercase;
         display: inline-block;
     }
 
@@ -73,8 +73,8 @@
 <body>
 <div class="spine">
 	<div class="spine-text">
-		<span class="spine-author-name book-spine-author-name roboto-mono-regular"></span>
-		<span class="spine-title book-spine-title bungee-tint-regular"></span>
+		<div class="spine-author-name book-spine-author-name birthstone-regular"></div>
+		<div class="spine-title book-spine-title young-serif-regular"></div>
 	</div>
 	<div class="spine-logo">
 		<img src="{{ asset('images/logo.png') }}" alt="Logo" class="spin-logo-img">

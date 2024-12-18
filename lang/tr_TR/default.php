@@ -618,6 +618,7 @@
 				'continue' => 'Devam et',
 				'save_answer' => 'Cevabı kaydet',
 				'regenerate' => 'Yeniden oluştur',
+				'adjust_image' => 'Resmi ayarla',
 			]
 		]
 	];

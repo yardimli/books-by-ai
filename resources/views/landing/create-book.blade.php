@@ -3,10 +3,10 @@
 @section('title', 'Create Book')
 
 @section('content')
+
 	<style>
-      .serif-font {
-          font-family: Georgia, Times, "Times New Roman", serif;
-      }
+			
+			@include('landing.create-book-fonts')
 
       .wizard-progress {
           position: relative;
@@ -59,7 +59,7 @@
       .list-group-item {
           cursor: pointer;
           border: none;
-          padding: 1rem;
+          padding: 1.0rem;
       }
 
       .list-group-item:hover {
@@ -116,7 +116,6 @@
 	</style>
 	
 	<div class="container py-5 mt-5" style="min-height: calc(100vh);">
-		
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<div class="wizard-progress mb-5">
@@ -175,12 +174,9 @@
 	$questions = __('default.create.step2.questions');
 @endphp
 
-<script>
-	window.bookQuestions = @json($questions);
-</script>
-
 @push('scripts')
 	<script>
+		window.bookQuestions = @json($questions);
 		let current_page = 'my.create-book';
 		let currentStep = 1;
 		let answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
@@ -311,7 +307,7 @@
 			currentStep = getStepFromURL();
 			goToStep(currentStep);
 			
-			window.addEventListener('popstate', function(event) {
+			window.addEventListener('popstate', function (event) {
 				const step = getStepFromURL();
 				goToStep(step);
 			});

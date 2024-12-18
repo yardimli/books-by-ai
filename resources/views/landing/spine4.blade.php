@@ -2,9 +2,9 @@
     .spine {
         width: 34px;
         height: 480px;
-        background-color: black;
+        background-color: #0001bf;
         position: relative;
-        overflow: hidden;
+        overflow: hidden; /* Add this to contain child elements */
     }
 
     .spine-text {
@@ -25,10 +25,11 @@
         line-height: 34px;
         height: 34px;
         min-height: 34px;
-        font-size: 1.0rem;
+        font-size: 0.9rem;
         color: #FFFFDD;
         margin-right: 20px;
         overflow: hidden;
+        text-transform: uppercase;
         display: inline-block;
     }
 
@@ -39,17 +40,17 @@
         font-size: 1.1rem;
         color: #DDEE99;
         overflow: hidden;
+        text-transform: uppercase;
         display: inline-block;
     }
 
     .uppercase-spine-title {
         line-height: 34px;
         height: 34px;
-        min-height: 34px;
         font-size: 1.1rem;
         color: #DDEE99;
-        text-transform: uppercase;
         overflow: hidden;
+        text-transform: uppercase;
         display: inline-block;
     }
 
@@ -61,20 +62,20 @@
         position: absolute;
         bottom: 10px;
         left: 0px;
-		    width: 34px;
-		    text-align: center;
+        width: 34px;
+        text-align: center;
     }
-    
+
     .spin-logo-img {
-				width: 30px;
-		}
+        width: 30px;
+    }
 </style>
 </head>
 <body>
 <div class="spine">
 	<div class="spine-text">
-		<span class="spine-author-name book-spine-author-name roboto-mono-regular"></span>
-		<span class="spine-title book-spine-title bungee-tint-regular"></span>
+		<div class="spine-author-name book-spine-author-name eb-garamond-bold"></div>
+		<div class="spine-title book-spine-title oswald-semibold"></div>
 	</div>
 	<div class="spine-logo">
 		<img src="{{ asset('images/logo.png') }}" alt="Logo" class="spin-logo-img">

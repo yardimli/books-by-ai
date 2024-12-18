@@ -314,6 +314,5 @@
 			fwrite($fp, $res->getBody());
 			fclose($fp);
 		}
-		//zsDLK4dtznBvzXQmNLkkMmkb
 
 	}

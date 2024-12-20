@@ -614,11 +614,29 @@
 				],
 				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
 			],
+			'step4' => [
+				'title' => "Yazarın bir fotoğrafını yükle",
+				'description' => 'Bunu kapakta kullanacağız',
+				'loading' => 'Yükleniyor...',
+				'processing' => 'Görüntü işleniyor...',
+				'error_processing' => 'Görüntü işlenirken hata oluştu. Lütfen tekrar deneyin.',
+				'error_upload' => 'Görüntü yüklenirken hata oluştu. Lütfen tekrar deneyin.',
+				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
+			],
+			'modals' => [
+				'adjust_image' => 'Yazar Fotoğrafını Ayarla',
+				'zoom_level' => 'Yakınlaştırma Düzeyi',
+			],
 			'buttons' => [
-				'continue' => 'Devam et',
-				'save_answer' => 'Cevabı kaydet',
-				'regenerate' => 'Yeniden oluştur',
-				'adjust_image' => 'Resmi ayarla',
+				'continue' => 'Devam Et',
+				'reset' => 'Sıfırla',
+				'cancel' => 'İptal',
+				'save_answer' => 'Cevabı Kaydet',
+				'save_changes' => 'Değişiklikleri Kaydet',
+				'regenerate' => 'Yeniden Oluştur',
+				'adjust_image' => 'Fotoğrafı Ayarla',
+				'remove_image' => 'Fotoğrafı Kaldır',
+				'choose_image' => 'Fotoğraf Seç',
 			]
 		]
 	];

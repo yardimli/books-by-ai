@@ -52,6 +52,7 @@
 				method: 'POST',
 				dataType: 'json',
 				data: {
+					author_name: localStorage.getItem('authorName'),
 					user_answers: userAnswers,
 					_token: $('meta[name="csrf-token"]').attr('content')
 				},
@@ -113,6 +114,7 @@
 				$(this).addClass('selected').css('border', '2px solid #dc6832');
 				selectedSuggestionIndex = $(this).data('index').toString();
 				localStorage.setItem('selectedSuggestionIndex', selectedSuggestionIndex);
+				localStorage.setItem('selectedSuggestion', JSON.stringify(bookSuggestions[parseInt($(this).data('index'))]));
 			});
 			
 			

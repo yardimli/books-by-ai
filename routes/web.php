@@ -37,6 +37,7 @@
 	Route::post('/kitap-oneri', [BookController::class, 'suggestBookTitleAndShortDescription'])->name('suggest-book-title-and-short-description');
 	Route::post('/yazar-foto-yukle', [BookController::class, 'uploadAuthorImage'])->name('upload-author-image');
 	Route::post('/zemin-sil', [BookController::class, 'removeBg'])->name('remove-bg');
+	Route::post('/zemin-sil2', [BookController::class, 'removeBg2'])->name('remove-bg2');
 
 	Route::get('/kapak-yukle/{style?}', [BookController::class, 'loadCover'])->name('load-cover');
 	Route::get('/sirt-yukle/{style?}', [BookController::class, 'loadSpine'])->name('load-spine');

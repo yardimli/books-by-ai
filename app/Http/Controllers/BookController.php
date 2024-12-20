@@ -4,6 +4,7 @@
 
 	use App\Helpers\MyHelper;
 	use App\Models\Image;
+	use CURLFile;
 	use Illuminate\Http\Request;
 	use Illuminate\Support\Facades\Auth;
 	use Illuminate\Support\Facades\DB;
@@ -42,10 +43,13 @@
 				$user_prompt = 'A fantasy picture of a cat';
 			}
 
-			$gpt_prompt = "Suggest a title and a short description for a book that should not be taken seriously. It will be a full book with 200 pages. But the content will be satirical and humorous. The books language will be in Turkish.
+			$gpt_prompt = "Suggest a title and a short description for a book that should not be taken seriously. It will be a full book with 200 pages. But the content will be satirical and humorous. The books language will be in Turkish. The book's title should be 2-3 words long, write 4 short reviews each consisting of 5 sentences with their sources. Try to include the author's name and book's title in the short reviews.
 			
-			The author has answered the following questions, use that as inspiration:" .
-				$user_prompt . "
+			The author has answered the following questions, use that as inspiration:
+			
+			Author Name: ".$request->input('author_name', 'Ali') . "
+			
+			".$user_prompt . "
 			
 			return 3 suggestions in the following JSON format: 
 			" .
@@ -53,16 +57,43 @@
 {
     "suggestions": [
         {
-            "title": "The Cat Who Ate The Moon",
-            "short_description": "A cat who eats the moon and goes on a journey to find it again."
+				"title":"Yaratıcılığın Komik Halleri",
+				"subtitle":"Bir Tasarımcının Absürt Günlüğü",
+        "short_description" : "Yaratıcı süreçlerin absürt yanlarını, ilham perisinin kaprisleri ve tasarımcı bloğunun trajikomik yönlerini anlatan eğlenceli bir kitap.",
+        "short_review_1":"Yaratıcı sürecin tüm çılgınlığını muhteşem bir şekilde yansıtmış. Her sayfada kendimi buldum ve kahkaha attım. Mutlaka okunması gereken bir eser.",
+				"short_review_1_source": "- Sanat ve Tasarım Dergisi",
+				"short_review_2": "İlham perisinin kaprislerini bu kadar güzel anlatan başka bir kitap görmedim. Yazarın mizah anlayışı muhteşem. Her yaratıcı insanın okuması gereken bir kitap.",
+				"short_review_2_source": "- Kreatif Düşünce Platformu",
+				"short_review_3": "Hem eğlenceli hem de gerçekçi bir kitap. Yaratıcı sürecin tüm zorluklarını mizahi bir dille anlatmış. Kesinlikle tavsiye ediyorum.",
+				"short_review_3_source":"- Tasarım ve Sanat Blogu",
+				"short_review_4":"Bu kitap tam bir terapi gibi. Her sayfada kendimi buldum ve rahatladım. Yaratıcı blokajı olan herkese şiddetle tavsiye ederim.",
+				"short_review_4_source":"- Sanatçılar Birliği"
         },
         {
-            "title": "The Cat Who Ate The Moon",
-            "short_description": "A cat who eats the moon and goes on a journey to find it again."
+            "title": "",
+            "subtitle": "",
+            "short_description": ""
+            "short_review_1": "",
+            "short_review_1_source": "",
+            "short_review_2": "",
+            "short_review_2_source": "",
+            "short_review_3": "",
+            "short_review_3_source": ""
+            "short_review_4": "",
+            "short_review_4_source": ""
         },
         {
-            "title": "The Cat Who Ate The Moon",
-            "short_description": "A cat who eats the moon and goes on a journey to find it again."
+            "title": "",
+            "subtitle": "",
+            "short_description": ""
+            "short_review_1": "",
+            "short_review_1_source": "",
+            "short_review_2": "",
+            "short_review_2_source": "",
+            "short_review_3": "",
+            "short_review_3_source": ""
+            "short_review_4": "",
+            "short_review_4_source": ""
         }
     ]
 }
@@ -85,6 +116,9 @@
 
 		private function resizeImage($sourcePath, $destinationPath, $maxWidth)
 		{
+			// Suppress libpng warnings
+			ini_set('gd.png.ignore_warning', 1);
+
 			list($originalWidth, $originalHeight, $type) = getimagesize($sourcePath);
 
 			// Calculate new dimensions
@@ -97,6 +131,7 @@
 
 			// Handle transparency for PNG images
 			if ($type == IMAGETYPE_PNG) {
+				// These settings help maintain transparency
 				imagealphablending($newImage, false);
 				imagesavealpha($newImage, true);
 				$transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
@@ -104,49 +139,63 @@
 			}
 
 			// Load source image
-			switch ($type) {
-				case IMAGETYPE_JPEG:
-					$source = imagecreatefromjpeg($sourcePath);
-					break;
-				case IMAGETYPE_PNG:
-					$source = imagecreatefrompng($sourcePath);
-					break;
-				case IMAGETYPE_GIF:
-					$source = imagecreatefromgif($sourcePath);
-					break;
-				default:
+			try {
+				switch ($type) {
+					case IMAGETYPE_JPEG:
+						$source = @imagecreatefromjpeg($sourcePath);
+						break;
+					case IMAGETYPE_PNG:
+						$source = @imagecreatefrompng($sourcePath);
+						break;
+					case IMAGETYPE_GIF:
+						$source = @imagecreatefromgif($sourcePath);
+						break;
+					default:
+						return false;
+				}
+
+				if (!$source) {
 					return false;
+				}
+
+				// Resize
+				imagecopyresampled(
+					$newImage,
+					$source,
+					0, 0, 0, 0,
+					$newWidth,
+					$newHeight,
+					$originalWidth,
+					$originalHeight
+				);
+
+				// Save resized image
+				switch ($type) {
+					case IMAGETYPE_JPEG:
+						imagejpeg($newImage, $destinationPath, 90);
+						break;
+					case IMAGETYPE_PNG:
+						imagepng($newImage, $destinationPath, 9);
+						break;
+					case IMAGETYPE_GIF:
+						imagegif($newImage, $destinationPath);
+						break;
+				}
+
+				// Free up memory
+				imagedestroy($newImage);
+				imagedestroy($source);
+
+				return true;
+			} catch (\Exception $e) {
+				if (isset($newImage)) {
+					imagedestroy($newImage);
+				}
+				if (isset($source)) {
+					imagedestroy($source);
+				}
+				return false;
 			}
-
-			// Resize
-			imagecopyresampled(
-				$newImage,
-				$source,
-				0, 0, 0, 0,
-				$newWidth,
-				$newHeight,
-				$originalWidth,
-				$originalHeight
-			);
-
-			// Save resized image
-			switch ($type) {
-				case IMAGETYPE_JPEG:
-					imagejpeg($newImage, $destinationPath, 90);
-					break;
-				case IMAGETYPE_PNG:
-					imagepng($newImage, $destinationPath, 9);
-					break;
-				case IMAGETYPE_GIF:
-					imagegif($newImage, $destinationPath);
-					break;
-			}
-
-			// Free up memory
-			imagedestroy($newImage);
-			imagedestroy($source);
-
-			return true;
 		}
 
 		public function uploadAuthorImage(Request $request)
@@ -160,7 +209,8 @@
 
 				$path = $file->store('author-images', 'public');
 				return response()->json([
-					'url' => Storage::url($path)
+					'url' => Storage::url($path),
+					'path' => $path
 				]);
 			}
 			return response()->json(['error' => 'No image uploaded'], 400);
@@ -235,9 +285,6 @@
 
 						// Generate filenames
 						$originalFilename = $guid . '.' . $extension;
-						$largeFilename = $guid . '_large.' . $extension;
-						$mediumFilename = $guid . '_medium.' . $extension;
-						$smallFilename = $guid . '_small.' . $extension;
 
 						$outputFile = Storage::disk('public')->path('author-images/original/' . $originalFilename);
 						file_put_contents($outputFile, $image);
@@ -245,26 +292,24 @@
 						// Create resized versions
 						$this->resizeImage(
 							$outputFile,
-							storage_path('app/public/author-images/large/' . $largeFilename),
+							storage_path('app/public/author-images/large/' . $originalFilename),
 							1024
 						);
 						$this->resizeImage(
 							$outputFile,
-							storage_path('app/public/author-images/medium/' . $mediumFilename),
+							storage_path('app/public/author-images/medium/' . $originalFilename),
 							600
 						);
 						$this->resizeImage(
 							$outputFile,
-							storage_path('app/public/author-images/small/' . $smallFilename),
+							storage_path('app/public/author-images/small/' . $originalFilename),
 							300
 						);
 
 						return json_encode([
 							'success' => true,
 							'message' => __('Image generated successfully'),
-							'image_large_filename' => $largeFilename,
-							'image_medium_filename' => $mediumFilename,
-							'image_small_filename' => $smallFilename,
+							'image_filename' => $originalFilename,
 							'data' => json_encode($result),
 						]);
 					}
@@ -293,26 +338,99 @@
 
 		public function removeBg2(Request $request)
 		{
-			$client = new GuzzleHttp\Client();
-			$res = $client->post('https://api.remove.bg/v1.0/removebg', [
-				'multipart' => [
-					[
-						'name'     => 'image_file',
-						'contents' => fopen('/path/to/file.jpg', 'r')
-					],
-					[
-						'name'     => 'size',
-						'contents' => 'auto'
-					]
-				],
-				'headers' => [
-					'X-Api-Key' => 'INSERT_YOUR_API_KEY_HERE'
-				]
-			]);
+			// Initialize cURL session
+			$ch = curl_init();
+			$filePath = storage_path('app/public/' . $request->input('path'));
 
-			$fp = fopen("no-bg.png", "wb");
-			fwrite($fp, $res->getBody());
-			fclose($fp);
+			if (!file_exists($filePath)) {
+				return json_encode([
+					'success' => false,
+					'file' => $filePath,
+					'message' => 'File not found or not readable'
+				]);
+			}
+
+			$finfo = finfo_open(FILEINFO_MIME_TYPE);
+			$mimeType = finfo_file($finfo, $filePath);
+			finfo_close($finfo);
+
+			// Prepare the file
+			$cfile = new CURLFile($filePath, $mimeType, 'image_file');
+
+			// Setup cURL options
+
+			curl_setopt($ch, CURLOPT_URL, 'https://api.remove.bg/v1.0/removebg');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, [
+				'image_file' => $cfile,
+				'size' => 'preview'
+			]);
+			curl_setopt($ch,
+				CURLOPT_HTTPHEADER, [
+					'X-Api-Key: ' . $_ENV['REMOVE_BG_KEY']
+				]);
+			// Add these SSL options
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+			// Execute the request
+			$response = curl_exec($ch);
+			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+			$curlError = '';
+			if (curl_errno($ch)) {
+				$curlError = curl_error($ch);
+			}
+
+			// Close cURL session
+			curl_close($ch);
+
+			// If response is 200, save the image
+			if ($httpCode == 200) {
+				$guid = Str::uuid();
+				$extension = 'png';
+				$filename = $guid . '.' . $extension;
+				$outputFile = Storage::disk('public')->path('author-images/original/' . $filename);
+
+				// Save the image
+				file_put_contents($outputFile, $response);
+
+				// Create resized versions
+				$this->resizeImage(
+					$outputFile,
+					storage_path('app/public/author-images/large/' . $filename),
+					1024
+				);
+				$this->resizeImage(
+					$outputFile,
+					storage_path('app/public/author-images/medium/' . $filename),
+					600
+				);
+				$this->resizeImage(
+					$outputFile,
+					storage_path('app/public/author-images/small/' . $filename),
+					300
+				);
+
+				return json_encode([
+					'success' => true,
+					'message' => __('Image generated successfully'),
+					'image_filename' => Storage::url('author-images/original/' . $filename)
+				]);
+			} else {
+				// Try to decode error response
+				$error = json_decode($response, true);
+
+				return json_encode([
+					'success' => false,
+					'message' => 'Processing failed',
+					'http_code' => $httpCode,
+					'curl_error' => $curlError,
+					'response' => $response,
+					'error' => $error['errors'][0]['message'] ?? 'Unknown error'
+				]);
+			}
 		}
 
 	}

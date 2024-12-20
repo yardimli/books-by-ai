@@ -53,29 +53,24 @@
     }
 
     .author-image-container {
-		    padding-top: 20px;
-        width: 200px;
-		    height: 220px;
-		    margin: 0 auto;
-				position: relative;
-    }
+        width: 210px;
+        height: 210px;
+        margin: 20px auto 0px;
+        position: relative;
 
-    
-    /* Modified author image styles */
-    .author-image-wrapper {
-        width: 100%;
-        height: 100%;
         border-radius: 5%;
         overflow: hidden;
         background-color: #f1f1f1;
+        text-align: center;
     }
 
     .author-image {
+        position: absolute;
         width: 100%;
-        height: 100%;
         object-fit: cover;
+        display: block;
     }
-
+    
     .bestseller-badge {
         position: absolute;
         top: 40%;
@@ -98,9 +93,7 @@
 		<div class="subtitle lato-regular-italic">Chronicles of Mischief with Mick and Lara in the Home-Buying World</div>
 	</div>
 	<div class="author-image-container">
-		<div class="author-image-wrapper">
-			<img class="author-image" src="/author-images/author2.jpg">
-		</div>
+		<img class="author-image" src="/author-images/author2.jpg">
 	</div>
 	<div class="author-name oswald-regular"></div>
 

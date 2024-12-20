@@ -2,7 +2,7 @@
     .back-book-cover {
         width: 320px;
         height: 480px;
-        background-color: black;
+        background-color: #0c0c0c;
         position: relative;
         padding: 20px;
     }
@@ -66,39 +66,31 @@
 </head>
 <body>
 <div class="back-book-cover">
-	<div class="back-main-title roboto-mono-regular">Praises for Realty Gone Rouge!</div>
+	<div class="back-main-title backcover-main-title roboto-mono-regular">Praises for Realty Gone Rouge!</div>
 	
 	<div class="back-reviews">
 		<div class="back-review">
-			<div class="review-text-1 back-review-text roboto-mono-regular">"In 'Realty Gone Rogue!', LaLa La perfectly
-				captures the insanity and hilarity of the real estate realm. Mick and Lara's antics will have readers laughing
-				out loud from page one. A must-read for anyone looking for a humorous escape from the everyday grind."
+			<div class="review-text-1 back-review-text roboto-mono-regular">"Zeynep Hanım'ın kaleminden çıkan 'Atın Gözü Yaşlı', orta yaş krizini at sırtında karşılayan bir yayıncının eğlenceli hikayesi. İstanbul trafiğinden kaçış, yayıncılık dünyasının perde arkası ve bir kedinin ukalalığı, okuyucuyu kahkahaya boğuyor. Yılın en esprili kitabı!"
 			</div>
-			<div class="review-source-1 back-review-source roboto-mono-regular">- The Midwest Literary Gazette</div>
+			<div class="review-source-1 back-review-source roboto-mono-regular">- Kitap Kurdunun Günlüğü</div>
 		</div>
 		
 		<div class="back-review">
-			<div class="back-review-text roboto-mono-regular">"LaLa La's witty prose and cleverly constructed dialogue make
-				'Realty Gone Rogue!' a rollercoaster ride that's equal parts wild comedy and sharp critique of the housing
-				market. It's both eye-opening and wildly entertaining!"
+			<div class="review-text-2 back-review-text roboto-mono-regular">"Yaşını söylemeyen bir yayıncının at binme tutkusu ve İstanbul maceralarını anlatan bu kitap, mizah edebiyatımıza taze bir soluk getiriyor. Zeynep Hanım'ın köprü trafiğinde geçen iç monologları ve kedisi Bala'nın yayınevindeki hakimiyeti, okuyucuyu hem güldürüyor hem düşündürüyor."
 			</div>
-			<div class="back-review-source roboto-mono-regular">- Cosmic Bookworm Weekly</div>
+			<div class="review-source-2 back-review-source roboto-mono-regular">- Edebiyat ve Mizah Dergisi</div>
 		</div>
 		
 		<div class="back-review">
-			<div class="back-review-text roboto-mono-regular">"'Realty Gone Rogue!' is an uproarious adventure through the
-				perils of house hunting, with Mick and Lara as the perfect comedic duo to guide us. Their misadventures are as
-				enlightening as they are amusing, making this book an absolute delight for fans of comedic fiction."
+			<div class="review-text-3 back-review-text roboto-mono-regular">"'Atın Gözü Yaşlı', yayıncılık dünyasının stresini at sırtında atmaya çalışan bir kadının trajikomik hikayesi. Zeynep Hanım'ın yaş takıntısı, kırmızı tutkusu ve kedisi Bala'nın maceraları, günümüz İstanbul'unun en komik portresini çiziyor."
 			</div>
-			<div class="back-review-source roboto-mono-regular">- Humor Today Magazine</div>
+			<div class="review-source-3 back-review-source roboto-mono-regular">- Kitap Saati Gazetesi</div>
 		</div>
 		
 		<div class="back-review">
-			<div class="back-review-text roboto-mono-regular">"LaLa La delivers a comedic triumph with 'Realty Gone Rogue!',
-				offering a refreshingly humorous take on the often-stressful world of real estate. Mick and Lara's escapades are
-				both outrageously funny and surprisingly relatable. A light-hearted gem in this year's literary landscape."
+			<div class="review-text-4 back-review-text roboto-mono-regular">"Modern İstanbul'un tam ortasında, at binmeye merak salan bir yayıncının hayatını anlatan bu kitap, orta yaş krizine taze bir bakış açısı getiriyor. Köprü trafiği, yazar kaprisler ve bir kedinin egemenliği arasında sıkışan Zeynep Hanım'ın hikayesi, bu yılın en özgün komedi eseri."
 			</div>
-			<div class="back-review-source roboto-mono-regular">- The Quirky Reader's Digest</div>
+			<div class="review-source-4 back-review-source roboto-mono-regular">- Okur Postası</div>
 		</div>
 	</div>
 	

@@ -17,24 +17,30 @@
     }
 
     .author-name {
+		    position: relative;
         color:  #fafafa;
 		    padding:20px;
         font-size: 2.0rem;
-        z-index: 2;
+        z-index: 3;
+    }
+
+    .author-image-container {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 320px;
+        height: 480px;
+        overflow: hidden;
     }
 
     .author-image {
         position: absolute;
-        top: 0%;
-        left: 0px;
         width: 100%;
-        height: 100%;
         object-fit: cover;
-        object-position: center;
+        display: block;
         filter: saturate(0);
-
     }
-
+    
     .title-subtitle-container {
         position: absolute;
         bottom: 5%;
@@ -67,7 +73,9 @@
 	
 	<div class="author-name cabin-regular">LaLa La</div>
 	
-	<img class="author-image" src="path-to-author-image.jpg" alt="Author at typewriter">
+	<div class="author-image-container">
+		<img class="author-image" src="path-to-author-image.jpg" alt="Author at typewriter">
+	</div>
 	
 	<div class="title-subtitle-container">
 		<div class="title cabin-bold">REALTY GONE ROGUE!</div>

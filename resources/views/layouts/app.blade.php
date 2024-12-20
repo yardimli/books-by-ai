@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 	<title>{{__('default.Books By AI')}} - @yield('title', 'Home')</title>
 	

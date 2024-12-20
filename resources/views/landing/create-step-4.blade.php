@@ -8,26 +8,26 @@
 			</div>
 		</div>
 		
-		<h4 class="mb-4">Upload a photo of your character</h4>
-		<p class="text-muted mb-4">We'll use it on the cover</p>
+		<h4 class="mb-4">{{ __('default.create.step4.title') }}</h4>
+		<p class="text-muted mb-4">{{ __('default.create.step4.description') }}</p>
 		
 		<div class="upload-container text-center">
 			<div id="imagePreviewContainer" class="mb-4 d-none">
 				<img id="imagePreview" class="img-fluid rounded" style="max-height: 300px;" alt="Preview">
 				<br>
-				<button type="button" class="btn btn-link text-danger mt-2" id="removeImage">Remove Image</button>
+				<button type="button" class="btn btn-link text-danger mt-2" id="removeImage">{{ __('default.create.buttons.remove_image') }}</button>
 			</div>
 			
 			<div id="uploadControls">
 				<label for="imageUpload" class="btn btn-primary mb-3">
-					Choose Image
+					{{ __('default.create.buttons.choose_image') }}
 					<input type="file" id="imageUpload" class="d-none" accept="image/*">
 				</label>
 				<div id="uploadSpinner" class="d-none">
 					<div class="spinner-border text-primary" role="status">
-						<span class="visually-hidden">Loading...</span>
+						<span class="visually-hidden">{{ __('default.create.step4.loading') }}</span>
 					</div>
-					<p class="mt-2">Processing image...</p>
+					<p class="mt-2">{{ __('default.create.step4.processing') }}</p>
 				</div>
 			</div>
 		</div>
@@ -51,8 +51,8 @@
 			const removeImageBtn = $('#removeImage');
 			
 			// Check if we have a saved image
-			const savedImage = localStorage.getItem('characterImage');
-			const savedImageNoBg = localStorage.getItem('characterImageNoBg');
+			const savedImage = localStorage.getItem('authorImage');
+			const savedImageNoBg = localStorage.getItem('authorImageNoBg');
 			
 			if (savedImage) {
 				imagePreview.attr('src', savedImage);
@@ -91,27 +91,29 @@
 					data: formData,
 					success: function(response) {
 						let authorOriginalImage = response.url;
+						let authorOriginalImagePath = response.path;
 						// Now call removeBg with the temporary URL
 						$.ajax({
-							url: '{{ route("remove-bg") }}',
+							url: '{{ route("remove-bg2") }}',
 							method: 'POST',
 							data: {
-								image_url: 'https://kitabimzade.com/storage/author-images/author.jpg', // authorOriginalImage,
+								image_url: authorOriginalImage,
+								path: authorOriginalImagePath,
 								_token: $('meta[name="csrf-token"]').attr('content')
 							},
 							success: function(response) {
 								const result = JSON.parse(response);
 								if (result.success) {
 									// Save both versions to localStorage
-									localStorage.setItem('characterImage', authorOriginalImage);
-									localStorage.setItem('characterImageNoBg', result.image_large_filename);
+									localStorage.setItem('authorImage', authorOriginalImage);
+									localStorage.setItem('authorImageNoBg', result.image_filename);
 									continueBtn.prop('disabled', false);
 								} else {
-									alert('Error processing image. Please try again.');
+									alert('{{ __('default.create.step4.error_processing') }}');
 								}
 							},
 							error: function() {
-								alert('Error processing image. Please try again.');
+								alert('{{ __('default.create.step4.error_processing') }}');
 							},
 							complete: function() {
 								uploadSpinner.addClass('d-none');
@@ -119,7 +121,7 @@
 						});
 					},
 					error: function() {
-						alert('Error uploading image. Please try again.');
+						alert('{{ __('default.create.step4.error_upload') }}');
 						uploadSpinner.addClass('d-none');
 					}
 				});
@@ -129,8 +131,8 @@
 				imagePreview.attr('src', '');
 				imagePreviewContainer.addClass('d-none');
 				imageUpload.val('');
-				localStorage.removeItem('characterImage');
-				localStorage.removeItem('characterImageNoBg');
+				localStorage.removeItem('authorImage');
+				localStorage.removeItem('authorImageNoBg');
 				continueBtn.prop('disabled', true);
 			});
 		});

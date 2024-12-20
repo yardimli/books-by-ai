@@ -2,48 +2,55 @@
     .book-cover {
         width: 320px;
         height: 480px;
-        background-color: #000000;
+        background-color: #0c0c0c;
         position: relative;
         overflow: hidden;
     }
-    
+
     .bestseller-badge {
         position: absolute;
-        top: 10%;
-        right: 10px;
+        top: 50px;
+        right: 15px;
         width: 75px;
         height: 75px;
-		    transform: rotate(15deg);
+        transform: rotate(15deg);
         z-index: 3;
     }
 
 
     .author-name {
         color: #FFFFDD;
-        font-size: 2.0rem;
+        font-size: 1.5rem;
         text-align: center;
         padding: 20px;
         width: 100%;
         z-index: 2;
     }
 
-    .author-image {
+    .author-image-container {
         position: absolute;
-        top: 25%;
+        top: 90px;
         left: 0px;
-        width: 100% !important;
-        max-width: 100%;
+        width: 320px;
+        height: 235px;
+		    overflow: hidden;
+    }
+
+    .author-image {
+		    position: absolute;
+        width: 100%;
+        object-fit: cover;
         display: block;
     }
 
     .title-subtitle-container {
-        background-color: #000000;
+        background-color: #0c0c0c;
         position: absolute;
-        bottom: 5%;
-        width: 100%;
+        bottom: 0%;
+        height: 160px;
+        width: 320px;
         z-index: 2;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding: 5px 20px 20px 20px;
     }
 
     .title {
@@ -57,7 +64,7 @@
 
     .subtitle {
         color: #FFFFDD;
-		    width: 80%;
+        width: 80%;
         font-size: 0.6rem;
         text-align: left;
         line-height: 1.4;
@@ -68,10 +75,11 @@
 	<div class="bestseller-badge">
 		<img class="badge-img" src="/cover-images/sticker2.png" alt="Bestseller Badge">
 	</div>
-	<div class="author-name roboto-regular">LaLa La</div>
+	<div class="author-name roboto-mono-regular">LaLa La</div>
 	
-	<img class="author-image" src="path-to-author-image.jpg" alt="Author at typewriter">
-	
+	<div class="author-image-container">
+		<img class="author-image" src="path-to-author-image.jpg" alt="Author at typewriter">
+	</div>
 	<div class="title-subtitle-container">
 		<div class="title bungee-tint-regular">REALTY GONE ROGUE!</div>
 		<div class="subtitle roboto-mono-regular">Chronicles of Mischief with Mick and Lara in the Home-Buying World</div>

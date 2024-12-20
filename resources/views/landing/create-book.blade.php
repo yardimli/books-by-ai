@@ -3,10 +3,11 @@
 @section('title', 'Create Book')
 
 @section('content')
-
+	<script src="/js/html2canvas.min.js"></script>
+	
 	<style>
-			
-			@include('landing.create-book-fonts')
+
+      @include('landing.create-book-fonts')
 
       .wizard-progress {
           position: relative;
@@ -183,6 +184,12 @@
 		let bookSuggestions = JSON.parse(localStorage.getItem('bookSuggestions')) || [];
 		let selectedSuggestionIndex = localStorage.getItem('selectedSuggestionIndex') || null;
 		
+		let bookData = {
+			title: "Atın Gözü Yaşlı",
+			subtitle: "Bir Yayıncının Köprüden Geçerken Aklına Gelenler",
+			authorName: "Zeynep Aytekin"
+		};
+		
 		// Add these functions at the beginning of your script
 		function updateURL(step) {
 			const url = new URL(window.location);
@@ -210,15 +217,23 @@
 			$(`#step${step}`).removeClass('d-none');
 			currentStep = step;
 			updateProgressBar();
-			loadStepValues();
 			
-			// If it's step 3 and we have answers, handle book suggestions
+			if (currentStep === 1) {
+				$('#authorName').val(localStorage.getItem('authorName') ?? '');
+			}
+			
 			if (step === 3) {
-				if (bookSuggestions.length > 0) {
+				const storedSuggestions = localStorage.getItem('bookSuggestions');
+				if (storedSuggestions.length > 0) {
+					bookSuggestions = JSON.parse(storedSuggestions);
 					renderBookSuggestions();
 				} else {
 					getBookSuggestions();
 				}
+			}
+			
+			if (step === 5) {
+				updateCoverImages();
 			}
 		}
 		
@@ -226,18 +241,32 @@
 		function nextStep() {
 			if (validateCurrentStep()) {
 				if (currentStep < 7) {
-					$(`#step${currentStep}`).addClass('d-none');
-					currentStep++;
-					$(`#step${currentStep}`).removeClass('d-none');
-					updateProgressBar();
-					updateURL(currentStep);
 					
-					if (currentStep === 3) {
-						if (bookSuggestions.length > 0) {
-							renderBookSuggestions();
-						} else {
-							getBookSuggestions();
-						}
+					if (currentStep === 5) {
+						//change button to please wait with spinner
+						$('.continueBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please wait...');
+						
+						captureCovers()
+							.then(() => {
+								$('.continueBtn').html('Continue');
+								$(`#step${currentStep}`).addClass('d-none');
+								currentStep++;
+								$(`#step${currentStep}`).removeClass('d-none');
+								updateProgressBar();
+								updateURL(currentStep);
+								goToStep(currentStep);
+							})
+							.catch(error => {
+								console.error('Failed to capture covers:', error);
+								alert('There was an error capturing the cover images. Please try again.');
+							});
+					} else {
+						$(`#step${currentStep}`).addClass('d-none');
+						currentStep++;
+						$(`#step${currentStep}`).removeClass('d-none');
+						updateProgressBar();
+						updateURL(currentStep);
+						goToStep(currentStep);
 					}
 				}
 			}
@@ -251,6 +280,7 @@
 				$(`#step${currentStep}`).removeClass('d-none');
 				updateProgressBar();
 				updateURL(currentStep);
+				goToStep(currentStep);
 			}
 		}
 		
@@ -266,15 +296,6 @@
 			return true;
 		}
 		
-		function loadStepValues() {
-			$('.author_name').text(localStorage.getItem('authorName') ?? '');
-			if (currentStep === 1) {
-				$('#authorName').val(localStorage.getItem('authorName') ?? '');
-			}
-			if (currentStep === 2) {
-				// Load values for step 2
-			}
-		}
 		
 		function updateProgressBar() {
 			$('.wizard-progress-step').removeClass('active');
@@ -314,7 +335,6 @@
 			
 			
 			updateProgressBar();
-			loadStepValues();
 			renderAnswers();
 			
 			$(".back-button").on('click', function (e) {
@@ -324,7 +344,6 @@
 				} else {
 					// If not on first step, go back one step
 					previousStep();
-					loadStepValues();
 				}
 				e.preventDefault();
 			});

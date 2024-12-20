@@ -581,11 +581,29 @@
 				],
 				'author_prefix' => 'by', // for the "by [author name]" text
 			],
+			'step4' => [
+				'title' => "Upload a photo of your character",
+				'description' => 'We\'ll use it on the cover',
+				'loading' => 'Loading...',
+				'processing' => 'Processing image...',
+				'error_processing' => 'Error processing image. Please try again.',
+				'error_upload' => 'Error uploading image. Please try again.',
+				'author_prefix' => 'by', // for the "by [author name]" text
+			],
+			'modals' => [
+				'adjust_image' => 'Adjust Author Image',
+				'zoom_level' => 'Zoom Level',
+			],
 			'buttons' => [
 				'continue' => 'Continue',
-				'save_answer' => 'Save answer',
+				'reset' => 'Reset',
+				'cancel' => 'Cancel',
+				'save_answer' => 'Save Answer',
+				'save_changes' => 'Save Changes',
 				'regenerate' => 'Regenerate',
 				'adjust_image' => 'Adjust Image',
+				'remove_image' => 'Remove Image',
+				'choose_image' => 'Choose Image',
 			]
 		]
 	];

@@ -1,8 +1,8 @@
 <style>
     .spine {
-        width: 34px;
+        width: 24px;
         height: 480px;
-        background-color: black;
+        background-color: #0c0c0c;
         position: relative;
         overflow: hidden;
     }
@@ -10,22 +10,22 @@
     .spine-text {
         position: absolute;
         top: 20px;
-        left: 34px;
+        left: 24px;
         padding: 0px;
         margin: 0px;
         transform-origin: left top;
         white-space: nowrap;
         width: 440px; /* Set to spine height */
-        height: 34px; /* Set to spine width */
+        height: 24px; /* Set to spine width */
         transform: rotate(90deg);
         overflow: hidden;
     }
 
     .spine-author-name {
-        line-height: 34px;
-        height: 34px;
-        min-height: 34px;
-        font-size: 1.0rem;
+        line-height: 24px;
+        height: 24px;
+        min-height: 24px;
+        font-size: 10px;
         color: #FFFFDD;
         margin-right: 20px;
         overflow: hidden;
@@ -33,20 +33,20 @@
     }
 
     .spine-title {
-        line-height: 34px;
-        height: 34px;
-        min-height: 34px;
-        font-size: 1.1rem;
+        line-height: 24px;
+        height: 24px;
+        min-height: 24px;
+        font-size: 14px;
         color: #DDEE99;
         overflow: hidden;
         display: inline-block;
     }
 
     .uppercase-spine-title {
-        line-height: 34px;
-        height: 34px;
-        min-height: 34px;
-        font-size: 1.1rem;
+        line-height: 24px;
+        height: 24px;
+        min-height: 24px;
+        font-size: 16px;
         color: #DDEE99;
         text-transform: uppercase;
         overflow: hidden;
@@ -54,19 +54,19 @@
     }
 
     .uppercase-spine-title-first-letter {
-        font-size: 1.3rem;
+        font-size: 18px;
     }
 
     .spine-logo {
         position: absolute;
         bottom: 10px;
         left: 0px;
-		    width: 34px;
+		    width: 24px;
 		    text-align: center;
     }
     
     .spin-logo-img {
-				width: 30px;
+				width: 20px;
 		}
 </style>
 </head>

@@ -1,6 +1,6 @@
 <style>
     .spine {
-        width: 34px;
+        width: 24px;
         height: 480px;
         background-color: #f7d3b0;
         position: relative;
@@ -10,22 +10,22 @@
     .spine-text {
         position: absolute;
         top: 20px;
-        left: 34px;
+        left: 24px;
         padding: 0px;
         margin: 0px;
         transform-origin: left top;
         white-space: nowrap;
         width: 440px; /* Set to spine height */
-        height: 34px; /* Set to spine width */
+        height: 24px; /* Set to spine width */
         transform: rotate(90deg);
         overflow: hidden;
     }
 
     .spine-author-name {
-        line-height: 34px;
-		    height: 34px;
-		    min-height: 34px;
-        font-size: 1.0rem;
+        line-height: 24px;
+		    height: 24px;
+		    min-height: 24px;
+        font-size: 10px;
         color: #333333;
         margin-right: 20px;
         overflow: hidden;
@@ -33,19 +33,19 @@
     }
 
     .spine-title {
-        line-height: 34px;
-		    height: 34px;
-		    min-height: 34px;
-        font-size: 1.0rem;
+        line-height: 24px;
+		    height: 24px;
+		    min-height: 24px;
+        font-size: 10px;
         color: #333333;
         overflow: hidden;
 		    display: inline-block;
     }
 
     .uppercase-spine-title {
-        line-height: 34px;
-        height: 34px;
-        min-height: 34px;
+        line-height: 24px;
+        height: 24px;
+        min-height: 24px;
         font-size: 1.1rem;
         color: #333333;
         overflow: hidden;
@@ -61,12 +61,12 @@
         position: absolute;
         bottom: 10px;
         left: 0px;
-		    width: 34px;
+		    width: 24px;
 		    text-align: center;
     }
     
     .spin-logo-img {
-				width: 30px;
+				width: 20px;
 		}
 </style>
 </head>

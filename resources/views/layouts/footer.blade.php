@@ -44,7 +44,7 @@
 					<p>{{__('default.Our dedicated customer support team is available to help')}}</p>
 					<button class="btn btn-dark">{{__('default.Contact us')}}</button>
 					
-					<p class="mt-3">©2024 <a class="text-body" href="https://kitabimzade.com"> {{__('default.Books By AI')}}
+					<p class="mt-3">©2024 <a class="text-body" href="https://kitabimzade.com"> {{__('default.Books By AI')}}</a></p>
 				</div>
 			</div>
 		</div>

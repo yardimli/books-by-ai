@@ -609,6 +609,7 @@
 				'title' => "Bir kitap fikri seçelim",
 				'loading' => 'Yükleniyor...',
 				'error' => [
+					'select_suggestion' => 'Lütfen bir öneri seçin',
 					'no_suggestions' => 'Öneri bulunmamaktadır',
 					'loading_error' => 'Öneriler yüklenirken hata oluştu'
 				],
@@ -622,6 +623,13 @@
 				'error_processing' => 'Görüntü işlenirken hata oluştu. Lütfen tekrar deneyin.',
 				'error_upload' => 'Görüntü yüklenirken hata oluştu. Lütfen tekrar deneyin.',
 				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
+			],
+			'step5' => [
+				'please_wait' => 'Lütfen bekleyin...',
+			],
+			'step6' => [
+				'loading' => 'Yükleniyor...',
+				'please_wait' => 'Lütfen bekleyin...',
 			],
 			'modals' => [
 				'adjust_image' => 'Yazar Fotoğrafını Ayarla',

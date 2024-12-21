@@ -590,6 +590,9 @@
 				'error_upload' => 'Error uploading image. Please try again.',
 				'author_prefix' => 'by', // for the "by [author name]" text
 			],
+			'step5' => [
+				'Please wait...' => 'Please wait...',
+			],
 			'modals' => [
 				'adjust_image' => 'Adjust Author Image',
 				'zoom_level' => 'Zoom Level',

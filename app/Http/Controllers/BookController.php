@@ -43,59 +43,89 @@
 				$user_prompt = 'A fantasy picture of a cat';
 			}
 
-			$gpt_prompt = "Suggest a title and a short description for a book that should not be taken seriously. It will be a full book with 200 pages. But the content will be satirical and humorous. The books language will be in Turkish. The book's title should be 2-3 words long, write 4 short reviews each consisting of 5 sentences with their sources. Try to include the author's name and book's title in the short reviews.
+			$gpt_prompt = "Suggest a title and a short description for a book that should not be taken seriously. It will be a full book with 200 pages. But the content will be satirical and humorous. The books language will be in Turkish. The book's title should be 2-3 words long, write 4 short reviews each consisting of 4 sentences with their sources. Try to include the author's name and book's title in the short reviews.
 			
-			The author has answered the following questions, use that as inspiration:
-			
-			Author Name: ".$request->input('author_name', 'Ali') . "
-			
-			".$user_prompt . "
-			
-			return 3 suggestions in the following JSON format: 
-			" .
-				'
+The author has answered the following questions, use that as inspiration:
+
+Author Name: " . $request->input('author_name', 'Ali') . "
+
+" . $user_prompt . "
+
+return 3 suggestions in the following JSON format: 
+" .
+'
 {
-    "suggestions": [
+  "suggestions": [
+    {
+			"title":"A Funny 2-3 word title",
+			"subtitle":"10-15 word subtitle",
+      "short_description" : "3-4 sentence description of the book",
+      "reviews": [
         {
-				"title":"Yaratıcılığın Komik Halleri",
-				"subtitle":"Bir Tasarımcının Absürt Günlüğü",
-        "short_description" : "Yaratıcı süreçlerin absürt yanlarını, ilham perisinin kaprisleri ve tasarımcı bloğunun trajikomik yönlerini anlatan eğlenceli bir kitap.",
-        "short_review_1":"Yaratıcı sürecin tüm çılgınlığını muhteşem bir şekilde yansıtmış. Her sayfada kendimi buldum ve kahkaha attım. Mutlaka okunması gereken bir eser.",
-				"short_review_1_source": "- Sanat ve Tasarım Dergisi",
-				"short_review_2": "İlham perisinin kaprislerini bu kadar güzel anlatan başka bir kitap görmedim. Yazarın mizah anlayışı muhteşem. Her yaratıcı insanın okuması gereken bir kitap.",
-				"short_review_2_source": "- Kreatif Düşünce Platformu",
-				"short_review_3": "Hem eğlenceli hem de gerçekçi bir kitap. Yaratıcı sürecin tüm zorluklarını mizahi bir dille anlatmış. Kesinlikle tavsiye ediyorum.",
-				"short_review_3_source":"- Tasarım ve Sanat Blogu",
-				"short_review_4":"Bu kitap tam bir terapi gibi. Her sayfada kendimi buldum ve rahatladım. Yaratıcı blokajı olan herkese şiddetle tavsiye ederim.",
-				"short_review_4_source":"- Sanatçılar Birliği"
-        },
+          "review": "first review focusing on the humor and satire in the book",
+					"source": "- Source of the review"
+				},
+				{
+					"review": "second review focusing on the readability and entertainment value of the book",
+					"source": "- Source of the review"
+				},
+				{
+					"review": "third review focusing on the author\'s writing style and creativity",
+					"source": "- Source of the review"
+				},
+				{
+					"review": "fourth review focusing on the book\'s impact on the reader and the author\'s unique perspective",
+					"source": "- Source of the review"
+				}
+			]
+		},
+		{
+      "title": "",
+      "subtitle": "",
+      "short_description": "",
+      "reviews": [
         {
-            "title": "",
-            "subtitle": "",
-            "short_description": ""
-            "short_review_1": "",
-            "short_review_1_source": "",
-            "short_review_2": "",
-            "short_review_2_source": "",
-            "short_review_3": "",
-            "short_review_3_source": ""
-            "short_review_4": "",
-            "short_review_4_source": ""
-        },
+            "review": "",
+						"source": ""
+				},
+				{
+						"review": "",
+						"source": ""
+				},
+				{
+						"review": "",
+						"source": ""
+				},
+				{
+						"review": "",
+						"source": ""
+				}
+			]
+    },
+    {
+      "title": "",
+      "subtitle": "",
+      "short_description": ""
+      "reviews": [
         {
-            "title": "",
-            "subtitle": "",
-            "short_description": ""
-            "short_review_1": "",
-            "short_review_1_source": "",
-            "short_review_2": "",
-            "short_review_2_source": "",
-            "short_review_3": "",
-            "short_review_3_source": ""
-            "short_review_4": "",
-            "short_review_4_source": ""
-        }
-    ]
+          "review": "",
+					"source": ""
+				},
+				{
+					"review": "",
+					"source": ""
+				},
+				{
+					"review": "",
+					"source": ""
+				},
+				{
+					"review": "",
+					"source": ""
+				}
+			]
+    }
+  ]
 }
 ';
 
@@ -112,6 +142,71 @@
 			Log::info($book_suggestions);
 
 			return response()->json($book_suggestions);
+		}
+
+
+		function createBookTOC(Request $request)
+		{
+			$book_author_name = $request->input('author_name', 'Ali');
+
+			$user_answers = $request->input('user_answers', '[{"question": "What is the meaning of life?", "answer": "42"}, {"question": "What do you think about the universe?", "answer": "It is vast and mysterious"}]');
+
+			$user_answers = json_decode($user_answers, true);
+			// Format user answers as string
+			$user_answers = implode("\n", array_map(function ($item) {
+				return "Soru: ".$item['question'] . "\nCevap: " . $item['answer']."\n";
+			}, $user_answers));
+
+			$book_title = $request->input('book_title', 'Yaratıcılığın Komik Halleri');
+			$book_subtitle = $request->input('book_subtitle', 'Bir Tasarımcının Absürt Günlüğü');
+			$book_description = $request->input('book_description', 'Yaratıcı süreçlerin absürt yanlarını, ilham perisinin kaprisleri ve tasarımcı bloğunun trajikomik yönlerini anlatan eğlenceli bir kitap.');
+
+			$book_reviews = $request->input('book_reviews', '[{"review": "Yaratıcı sürecin tüm çılgınlığını muhteşem bir şekilde yansıtmış. Her sayfada kendimi buldum ve kahkaha attım. Mutlaka okunması gereken bir eser.", "source": "Sanat ve Tasarım Dergisi"}, {"review": "İlham perisinin kapris lerini bu kadar güzel anlatan başka bir kitap görmedim. Yazarın mizah anlayışı muhteşem. Her yaratıcı insanın okuması gereken bir kitap.", "source": "Kreatif Düşünce Platformu"}, {"review": "Hem eğlenceli hem de gerçekçi bir kitap. Yaratıcı sürecin tüm zorluklarını mizahi bir dille anlatmış. Kesinlikle tavsiye ediyorum.", "source": "Tasarım ve Sanat Blogu"}, {"review": "Bu kitap tam bir terapi gibi. Her sayfada kendimi buldum ve rahatladım. Yaratıcı blokajı olan herkese şiddetle tavsiye ederim.", "source": "Sanatçılar Birliği"}]');
+			$book_reviews = json_decode($book_reviews, true);
+			// Format book reviews as string
+			$book_reviews = implode("\n", array_map(function ($item) {
+				return "Yorum: ".$item['review'] . "\nKaynak: " . $item['source']."\n";
+			}, $book_reviews));
+
+
+			$gpt_prompt = "Write the table of contents for a book titled '" . $book_title . "' by " . $book_author_name . ". 
+			The book subtitle is '" . $book_subtitle . "'.
+			The description of the book is:" . $book_description . "
+			The book content is a satirical and humorous. 
+			The book will have 20 chapters and will be in Turkish. 
+			The table of contents should include chapters with a title and a short description for each chapter. 
+			Use the author's answers and the reviews as inspiration.
+			Question and Answers:
+			". $user_answers . "
+			Reviews:
+			". $book_reviews . "
+			
+			write in Turkish
+			return in the following JSON format: 
+			".'
+{
+  "table_of_contents": [
+    {
+			"chapter_title":"A Funny 4-5 word title",
+      "chapter_short_description" : "3-4 sentence description of the chapter",
+    }
+  ]
+}';
+
+
+			$chat_history[] = [
+				'role' => 'user',
+				'content' => $gpt_prompt,
+			];
+
+			$llm = 'anthropic/claude-3.5-sonnet:beta';
+
+			$book_toc = MyHelper::llm_no_tool_call($llm, '', $chat_history, true);
+			Log::info('Book Table of Contents');
+			Log::info($gpt_prompt);
+			Log::info($book_toc);
+
+			return response()->json($book_toc);
 		}
 
 		private function resizeImage($sourcePath, $destinationPath, $maxWidth)

@@ -22,11 +22,9 @@
 		</div>
 		
 		<div class="d-grid">
-			<div class="btn btn-lg text-white"
-			     style="background-color: #dc6832;"
-			     onclick="nextStep()">
+			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
 				{{ __('default.create.buttons.continue') }}
-			</div>
+			</button>
 		</div>
 	</div>
 </div>
@@ -34,7 +32,27 @@
 @push('scripts')
 	<script>
 		$(document).ready(function () {
-		
+			$('#authorName').val(localStorage.getItem('authorName') ?? '');
+			const authorName = $('#authorName').val().trim();
+			if (!authorName) {
+				$('#continueBtn').prop('disabled', true);
+			}
+			
+			$('#authorName').on('input', function () {
+				const authorName = $(this).val().trim();
+				if (authorName) {
+					$('#continueBtn').prop('disabled', false);
+				} else {
+					$('#continueBtn').prop('disabled', true);
+				}
+			});
+			
+			$('#continueBtn').on('click', function () {
+				const authorName = $('#authorName').val().trim();
+				localStorage.setItem('authorName', authorName);
+				nextStep();
+			});
+			
 		});
 	</script>
 @endpush

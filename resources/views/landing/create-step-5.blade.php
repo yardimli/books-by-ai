@@ -43,9 +43,9 @@
 		</div>
 		
 		<div class="d-grid mt-4">
-			<div class="btn btn-lg text-white continueBtn" style="background-color: #dc6832;" onclick="nextStep()">
+			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
 				{{ __('default.create.buttons.continue') }}
-			</div>
+			</button>
 		</div>
 	</div>
 </div>
@@ -72,8 +72,10 @@
 				<button type="button" class="btn btn-outline-secondary" id="resetImageAdjustments">
 					<i class="fas fa-undo"></i> {{ __('default.create.buttons.reset') }}
 				</button>
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('default.create.buttons.cancel') }}</button>
-				<button type="button" class="btn btn-primary" id="saveImageAdjustments">{{ __('default.create.buttons.save_changes') }}</button>
+				<button type="button" class="btn btn-secondary"
+				        data-bs-dismiss="modal">{{ __('default.create.buttons.cancel') }}</button>
+				<button type="button" class="btn btn-primary"
+				        id="saveImageAdjustments">{{ __('default.create.buttons.save_changes') }}</button>
 			</div>
 		</div>
 	</div>
@@ -94,7 +96,7 @@
     [data-bs-theme=dark] .cover-style-btn {
         border-color: #dc6832;
     }
-    
+
     .modal-image-container {
         position: relative;
         overflow: hidden;
@@ -107,7 +109,7 @@
 
     #adjustableImage {
         position: absolute;
-		    width: 100%;
+        width: 100%;
         user-select: none;
         -webkit-user-drag: none;
         -webkit-user-select: none;
@@ -185,26 +187,26 @@
 					localStorage.setItem('frontCoverImage', frontCoverImage);
 					
 					// Capture spine
-					const spineCover = await html2canvas(document.querySelector('#spine-cover'), {
-						scale: 2,
-						useCORS: true,
-						allowTaint: true,
-						backgroundColor: null,
-						logging: false
-					});
-					const spineCoverImage = spineCover.toDataURL('image/png');
-					localStorage.setItem('spineCoverImage', spineCoverImage);
+					// const spineCover = await html2canvas(document.querySelector('#spine-cover'), {
+					// 	scale: 2,
+					// 	useCORS: true,
+					// 	allowTaint: true,
+					// 	backgroundColor: null,
+					// 	logging: false
+					// });
+					// const spineCoverImage = spineCover.toDataURL('image/png');
+					// localStorage.setItem('spineCoverImage', spineCoverImage);
 					
 					// Capture back cover
-					const backCover = await html2canvas(document.querySelector('#back-cover'), {
-						scale: 2,
-						useCORS: true,
-						allowTaint: true,
-						backgroundColor: null,
-						logging: false
-					});
-					const backCoverImage = backCover.toDataURL('image/png');
-					localStorage.setItem('backCoverImage', backCoverImage);
+					// const backCover = await html2canvas(document.querySelector('#back-cover'), {
+					// 	scale: 2,
+					// 	useCORS: true,
+					// 	allowTaint: true,
+					// 	backgroundColor: null,
+					// 	logging: false
+					// });
+					// const backCoverImage = backCover.toDataURL('image/png');
+					// localStorage.setItem('backCoverImage', backCoverImage);
 					
 					resolve(true);
 				} catch (error) {
@@ -278,6 +280,8 @@
 		}
 		
 		function applyCoverTextFields(cover_part) {
+			const bookData = JSON.parse(localStorage.getItem('selectedSuggestion'));
+			
 			if (cover_part === 'front') {
 				$('.title').text((bookData.title ?? 'Başlık'));
 				
@@ -292,18 +296,17 @@
 			}
 			
 			if (cover_part === 'back') {
-				$('.backcover-main-title').text(bookData.title+ ' için Övgüler');
-				$('.review-text-1').text(bookData.short_review_1 ?? 'Yorum 1');
-				$('.review-source-1').text(bookData.short_review_1_source ?? 'Kaynak 1');
+				$('.backcover-main-title').text(bookData.title + ' için Övgüler');
 				
-				$('.review-text-2').text(bookData.short_review_2 ?? 'Yorum 2');
-				$('.review-source-2').text(bookData.short_review_2_source ?? 'Kaynak 2');
+				for (let i = 0; i < 4; i++) {
+					$('.review-text-' + (i + 1)).text('');
+					$('.review-source-' + (i + 1)).text('');
+				}
 				
-				$('.review-text-3').text(bookData.short_review_3 ?? 'Yorum 3');
-				$('.review-source-3').text(bookData.short_review_3_source ?? 'Kaynak 3');
-				
-				$('.review-text-4').text(bookData.short_review_4 ?? 'Yorum 4');
-				$('.review-source-4').text(bookData.short_review_4_source ?? 'Kaynak 4');
+				for (let i = 0; i < bookData.reviews.length; i++) {
+					$('.review-text-' + (i + 1)).text(bookData.reviews[i].review ?? '');
+					$('.review-source-' + (i + 1)).text(bookData.reviews[i].source ?? '');
+				}
 			}
 			
 			// Wait for a brief moment to ensure content is rendered
@@ -458,12 +461,52 @@
 			});
 		}
 		
+		function loadStyle(styleNumber) {
+			
+			// Update button styles
+			$('.cover-style-btn').css({
+				'background-color': 'transparent',
+				'color': '#dc6832'
+			});
+			$('.cover-style-btn[data-style="' + styleNumber + '"]').css({
+				'background-color': '#dc6832',
+				'color': 'white'
+			});
+			
+			updateModalImageContainer(styleNumber);
+			
+			// Load front cover
+			$.get(`{{ route('load-cover') }}/${styleNumber}`, function (response) {
+				$('#front-cover').html(response);
+				applyCoverTextFields('front');
+			});
+			
+			// Load spine
+			$.get(`{{ route('load-spine') }}/${styleNumber}`, function (response) {
+				$('#spine-cover').html(response);
+				applyCoverTextFields('spine');
+			});
+			
+			// Load back cover
+			$.get(`{{ route('load-back') }}/${styleNumber}`, function (response) {
+				$('#back-cover').html(response);
+				applyCoverTextFields('back');
+			});
+		}
+		
 		$(document).ready(function () {
-			bookData = JSON.parse(localStorage.getItem('selectedSuggestion'));
+			let savedStyle = localStorage.getItem('selectedCoverStyle') ?? '';
+			if (savedStyle === '') {
+				localStorage.setItem('selectedCoverStyle', '1');
+				savedStyle = '1';
+			}
+			
+			loadStyle(savedStyle);
+			
 			// Apply stored settings on page load
 			applyStoredTransformSettings();
 			
-			$('#resetImageAdjustments').on('click', function() {
+			$('#resetImageAdjustments').on('click', function () {
 				resetTransform();
 			});
 			
@@ -541,50 +584,32 @@
 				$('#imageAdjustModal').modal('hide');
 			});
 			
-			
-			
 			$('.cover-style-btn').on('click', function () {
 				const styleNumber = $(this).data('style');
-				
-				// Update button styles
-				$('.cover-style-btn').css({
-					'background-color': 'transparent',
-					'color': '#dc6832'
-				});
-				$(this).css({
-					'background-color': '#dc6832',
-					'color': 'white'
-				});
-				
-				updateModalImageContainer(styleNumber);
-				
-				// Load front cover
-				$.get(`{{ route('load-cover') }}/${styleNumber}`, function (response) {
-					$('#front-cover').html(response);
-					applyCoverTextFields('front');
-				});
-				
-				// Load spine
-				$.get(`{{ route('load-spine') }}/${styleNumber}`, function (response) {
-					$('#spine-cover').html(response);
-					applyCoverTextFields('spine');
-				});
-				
-				// Load back cover
-				$.get(`{{ route('load-back') }}/${styleNumber}`, function (response) {
-					$('#back-cover').html(response);
-					applyCoverTextFields('back');
-				});
+				loadStyle(styleNumber);
 				
 				// Save selected style to localStorage
 				localStorage.setItem('selectedCoverStyle', styleNumber);
 			});
 			
-			// Load saved style on page load
-			const savedStyle = localStorage.getItem('selectedCoverStyle');
-			if (savedStyle) {
-				$(`.cover-style-btn[data-style="${savedStyle}"]`).click();
-			}
+			$("#continueBtn").on('click', function () {
+				//change button to please wait with spinner
+				$('#continueBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{ __("default.create.step5.please_wait")}}');
+				$('#continueBtn').prop('disabled', true);
+				
+				captureCovers()
+					.then(() => {
+						$('#continueBtn').html('{{ __("default.create.buttons.continue")}}');
+						$('#continueBtn').prop('disabled', false);
+						nextStep();
+					})
+					.catch(error => {
+						$('#continueBtn').html('{{ __("default.create.buttons.continue")}}');
+						$('#continueBtn').prop('disabled', false);
+						console.error('Failed to capture covers:', error);
+						alert('There was an error capturing the cover images. Please try again.');
+					});
+			});
 		});
 	</script>
 @endpush

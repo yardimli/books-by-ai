@@ -130,40 +130,39 @@
 					<div class="wizard-progress-step">7</div>
 				</div>
 				
-				<form id="createBookForm" method="POST" action="{{ route('save-book') }}">
-					@csrf
-					<div class="wizard-step" id="step1">
-						@include('landing.create-step-1')
-					</div>
-					
-					
-					<!-- Additional steps will be here but hidden initially -->
-					<!-- Step 2 content -->
-					<div class="wizard-step d-none" id="step2">
-						@include('landing.create-step-2')
-					</div>
-					
-					<div class="wizard-step d-none" id="step3">
-						@include('landing.create-step-3')
-					</div>
-					
-					<div class="wizard-step d-none" id="step4">
-						@include('landing.create-step-4')
-					</div>
-					
-					<div class="wizard-step d-none" id="step5">
-						@include('landing.create-step-5')
-					</div>
-					
-					<div class="wizard-step d-none" id="step6">
-						@include('landing.create-step-6')
-					</div>
-					
-					<div class="wizard-step d-none" id="step7">
-						@include('landing.create-step-7')
-					</div>
+				@php
+					$currentStep = (int)request()->query('step', 1);
+				@endphp
 				
-				</form>
+				
+				<div class="wizard-step">
+					@switch($currentStep)
+						@case(1)
+							@include('landing.create-step-1')
+							@break
+						@case(2)
+							@include('landing.create-step-2')
+							@break
+						@case(3)
+							@include('landing.create-step-3')
+							@break
+						@case(4)
+							@include('landing.create-step-4')
+							@break
+						@case(5)
+							@include('landing.create-step-5')
+							@break
+						@case(6)
+							@include('landing.create-step-6')
+							@break
+						@case(7)
+							@include('landing.create-step-7')
+							@break
+						@default
+							@include('landing.create-step-1')
+					@endswitch
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -171,131 +170,27 @@
 	@include('layouts.footer')
 @endsection
 
-@php
-	$questions = __('default.create.step2.questions');
-@endphp
-
 @push('scripts')
 	<script>
-		window.bookQuestions = @json($questions);
 		let current_page = 'my.create-book';
 		let currentStep = 1;
-		let answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
-		let bookSuggestions = JSON.parse(localStorage.getItem('bookSuggestions')) || [];
-		let selectedSuggestionIndex = localStorage.getItem('selectedSuggestionIndex') || null;
-		
-		let bookData = {
-			title: "Atın Gözü Yaşlı",
-			subtitle: "Bir Yayıncının Köprüden Geçerken Aklına Gelenler",
-			authorName: "Zeynep Aytekin"
-		};
-		
-		// Add these functions at the beginning of your script
-		function updateURL(step) {
-			const url = new URL(window.location);
-			url.searchParams.set('step', step);
-			window.history.pushState({}, '', url);
-		}
-		
-		function getStepFromURL() {
-			const urlParams = new URLSearchParams(window.location.search);
-			const step = parseInt(urlParams.get('step'));
-			return (step >= 1 && step <= 7) ? step : 1;
-		}
-		
-		function goToStep(step) {
-			
-			if (!validateStepAccess(step)) {
-				// If validation fails, go to the first incomplete step
-				step = 1;
-				updateURL(step);
-			}
-			
-			// Hide all steps
-			$('.wizard-step').addClass('d-none');
-			// Show the current step
-			$(`#step${step}`).removeClass('d-none');
-			currentStep = step;
-			updateProgressBar();
-			
-			if (currentStep === 1) {
-				$('#authorName').val(localStorage.getItem('authorName') ?? '');
-			}
-			
-			if (step === 3) {
-				const storedSuggestions = localStorage.getItem('bookSuggestions');
-				if (storedSuggestions.length > 0) {
-					bookSuggestions = JSON.parse(storedSuggestions);
-					renderBookSuggestions();
-				} else {
-					getBookSuggestions();
-				}
-			}
-			
-			if (step === 5) {
-				updateCoverImages();
-			}
-		}
 		
 		// Modify the nextStep function
 		function nextStep() {
-			if (validateCurrentStep()) {
+			if (validateCurrentStep(currentStep)) {
 				if (currentStep < 7) {
-					
-					if (currentStep === 5) {
-						//change button to please wait with spinner
-						$('.continueBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please wait...');
-						
-						captureCovers()
-							.then(() => {
-								$('.continueBtn').html('Continue');
-								$(`#step${currentStep}`).addClass('d-none');
-								currentStep++;
-								$(`#step${currentStep}`).removeClass('d-none');
-								updateProgressBar();
-								updateURL(currentStep);
-								goToStep(currentStep);
-							})
-							.catch(error => {
-								console.error('Failed to capture covers:', error);
-								alert('There was an error capturing the cover images. Please try again.');
-							});
-					} else {
-						$(`#step${currentStep}`).addClass('d-none');
-						currentStep++;
-						$(`#step${currentStep}`).removeClass('d-none');
-						updateProgressBar();
-						updateURL(currentStep);
-						goToStep(currentStep);
-					}
+					window.location.href = `{{ route('create-book') }}?step=${currentStep + 1}`;
 				}
+			} else {
+				console.log('Validation failed');
 			}
 		}
 		
-		// Modify the previousStep function
 		function previousStep() {
 			if (currentStep > 1) {
-				$(`#step${currentStep}`).addClass('d-none');
-				currentStep--;
-				$(`#step${currentStep}`).removeClass('d-none');
-				updateProgressBar();
-				updateURL(currentStep);
-				goToStep(currentStep);
+				window.location.href = `${window.location.pathname}?step=${currentStep - 1}`;
 			}
 		}
-		
-		function validateStepAccess(targetStep) {
-			// Add your validation logic here
-			// For example, check if previous steps are completed
-			if (targetStep === 2 && !localStorage.getItem('authorName')) {
-				return false;
-			}
-			if (targetStep === 3 && (!answers || answers.length === 0)) {
-				return false;
-			}
-			return true;
-		}
-		
 		
 		function updateProgressBar() {
 			$('.wizard-progress-step').removeClass('active');
@@ -304,20 +199,55 @@
 			}
 		}
 		
-		function validateCurrentStep() {
+		function validateCurrentStep(currentStep) {
 			let valid = true;
-			
+			console.log('Validating step', currentStep);
 			if (currentStep === 1) {
-				const authorName = $('#authorName').val().trim();
+				const authorName = localStorage.getItem('authorName');
 				if (!authorName) {
 					valid = false;
-					$('#authorName').addClass('is-invalid');
-				} else {
-					$('#authorName').removeClass('is-invalid');
-					localStorage.setItem('authorName', authorName);
 				}
 			}
-			// Add validation for other steps as needed
+			
+			if (currentStep === 2) {
+				let answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
+				if (answers.length === 0) {
+					valid = false;
+				}
+			}
+			
+			if (currentStep === 3) {
+				const storedSuggestions = localStorage.getItem('bookSuggestions');
+				const selectedSuggestionIndex = localStorage.getItem('selectedSuggestionIndex');
+				if (storedSuggestions && selectedSuggestionIndex && storedSuggestions.length > 0 && selectedSuggestionIndex >= 0) {
+				} else
+				{
+					valid = false;
+				}
+			}
+			
+			if (currentStep === 4) {
+				const authorImage = localStorage.getItem('authorImage');
+				if (!authorImage) {
+					valid = false;
+				}
+			}
+			
+			if (currentStep === 5) {
+				const savedStyle = localStorage.getItem('selectedCoverStyle') ?? '';
+				if (savedStyle === '') {
+					valid = false;
+				}
+				const savedFrontImage = localStorage.getItem('frontCoverImage') ?? '';
+				if (savedFrontImage === '') {
+					valid = false;
+				}
+			}
+			if (valid) {
+				console.log('Step', currentStep, 'is valid');
+			} else {
+				console.log('Step', currentStep, 'is invalid');
+			}
 			
 			return valid;
 		}
@@ -325,27 +255,34 @@
 		
 		$(document).ready(function () {
 			// Get initial step from URL
-			currentStep = getStepFromURL();
-			goToStep(currentStep);
+			const urlParams = new URLSearchParams(window.location.search);
+			currentStep = parseInt(urlParams.get('step')) || 1;
+			console.log('Current step:', currentStep);
 			
-			window.addEventListener('popstate', function (event) {
-				const step = getStepFromURL();
-				goToStep(step);
-			});
-			
-			
+			//validate all previous steps
+			if (currentStep>1) {
+				for (let i = 1; i < currentStep; i++) {
+					if (!validateCurrentStep(i)) {
+						window.location.href = `{{ route('create-book') }}?step=${i}`;
+					}
+				}
+			}
+				
+				
+				// Update progress bar
 			updateProgressBar();
-			renderAnswers();
+	
+			if (currentStep === 6) {
+				updateBookCoverPreview();
+			}
 			
 			$(".back-button").on('click', function (e) {
+				e.preventDefault();
 				if (currentStep === 1) {
-					// If on first step, redirect to landing page
 					window.location.href = "{{ route('landing-page') }}";
 				} else {
-					// If not on first step, go back one step
-					previousStep();
+					window.location.href = `{{ route('create-book') }}?step=${currentStep - 1}`;
 				}
-				e.preventDefault();
 			});
 			
 		});

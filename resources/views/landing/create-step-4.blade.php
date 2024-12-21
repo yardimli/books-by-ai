@@ -33,7 +33,7 @@
 		</div>
 		
 		<div class="d-grid mt-4">
-			<button class="btn btn-lg text-white" id="continueBtn" style="background-color: #dc6832;" onclick="nextStep()" disabled>
+			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
 				{{ __('default.create.buttons.continue') }}
 			</button>
 		</div>
@@ -135,6 +135,11 @@
 				localStorage.removeItem('authorImageNoBg');
 				continueBtn.prop('disabled', true);
 			});
+			
+			continueBtn.on('click', function() {
+				nextStep();
+			});
+			
 		});
 	</script>
 @endpush

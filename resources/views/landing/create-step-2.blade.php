@@ -31,10 +31,9 @@
 		
 		<!-- Continue button -->
 		<div class="d-grid">
-			<div class="btn btn-lg text-white" style="background-color: #dc6832;"
-			     onclick="nextStep()">
+			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
 				{{ __('default.create.buttons.continue') }}
-			</div>
+			</button>
 		</div>
 	</div>
 </div>
@@ -79,11 +78,11 @@
 
 
 
-
 @push('scripts')
 	<script>
-		function renderAnswers() {
+		function renderAnswers(answers) {
 			const authorName = localStorage.getItem('authorName') || '';
+			$('.author_name').text(authorName);
 			const answersHtml = answers.map((item, index) => `
             <div class="card bg-light mb-3 position-relative">
                 <div class="position-absolute top-0 end-0 m-2">
@@ -105,7 +104,10 @@
 			const questionsList = $('#questionsList');
 			questionsList.empty();
 			
-			Object.entries(window.bookQuestions).forEach(([key, question]) => {
+			let bookQuestions = @json( __('default.create.step2.questions') );
+			console.log(bookQuestions);
+			
+			Object.entries(bookQuestions).forEach(([key, question]) => {
 				const authorName = localStorage.getItem('authorName') || '';
 				const questionText = question.replace('#author#', authorName);
 				
@@ -120,7 +122,22 @@
 			});
 		}
 		
+		function checkIfHasAnswers() {
+			const answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
+			if (answers.length === 0) {
+				$('#continueBtn').prop('disabled', true);
+				return false;
+			} else {
+				$('#continueBtn').prop('disabled', false);
+				return true;
+			}
+		}
+		
 		$(document).ready(function () {
+			let answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
+
+			renderAnswers(answers);
+			checkIfHasAnswers();
 			
 			// Question selection button click
 			$('#selectQuestionBtn').click(function (e) {
@@ -157,7 +174,8 @@
 					});
 					
 					localStorage.setItem('bookAnswers', JSON.stringify(answers));
-					renderAnswers();
+					renderAnswers(answers);
+					checkIfHasAnswers();
 					
 					$('#answerModal').modal('hide');
 					$('#answerText').val('');
@@ -168,9 +186,15 @@
 			window.deleteAnswer = function (index) {
 				answers.splice(index, 1);
 				localStorage.setItem('bookAnswers', JSON.stringify(answers));
-				renderAnswers();
+				renderAnswers(answers);
+				checkIfHasAnswers();
 			}
 			
+			$('#continueBtn').click(function () {
+				if (checkIfHasAnswers()) {
+					nextStep();
+				}
+			});
 		});
 	</script>
 @endpush

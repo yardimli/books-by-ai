@@ -29,11 +29,9 @@
 		</div>
 		
 		<div class="d-grid mt-4">
-			<div class="btn btn-lg text-white mt-3"
-			     style="background-color: #dc6832;"
-			     onclick="nextStep()">
+			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
 				{{ __('default.create.buttons.continue') }}
-			</div>
+			</button>
 		</div>
 	</div>
 </div>
@@ -44,6 +42,11 @@
 			$('#loadingSpinner').removeClass('d-none');
 			$('#bookSuggestions').empty();
 			$('#regenerateBtn').hide();
+			$('#continueBtn').prop('disabled', true);
+			
+			//delete the previously selected suggestion
+			localStorage.removeItem('selectedSuggestionIndex');
+			const answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
 			
 			const userAnswers = answers.map(a => `Question: ${a.question}\nAnswer: ${a.answer}`).join('\n\n');
 			
@@ -85,6 +88,7 @@
 		function renderBookSuggestions() {
 			$('#bookSuggestions').empty();
 			
+			const selectedSuggestionIndex = localStorage.getItem('selectedSuggestionIndex');
 			bookSuggestions.forEach((suggestion, index) => {
 				const isSelected = index.toString() === selectedSuggestionIndex;
 				const suggestionHtml = `
@@ -104,6 +108,16 @@
 		
 		$(document).ready(function () {
 			
+			$('#continueBtn').prop('disabled', true);
+			
+			const storedSuggestions = localStorage.getItem('bookSuggestions');
+			if (storedSuggestions && storedSuggestions.length > 0) {
+				bookSuggestions = JSON.parse(storedSuggestions);
+				renderBookSuggestions();
+			} else {
+				getBookSuggestions();
+			}
+			
 			// Regenerate button click handler
 			$('#regenerateBtn').click(function () {
 				getBookSuggestions();
@@ -112,9 +126,14 @@
 			$(document).on('click', '.suggestion-card', function () {
 				$('.suggestion-card').removeClass('selected').css('border', 'none');
 				$(this).addClass('selected').css('border', '2px solid #dc6832');
-				selectedSuggestionIndex = $(this).data('index').toString();
+				let selectedSuggestionIndex = $(this).data('index').toString();
 				localStorage.setItem('selectedSuggestionIndex', selectedSuggestionIndex);
 				localStorage.setItem('selectedSuggestion', JSON.stringify(bookSuggestions[parseInt($(this).data('index'))]));
+				$('#continueBtn').prop('disabled', false);
+			});
+			
+			$('#continueBtn').click(function () {
+				nextStep();
 			});
 			
 			

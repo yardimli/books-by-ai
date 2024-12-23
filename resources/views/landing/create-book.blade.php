@@ -162,7 +162,7 @@
 							@include('landing.create-step-1')
 					@endswitch
 				</div>
-				
+			
 			</div>
 		</div>
 	</div>
@@ -175,15 +175,23 @@
 		let current_page = 'my.create-book';
 		let currentStep = 1;
 		
-		// Modify the nextStep function
-		function nextStep() {
-			if (validateCurrentStep(currentStep)) {
-				if (currentStep < 7) {
-					window.location.href = `{{ route('create-book') }}?step=${currentStep + 1}`;
+		
+		function saveBookData(step, data) {
+			$.ajax({
+				url: '{{ route("update-book") }}',
+				method: 'POST',
+				data: {
+					_token: '{{ csrf_token() }}',
+					book_guid: '{{ $book->book_guid }}',
+					step: step,
+					...data
+				},
+				success: function (response) {
+					if (response.success) {
+						window.location.href = `{{ route('create-book') }}?step=${step + 1}&book_guid={{ $book->book_guid }}`;
+					}
 				}
-			} else {
-				console.log('Validation failed');
-			}
+			});
 		}
 		
 		function previousStep() {
@@ -220,8 +228,7 @@
 				const storedSuggestions = localStorage.getItem('bookSuggestions');
 				const selectedSuggestionIndex = localStorage.getItem('selectedSuggestionIndex');
 				if (storedSuggestions && selectedSuggestionIndex && storedSuggestions.length > 0 && selectedSuggestionIndex >= 0) {
-				} else
-				{
+				} else {
 					valid = false;
 				}
 			}
@@ -260,21 +267,17 @@
 			console.log('Current step:', currentStep);
 			
 			//validate all previous steps
-			if (currentStep>1) {
-				for (let i = 1; i < currentStep; i++) {
-					if (!validateCurrentStep(i)) {
-						window.location.href = `{{ route('create-book') }}?step=${i}`;
-					}
-				}
-			}
-				
-				
-				// Update progress bar
+			// if (currentStep > 1) {
+			// 	for (let i = 1; i < currentStep; i++) {
+			// 		if (!validateCurrentStep(i)) {
+			{{--			window.location.href = `{{ route('create-book') }}?step=${i}`;--}}
+			// 		}
+			// 	}
+			// }
+			
+			
+			// Update progress bar
 			updateProgressBar();
-	
-			if (currentStep === 6) {
-				updateBookCoverPreview();
-			}
 			
 			$(".back-button").on('click', function (e) {
 				e.preventDefault();

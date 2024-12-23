@@ -9,8 +9,7 @@
 			</div>
 		</div>
 		
-		<h2
-			class="serif-font mb-4">{!! __('default.create.step2.title', ['author' => '<span class="author_name"></span>']) !!}</h2>
+		<h2 class="serif-font mb-4">{!! __('default.create.step2.title', ['author' => '<span class="author_name">'.$book->author_name.'</span>']) !!}</h2>
 		<p class="text-muted mb-4">{{ __('default.create.step2.subtitle') }}</p>
 		
 		<!-- Previous answers will be displayed here -->
@@ -80,50 +79,43 @@
 
 @push('scripts')
 	<script>
+		let answers = [];
+		
 		function renderAnswers(answers) {
-			const authorName = localStorage.getItem('authorName') || '';
-			$('.author_name').text(authorName);
 			const answersHtml = answers.map((item, index) => `
-            <div class="card bg-light mb-3 position-relative">
-                <div class="position-absolute top-0 end-0 m-2">
-                    <div class="btn btn-link text-danger p-0" onclick="deleteAnswer(${index})" style="line-height: 1;">
-                        <i class="bi bi-x-circle-fill"></i>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">${item.question.replace('#author#', authorName)}</h5>
-                    <p class="card-text">${item.answer}</p>
+        <div class="card bg-light mb-3 position-relative">
+            <div class="position-absolute top-0 end-0 m-2">
+                <div class="btn btn-link text-danger p-0" onclick="deleteAnswer(${index})" style="line-height: 1;">
+                    <i class="bi bi-x-circle-fill"></i>
                 </div>
             </div>
-        `).join('');
-			
+            <div class="card-body">
+                <h5 class="card-title">${item.question.replace('#author#', '{{ $book->author_name }}')}</h5>
+                <p class="card-text">${item.answer}</p>
+            </div>
+        </div>
+    `).join('');
 			$('#previous-answers').html(answersHtml);
 		}
 		
 		function buildQuestionsList() {
 			const questionsList = $('#questionsList');
 			questionsList.empty();
-			
-			let bookQuestions = @json( __('default.create.step2.questions') );
-			console.log(bookQuestions);
+			let bookQuestions = @json(__('default.create.step2.questions'));
 			
 			Object.entries(bookQuestions).forEach(([key, question]) => {
-				const authorName = localStorage.getItem('authorName') || '';
-				const questionText = question.replace('#author#', authorName);
-				
+				const questionText = question.replace('#author#', '{{ $book->author_name }}');
 				const questionButton = $(`
-                <div class="list-group-item list-group-item-action">
-                    ${questionText}
-                </div>
-            `);
-				
-				questionButton.data('original-question', question); // Store original question with #author# placeholder
+            <div class="list-group-item list-group-item-action">
+                ${questionText}
+            </div>
+        `);
+				questionButton.data('original-question', question);
 				questionsList.append(questionButton);
 			});
 		}
 		
-		function checkIfHasAnswers() {
-			const answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
+		function checkIfHasAnswers(answers) {
 			if (answers.length === 0) {
 				$('#continueBtn').prop('disabled', true);
 				return false;
@@ -134,10 +126,10 @@
 		}
 		
 		$(document).ready(function () {
-			let answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
-
+			const savedAnswers = {!! $book->questions_and_answers ?? '[]' !!};
+			answers = typeof savedAnswers === 'string' ? JSON.parse(savedAnswers) : savedAnswers;
 			renderAnswers(answers);
-			checkIfHasAnswers();
+			checkIfHasAnswers(answers);
 			
 			// Question selection button click
 			$('#selectQuestionBtn').click(function (e) {
@@ -149,9 +141,7 @@
 			// Question selection
 			$(document).on('click', '#questionsList .list-group-item', function () {
 				const originalQuestion = $(this).data('original-question');
-				const authorName = localStorage.getItem('authorName') || '';
-				const questionText = originalQuestion.replace('#author#', authorName);
-				
+				const questionText = originalQuestion.replace('#author#', '{{ $book->author_name }}');
 				$('#selectedQuestion').text(questionText);
 				$('#questionModal').modal('hide');
 				$('#answerModal').modal('show');
@@ -169,31 +159,58 @@
 				
 				if (answer.trim()) {
 					answers.push({
-						question: originalQuestion, // Store the original question with placeholder
+						question: originalQuestion,
 						answer: answer
 					});
 					
-					localStorage.setItem('bookAnswers', JSON.stringify(answers));
-					renderAnswers(answers);
-					checkIfHasAnswers();
-					
-					$('#answerModal').modal('hide');
-					$('#answerText').val('');
+					// Save to database
+					$.ajax({
+						url: '{{ route("update-book") }}',
+						method: 'POST',
+						data: {
+							_token: '{{ csrf_token() }}',
+							book_guid: '{{ $book->book_guid }}',
+							step: 2,
+							answers: answers
+						},
+						success: function(response) {
+							if (response.success) {
+								renderAnswers(answers);
+								checkIfHasAnswers(answers);
+								$('#answerModal').modal('hide');
+								$('#answerText').val('');
+							}
+						}
+					});
 					e.preventDefault();
 				}
 			});
 			
 			window.deleteAnswer = function (index) {
 				answers.splice(index, 1);
-				localStorage.setItem('bookAnswers', JSON.stringify(answers));
-				renderAnswers(answers);
-				checkIfHasAnswers();
+				
+				// Save updated answers to database
+				$.ajax({
+					url: '{{ route("update-book") }}',
+					method: 'POST',
+					data: {
+						_token: '{{ csrf_token() }}',
+						book_guid: '{{ $book->book_guid }}',
+						step: 2,
+						answers: answers
+					},
+					success: function(response) {
+						if (response.success) {
+							renderAnswers(answers);
+							checkIfHasAnswers(answers);
+						}
+					}
+				});
 			}
 			
-			$('#continueBtn').click(function () {
-				if (checkIfHasAnswers()) {
-					nextStep();
-				}
+			
+			$('#continueBtn').on('click', function() {
+				window.location.href = '{{ route("create-book") }}?step=4&book_guid={{ $book->book_guid }}';
 			});
 		});
 	</script>

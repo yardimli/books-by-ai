@@ -64,7 +64,7 @@
 				</div>
 				<div class="mt-3">
 					<label for="zoomRange" class="form-label">{{ __('default.create.modals.zoom_level') }}</label>
-					<input type="range" class="form-range" id="zoomRange" min="25" max="300" value="100">
+					<input type="range" class="form-range" id="zoomRange" min="25" max="200" value="100">
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -157,17 +157,15 @@
 		let currentY;
 		let initialX;
 		let initialY;
-		let xOffset = 0;
-		let yOffset = 0;
-		let scale = 1;
 		
-		let transformSettings = JSON.parse(localStorage.getItem('authorImageTransform')) || {
-			xOffset: 0,
-			yOffset: 0,
-			scale: 1
+		let transformSettings = {
+			xOffset: {{ $book->author_image_x_offset ?? 0 }},
+			yOffset: {{ $book->author_image_y_offset ?? 0 }},
+			scale: {{ $book->author_image_scale ?? 1.0 }}
 		};
 		
-		let authorImage = localStorage.getItem('authorImageNoBg');
+		let authorImage = "{{ $book->author_image_no_bg }}";
+		let savedStyle = {{ $book->selected_cover_template ?? 1 }};
 		
 		function captureCovers() {
 			return new Promise(async (resolve, reject) => {
@@ -184,7 +182,6 @@
 						logging: false
 					});
 					const frontCoverImage = frontCover.toDataURL('image/png');
-					localStorage.setItem('frontCoverImage', frontCoverImage);
 					
 					// Capture spine
 					// const spineCover = await html2canvas(document.querySelector('#spine-cover'), {
@@ -195,7 +192,6 @@
 					// 	logging: false
 					// });
 					// const spineCoverImage = spineCover.toDataURL('image/png');
-					// localStorage.setItem('spineCoverImage', spineCoverImage);
 					
 					// Capture back cover
 					// const backCover = await html2canvas(document.querySelector('#back-cover'), {
@@ -206,9 +202,31 @@
 					// 	logging: false
 					// });
 					// const backCoverImage = backCover.toDataURL('image/png');
-					// localStorage.setItem('backCoverImage', backCoverImage);
 					
-					resolve(true);
+					// Save all images to database
+					$.ajax({
+						url: '{{ route("update-book") }}',
+						method: 'POST',
+						data: {
+							_token: '{{ csrf_token() }}',
+							book_guid: '{{ $book->book_guid }}',
+							step: 52,
+							cover_image: frontCoverImage,
+							// spine_image: spineCoverImage,
+							// back_image: backCoverImage
+						},
+						success: function (response) {
+							if (response.success) {
+								resolve(true);
+							} else {
+								reject(new Error('Failed to save cover images'));
+							}
+						},
+						error: function (xhr, status, error) {
+							reject(new Error('Failed to save cover images: ' + error));
+						}
+					});
+					
 				} catch (error) {
 					console.error('Error capturing covers:', error);
 					reject(error);
@@ -217,24 +235,15 @@
 		}
 		
 		function updateCoverImages() {
-			authorImage = localStorage.getItem('authorImageNoBg');
-			if (authorImage) {
-				$('.author-image').attr('src', authorImage);
-				
-				// Also update the adjustable image if the modal is open
-				$('#adjustableImage').attr('src', authorImage);
-				
-				// Apply any stored transform settings
-				transformSettings = JSON.parse(localStorage.getItem('authorImageTransform'));
-				if (transformSettings) {
-					const transformValue = `translate(${transformSettings.xOffset}px, ${transformSettings.yOffset}px) scale(${transformSettings.scale})`;
-					$('.author-image').css('transform', transformValue);
-				}
-				
-				// Reload the current cover style
-				const currentStyle = localStorage.getItem('selectedCoverStyle') || 1;
-				$(`.cover-style-btn[data-style="${currentStyle}"]`).click();
-			}
+			$('.author-image').attr('src', authorImage);
+			$('#adjustableImage').attr('src', authorImage);
+			
+			// Apply any stored transform settings
+			const transformValue = `translate(${transformSettings.xOffset}px, ${transformSettings.yOffset}px) scale(${transformSettings.scale})`;
+			$('.author-image').css('transform', transformValue);
+			
+			// Reload the current cover style
+			loadStyle(savedStyle);
 		}
 		
 		function getCoverStyleProperties(styleNumber) {
@@ -280,19 +289,23 @@
 		}
 		
 		function applyCoverTextFields(cover_part) {
-			const bookData = JSON.parse(localStorage.getItem('selectedSuggestion'));
+			const bookData = <?php
+				                 $book_options = json_decode($book->book_options ?? '[]', true);
+				                 $selected_book_option = $book->selected_book_option;
+				                 echo json_encode($book_options[$selected_book_option] ?? []);
+			                 ?>;
 			
 			if (cover_part === 'front') {
 				$('.title').text((bookData.title ?? 'Başlık'));
 				
 				$('.subtitle').text(bookData.subtitle ?? 'Alt Başlık');
-				$('.author-name').text(localStorage.getItem('authorName') ?? 'Yazar Adı');
+				$('.author-name').text('{{ $book->author_name ?? 'Yazar Adı' }}');
 				$('.author-image').attr('src', authorImage);
 			}
 			
 			if (cover_part === 'spine') {
 				$('.book-spine-title').text(bookData.title ?? 'Başlık');
-				$('.book-spine-author-name').text(localStorage.getItem('authorName') ?? 'Yazar Adı');
+				$('.book-spine-author-name').text('{{ $book->author_name ?? 'Yazar Adı' }}');
 			}
 			
 			if (cover_part === 'back') {
@@ -344,11 +357,8 @@
 				});
 			}, 100);
 			
-			// Apply stored transform settings to the author image
-			if (transformSettings) {
-				const transformValue = `translate(${transformSettings.xOffset}px, ${transformSettings.yOffset}px) scale(${transformSettings.scale})`;
-				$('.author-image').css('transform', transformValue);
-			}
+			const transformValue = `translate(${transformSettings.xOffset}px, ${transformSettings.yOffset}px) scale(${transformSettings.scale})`;
+			$('.author-image').css('transform', transformValue);
 		}
 		
 		function dragStart(e) {
@@ -377,8 +387,8 @@
 					currentY = e.clientY - initialY;
 				}
 				
-				xOffset = currentX;
-				yOffset = currentY;
+				transformSettings.xOffset = currentX;
+				transformSettings.yOffset = currentY;
 				setTransform();
 			}
 		}
@@ -389,42 +399,26 @@
 		
 		function setTransform() {
 			// Ensure scale stays within bounds
-			scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale));
-			
-			// Store the current settings
-			transformSettings = {
-				xOffset: xOffset,
-				yOffset: yOffset,
-				scale: scale
-			};
-			
-			// Save to localStorage
-			localStorage.setItem('authorImageTransform', JSON.stringify(transformSettings));
+			transformSettings.scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, transformSettings.scale));
 			
 			// Apply to adjustable image
 			$('#adjustableImage').css({
-				'left': `${xOffset}px`,
-				'top': `${yOffset}px`,
-				'transform': `scale(${scale})`
+				'left': `${transformSettings.xOffset}px`,
+				'top': `${transformSettings.yOffset}px`,
+				'transform': `scale(${transformSettings.scale})`
 			});
 		}
 		
 		// Load saved transform settings and apply them
 		function applyStoredTransformSettings() {
-			if (transformSettings) {
-				xOffset = transformSettings.xOffset;
-				yOffset = transformSettings.yOffset;
-				scale = transformSettings.scale;
-				
-				$('.author-image').css({
-					'left': `${xOffset}px`,
-					'top': `${yOffset}px`,
-					'transform': `scale(${scale})`
-				});
-				
-				// Update zoom slider
-				$('#zoomRange').val(scale * 100);
-			}
+			$('.author-image').css({
+				'left': `${transformSettings.xOffset}px`,
+				'top': `${transformSettings.yOffset}px`,
+				'transform': `scale(${transformSettings.scale})`
+			});
+			
+			// Update zoom slider
+			$('#zoomRange').val(transformSettings.scale * 100);
 		}
 		
 		function updateModalImageContainer(styleNumber) {
@@ -438,19 +432,12 @@
 				borderRadius: props.shape === 'circle' ? '50%' : '0px',
 				margin: '0 auto'
 			});
-			
-			// Update the adjustable image styles
-			// $('#adjustableImage').css({
-			// 	height: props.height,
-			// 	width: props.shape === 'circle' ? 'auto' : '100%',
-			// 	objectFit: 'cover'
-			// });
 		}
 		
 		function resetTransform() {
-			xOffset = 0;
-			yOffset = 0;
-			scale = 1;
+			transformSettings.xOffset = 0;
+			transformSettings.yOffset = 0;
+			transformSettings.scale = 1;
 			
 			$('#zoomRange').val(100);
 			
@@ -494,13 +481,68 @@
 			});
 		}
 		
+		function saveTransformSettings() {
+			$.ajax({
+				url: '{{ route("update-book") }}',
+				method: 'POST',
+				data: {
+					_token: '{{ csrf_token() }}',
+					book_guid: '{{ $book->book_guid }}',
+					step: 51,
+					image_scale: transformSettings.scale,
+					image_x_offset: transformSettings.xOffset,
+					image_y_offset: transformSettings.yOffset
+				},
+				success: function (response) {
+					if (!response.success) {
+						console.error('Failed to save transform settings');
+					}
+				}
+			});
+		}
+		
+		function saveCoverStyle(styleNumber) {
+			$.ajax({
+				url: '{{ route("update-book") }}',
+				method: 'POST',
+				data: {
+					_token: '{{ csrf_token() }}',
+					book_guid: '{{ $book->book_guid }}',
+					step: 5,
+					cover_style: styleNumber
+				},
+				success: function (response) {
+					if (!response.success) {
+						console.error('Failed to save cover style');
+					}
+				}
+			});
+		}
+		
+		function saveCoverImages(frontCoverImage, spineCoverImage, backCoverImage) {
+			$.ajax({
+				url: '{{ route("update-book") }}',
+				method: 'POST',
+				data: {
+					_token: '{{ csrf_token() }}',
+					book_guid: '{{ $book->book_guid }}',
+					step: 52,
+					cover_image: frontCoverImage,
+					// spine_image: spineCoverImage,
+					// back_image: backCoverImage
+				},
+				success: function (response) {
+					if (response.success) {
+						window.location.href = '{{ route("create-book") }}?step=6&book_guid={{ $book->book_guid }}';
+					} else {
+						console.error('Failed to save cover images');
+					}
+				}
+			});
+		}
+		
+		
 		$(document).ready(function () {
-			let savedStyle = localStorage.getItem('selectedCoverStyle') ?? '';
-			if (savedStyle === '') {
-				localStorage.setItem('selectedCoverStyle', '1');
-				savedStyle = '1';
-			}
-			
 			loadStyle(savedStyle);
 			
 			// Apply stored settings on page load
@@ -518,14 +560,14 @@
 				const delta = e.originalEvent.deltaY;
 				if (delta > 0) {
 					// Zoom out
-					scale = Math.max(MIN_SCALE, scale - ZOOM_SPEED);
+					transformSettings.scale = Math.max(MIN_SCALE, transformSettings.scale - ZOOM_SPEED);
 				} else {
 					// Zoom in
-					scale = Math.min(MAX_SCALE, scale + ZOOM_SPEED);
+					transformSettings.scale = Math.min(MAX_SCALE, transformSettings.scale + ZOOM_SPEED);
 				}
 				
 				// Update the range slider value
-				$('#zoomRange').val(scale * 100);
+				$('#zoomRange').val(transformSettings.scale * 100);
 				
 				// Apply the transformation
 				setTransform();
@@ -534,19 +576,10 @@
 			// Initialize the adjustable image when modal opens
 			$('#imageAdjustModal').on('show.bs.modal', function () {
 				const authorImage = $('.author-image').attr('src');
-				const currentStyle = localStorage.getItem('selectedCoverStyle') || 1;
 				
 				$('#adjustableImage').attr('src', authorImage);
-				updateModalImageContainer(currentStyle);
-				
-				// Load saved transform settings
-				if (transformSettings) {
-					xOffset = transformSettings.xOffset;
-					yOffset = transformSettings.yOffset;
-					scale = transformSettings.scale;
-					$('#zoomRange').val(scale * 100);
-					setTransform();
-				}
+				updateModalImageContainer(savedStyle);
+				setTransform();
 			});
 			
 			// Mouse events for drag
@@ -565,43 +598,32 @@
 				setTransform();
 			});
 			
-			// Save adjustments
 			$('#saveImageAdjustments').on('click', function () {
 				$('.author-image').css({
-					'left': `${xOffset}px`,
-					'top': `${yOffset}px`,
-					'transform': `scale(${scale})`
+					'left': `${transformSettings.xOffset}px`,
+					'top': `${transformSettings.yOffset}px`,
+					'transform': `scale(${transformSettings.scale})`
 				});
 				
-				transformSettings = {
-					xOffset: xOffset,
-					yOffset: yOffset,
-					scale: scale
-				};
-				
-				localStorage.setItem('authorImageTransform', JSON.stringify(transformSettings));
-				
+				saveTransformSettings();
 				$('#imageAdjustModal').modal('hide');
 			});
 			
 			$('.cover-style-btn').on('click', function () {
-				const styleNumber = $(this).data('style');
-				loadStyle(styleNumber);
-				
-				// Save selected style to localStorage
-				localStorage.setItem('selectedCoverStyle', styleNumber);
+				savedStyle = $(this).data('style');
+				loadStyle(savedStyle);
+				saveCoverStyle(savedStyle);
 			});
 			
 			$("#continueBtn").on('click', function () {
-				//change button to please wait with spinner
+				// Change button to please wait with spinner
 				$('#continueBtn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{ __("default.create.step5.please_wait")}}');
 				$('#continueBtn').prop('disabled', true);
 				
 				captureCovers()
 					.then(() => {
-						$('#continueBtn').html('{{ __("default.create.buttons.continue")}}');
-						$('#continueBtn').prop('disabled', false);
-						nextStep();
+						// Redirect to next step
+						window.location.href = '{{ route("create-book") }}?step=6&book_guid={{ $book->book_guid }}';
 					})
 					.catch(error => {
 						$('#continueBtn').html('{{ __("default.create.buttons.continue")}}');
@@ -610,6 +632,7 @@
 						alert('There was an error capturing the cover images. Please try again.');
 					});
 			});
+			
 		});
 	</script>
 @endpush

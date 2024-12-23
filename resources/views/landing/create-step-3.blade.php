@@ -3,12 +3,10 @@
 		<div class="mb-4">
 			<div class="back-button p-0">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2"
-					      stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 			</div>
 		</div>
-		
 		<div class="d-flex justify-content-between align-items-center mb-4">
 			<h2 class="serif-font mb-0">{{ __('default.create.step3.title') }}</h2>
 			<div id="regenerateBtn" class="btn btn-dark">
@@ -44,30 +42,24 @@
 			$('#regenerateBtn').hide();
 			$('#continueBtn').prop('disabled', true);
 			
-			//delete the previously selected suggestion
-			localStorage.removeItem('selectedSuggestionIndex');
-			const answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
-			
-			const userAnswers = answers.map(a => `Question: ${a.question}\nAnswer: ${a.answer}`).join('\n\n');
-			
 			$.ajax({
 				url: "{{ route('suggest-book-title-and-short-description') }}",
 				method: 'POST',
 				dataType: 'json',
 				data: {
-					author_name: localStorage.getItem('authorName'),
-					user_answers: userAnswers,
-					_token: $('meta[name="csrf-token"]').attr('content')
+					author_name: '{{ $book->author_name }}',
+					user_answers: @json($book->questions_and_answers ?? []),
+					_token: '{{ csrf_token() }}'
 				},
-				success: function (response) {
+				success: function(response) {
 					$('#loadingSpinner').addClass('d-none');
 					$('#regenerateBtn').show();
+					
 					try {
 						if (response.suggestions && Array.isArray(response.suggestions)) {
-							// Store suggestions in localStorage
-							bookSuggestions = response.suggestions;
-							localStorage.setItem('bookSuggestions', JSON.stringify(bookSuggestions));
-							renderBookSuggestions();
+							// Save suggestions to database
+							saveSuggestionsToDatabase(response.suggestions);
+							renderBookSuggestions(response.suggestions);
 						} else {
 							console.error('Suggestions not found in the response');
 							$('#bookSuggestions').html('<div class="alert alert-danger">{{ __("default.create.step3.error.loading_error") }}</div>');
@@ -77,7 +69,7 @@
 						$('#bookSuggestions').html('<div class="alert alert-danger">{{ __("default.create.step3.error.loading_error") }}</div>');
 					}
 				},
-				error: function () {
+				error: function() {
 					$('#regenerateBtn').show();
 					$('#loadingSpinner').addClass('d-none');
 					$('#bookSuggestions').html('<div class="alert alert-danger">{{ __("default.create.step3.error.loading_error") }}</div>');
@@ -85,59 +77,79 @@
 			});
 		}
 		
-		function renderBookSuggestions() {
+		function saveSuggestionsToDatabase(suggestions) {
+			$.ajax({
+				url: '{{ route("update-book") }}',
+				method: 'POST',
+				data: {
+					_token: '{{ csrf_token() }}',
+					book_guid: '{{ $book->book_guid }}',
+					step: 3,
+					suggestions: suggestions,
+					selected_option: -1
+				}
+			});
+		}
+		
+		function renderBookSuggestions(suggestions) {
 			$('#bookSuggestions').empty();
+			const selectedOption = {{ $book->selected_book_option ?? 'null' }};
 			
-			const selectedSuggestionIndex = localStorage.getItem('selectedSuggestionIndex');
-			bookSuggestions.forEach((suggestion, index) => {
-				const isSelected = index.toString() === selectedSuggestionIndex;
+			suggestions.forEach((suggestion, index) => {
+				const isSelected = index === selectedOption;
 				const suggestionHtml = `
             <div class="card mb-3 suggestion-card ${isSelected ? 'selected' : ''}"
                  data-index="${index}"
                  style="cursor: pointer; ${isSelected ? 'border: 2px solid #dc6832;' : ''}">
                 <div class="card-body">
                     <h3 class="card-title">${suggestion.title}</h3>
-                    <p class="text-muted">{{ __('default.create.step3.author_prefix') }} ${localStorage.getItem('authorName')}</p>
+                    <p class="text-muted">{{ __('default.create.step3.author_prefix') }} {{ $book->author_name }}</p>
                     <p class="card-text">${suggestion.short_description}</p>
                 </div>
-            </div>
-        `;
+            </div>`;
 				$('#bookSuggestions').append(suggestionHtml);
 			});
 		}
 		
-		$(document).ready(function () {
-			
+		$(document).ready(function() {
 			$('#continueBtn').prop('disabled', true);
 			
-			const storedSuggestions = localStorage.getItem('bookSuggestions');
-			if (storedSuggestions && storedSuggestions.length > 0) {
-				bookSuggestions = JSON.parse(storedSuggestions);
-				renderBookSuggestions();
+			const bookOptions = {!! $book->book_options ?? 'null' !!};
+			if (bookOptions) {
+				renderBookSuggestions(bookOptions);
+				$('#continueBtn').prop('disabled', {{ ($book->selected_book_option >= 0 ? 'false' : 'true') }});
 			} else {
 				getBookSuggestions();
 			}
 			
-			// Regenerate button click handler
-			$('#regenerateBtn').click(function () {
+			$('#regenerateBtn').click(function() {
 				getBookSuggestions();
 			});
 			
-			$(document).on('click', '.suggestion-card', function () {
+			$(document).on('click', '.suggestion-card', function() {
 				$('.suggestion-card').removeClass('selected').css('border', 'none');
 				$(this).addClass('selected').css('border', '2px solid #dc6832');
-				let selectedSuggestionIndex = $(this).data('index').toString();
-				localStorage.setItem('selectedSuggestionIndex', selectedSuggestionIndex);
-				localStorage.setItem('selectedSuggestion', JSON.stringify(bookSuggestions[parseInt($(this).data('index'))]));
+				
+				const selectedIndex = $(this).data('index');
+				
+				// Save selected option to database
+				$.ajax({
+					url: '{{ route("update-book") }}',
+					method: 'POST',
+					data: {
+						_token: '{{ csrf_token() }}',
+						book_guid: '{{ $book->book_guid }}',
+						step: 3,
+						selected_option: selectedIndex
+					}
+				});
+				
 				$('#continueBtn').prop('disabled', false);
 			});
 			
-			$('#continueBtn').click(function () {
-				nextStep();
+			$('#continueBtn').on('click', function() {
+				window.location.href = '{{ route("create-book") }}?step=4&book_guid={{ $book->book_guid }}';
 			});
-			
-			
 		});
 	</script>
 @endpush
-

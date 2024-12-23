@@ -3,6 +3,7 @@
 	namespace App\Http\Controllers;
 
 	use App\Helpers\MyHelper;
+	use App\Models\Book;
 	use App\Models\Image;
 	use CURLFile;
 	use Illuminate\Http\Request;
@@ -18,7 +19,84 @@
 
 		public function createBook(Request $request)
 		{
-			return view('landing.create-book')->with('step', $request->get('step', 1));
+			$step = $request->get('step', 1);
+			$book_guid = $request->get('book_guid', '');
+
+			if (empty($book_guid)) {
+				// Create new book record
+				$book = new Book();
+				$book->book_guid = (string)Str::uuid();
+				$book->user_id = Auth::id() ?? 0;
+				$book->save();
+
+				// Redirect with the new book_guid
+				return redirect()->route('create-book', ['step' => 1, 'book_guid' => $book->book_guid]);
+			}
+
+			// Load existing book data
+			$book = Book::where('book_guid', $book_guid)->firstOrFail();
+
+			return view('landing.create-book')->with('step', $step)->with('book', $book);
+		}
+
+		public function updateBook(Request $request)
+		{
+			$book_guid = $request->input('book_guid');
+			$book = Book::where('book_guid', $book_guid)->firstOrFail();
+
+			// Update book data based on step
+			switch ($request->input('step')) {
+				case 1:
+					$book->author_name = $request->input('author_name');
+					break;
+				case 2:
+					$book->questions_and_answers = json_encode($request->input('answers'));
+					break;
+				case 3:
+					if ($request->input('suggestions')) {
+						$book->book_options = json_encode($request->input('suggestions'));
+					}
+					$book->selected_book_option = $request->input('selected_option') ?? 0;
+					break;
+				case 4:
+					$book->author_image = $request->input('author_image');
+					$book->author_image_no_bg = $request->input('author_image_no_bg');
+					break;
+				case 5:
+					$book->selected_cover_template = $request->input('cover_style') ?? 1;
+					break;
+				case 51:
+					$book->author_image_scale = $request->input('image_scale') ?? 1.0;
+					$book->author_image_x_offset = $request->input('image_x_offset') ?? 0;
+					$book->author_image_y_offset = $request->input('image_y_offset') ?? 0;
+					break;
+				case 52:
+					$book->book_cover_image = $request->input('cover_image');
+//					$book->book_spine_image = $request->input('spine_image');
+//					$book->book_back_image = $request->input('back_image');
+					break;
+				case 6:
+					$book->book_toc = json_encode($request->input('toc'));
+					break;
+			}
+
+			$book->save();
+
+			return response()->json([
+				'success' => true,
+				'book' => $book
+			]);
+		}
+
+		public function getBookData(Request $request)
+		{
+			$book_guid = $request->input('book_guid');
+			$book = Book::where('book_guid', $book_guid)->firstOrFail();
+
+			return response()->json([
+				'success' => true,
+				'book' => $book
+			]);
 		}
 
 		public function loadCover($style = 1)
@@ -38,10 +116,14 @@
 
 		function suggestBookTitleAndShortDescription(Request $request)
 		{
-			$user_prompt = $request->input('user_answers', 'A fantasy picture of a cat');
-			if ($user_prompt === null || $user_prompt === '') {
-				$user_prompt = 'A fantasy picture of a cat';
-			}
+			$user_answers = $request->input('user_answers', '[{"question": "What is the meaning of life?", "answer": "42"}, {"question": "What do you think about the universe?", "answer": "It is vast and mysterious"}]');
+
+			$user_answers = json_decode($user_answers, true);
+			// Format user answers as string
+			$user_answers = implode("\n", array_map(function ($item) {
+				return "Soru: " . $item['question'] . "\nCevap: " . $item['answer'] . "\n";
+			}, $user_answers));
+
 
 			$gpt_prompt = "Suggest a title and a short description for a book that should not be taken seriously. It will be a full book with 200 pages. But the content will be satirical and humorous. The books language will be in Turkish. The book's title should be 2-3 words long, write 4 short reviews each consisting of 4 sentences with their sources. Try to include the author's name and book's title in the short reviews.
 			
@@ -49,11 +131,11 @@ The author has answered the following questions, use that as inspiration:
 
 Author Name: " . $request->input('author_name', 'Ali') . "
 
-" . $user_prompt . "
+" . $user_answers . "
 
 return 3 suggestions in the following JSON format: 
 " .
-'
+				'
 {
   "suggestions": [
     {
@@ -154,7 +236,7 @@ return 3 suggestions in the following JSON format:
 			$user_answers = json_decode($user_answers, true);
 			// Format user answers as string
 			$user_answers = implode("\n", array_map(function ($item) {
-				return "Soru: ".$item['question'] . "\nCevap: " . $item['answer']."\n";
+				return "Soru: " . $item['question'] . "\nCevap: " . $item['answer'] . "\n";
 			}, $user_answers));
 
 			$book_title = $request->input('book_title', 'Yaratıcılığın Komik Halleri');
@@ -165,7 +247,7 @@ return 3 suggestions in the following JSON format:
 			$book_reviews = json_decode($book_reviews, true);
 			// Format book reviews as string
 			$book_reviews = implode("\n", array_map(function ($item) {
-				return "Yorum: ".$item['review'] . "\nKaynak: " . $item['source']."\n";
+				return "Yorum: " . $item['review'] . "\nKaynak: " . $item['source'] . "\n";
 			}, $book_reviews));
 
 
@@ -177,13 +259,13 @@ return 3 suggestions in the following JSON format:
 			The table of contents should include chapters with a title and a short description for each chapter. 
 			Use the author's answers and the reviews as inspiration.
 			Question and Answers:
-			". $user_answers . "
+			" . $user_answers . "
 			Reviews:
-			". $book_reviews . "
+			" . $book_reviews . "
 			
 			write in Turkish
 			return in the following JSON format: 
-			".'
+			" . '
 {
   "table_of_contents": [
     {

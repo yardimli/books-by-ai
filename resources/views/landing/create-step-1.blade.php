@@ -17,12 +17,16 @@
 			       class="form-control form-control-lg bg-light"
 			       id="authorName"
 			       name="author_name"
+			       value="{{ $book->author_name }}"
 			       placeholder="{{ __('default.create.step1.author_placeholder') }}"
 			       required>
 		</div>
 		
 		<div class="d-grid">
-			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
+			<button class="btn btn-lg text-white"
+			        style="background-color: #dc6832;"
+			        id="continueBtn"
+				{{ empty($book->author_name) ? 'disabled' : '' }}>
 				{{ __('default.create.buttons.continue') }}
 			</button>
 		</div>
@@ -32,25 +36,33 @@
 @push('scripts')
 	<script>
 		$(document).ready(function () {
-			$('#authorName').val(localStorage.getItem('authorName') ?? '');
-			const authorName = $('#authorName').val().trim();
-			if (!authorName) {
-				$('#continueBtn').prop('disabled', true);
-			}
-			
 			$('#authorName').on('input', function () {
 				const authorName = $(this).val().trim();
-				if (authorName) {
-					$('#continueBtn').prop('disabled', false);
-				} else {
-					$('#continueBtn').prop('disabled', true);
-				}
+				$('#continueBtn').prop('disabled', !authorName);
 			});
 			
 			$('#continueBtn').on('click', function () {
 				const authorName = $('#authorName').val().trim();
-				localStorage.setItem('authorName', authorName);
-				nextStep();
+				
+				$.ajax({
+					url: '{{ route("update-book") }}',
+					method: 'POST',
+					data: {
+						_token: '{{ csrf_token() }}',
+						book_guid: '{{ $book->book_guid }}',
+						step: 1,
+						author_name: authorName
+					},
+					success: function(response) {
+						if (response.success) {
+							window.location.href = '{{ route("create-book") }}?step=2&book_guid={{ $book->book_guid }}';
+						}
+					},
+					error: function(xhr, status, error) {
+						console.error('Error saving author name:', error);
+						// You might want to show an error message to the user here
+					}
+				});
 			});
 			
 		});

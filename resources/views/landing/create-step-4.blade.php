@@ -7,15 +7,17 @@
 				</svg>
 			</div>
 		</div>
-		
 		<h4 class="mb-4">{{ __('default.create.step4.title') }}</h4>
 		<p class="text-muted mb-4">{{ __('default.create.step4.description') }}</p>
 		
 		<div class="upload-container text-center">
-			<div id="imagePreviewContainer" class="mb-4 d-none">
-				<img id="imagePreview" class="img-fluid rounded" style="max-height: 300px;" alt="Preview">
+			<div id="imagePreviewContainer" class="mb-4 {{ empty($book->author_image) ? 'd-none' : '' }}">
+				<img id="imagePreview" class="img-fluid rounded" style="max-height: 300px;"
+				     src="{{ !empty($book->author_image) ? Storage::url($book->author_image) : '' }}" alt="Preview">
 				<br>
-				<button type="button" class="btn btn-link text-danger mt-2" id="removeImage">{{ __('default.create.buttons.remove_image') }}</button>
+				<button type="button" class="btn btn-link text-danger mt-2" id="removeImage">
+					{{ __('default.create.buttons.remove_image') }}
+				</button>
 			</div>
 			
 			<div id="uploadControls">
@@ -33,7 +35,8 @@
 		</div>
 		
 		<div class="d-grid mt-4">
-			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
+			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn"
+				{{ empty($book->author_image) ? 'disabled' : '' }}>
 				{{ __('default.create.buttons.continue') }}
 			</button>
 		</div>
@@ -49,16 +52,6 @@
 			const uploadSpinner = $('#uploadSpinner');
 			const continueBtn = $('#continueBtn');
 			const removeImageBtn = $('#removeImage');
-			
-			// Check if we have a saved image
-			const savedImage = localStorage.getItem('authorImage');
-			const savedImageNoBg = localStorage.getItem('authorImageNoBg');
-			
-			if (savedImage) {
-				imagePreview.attr('src', savedImage);
-				imagePreviewContainer.removeClass('d-none');
-				continueBtn.prop('disabled', false);
-			}
 			
 			imageUpload.on('change', function(e) {
 				const file = e.target.files[0];
@@ -77,14 +70,13 @@
 				formData.append('image', file);
 				formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 				
-				
 				// Show spinner
 				uploadSpinner.removeClass('d-none');
 				continueBtn.prop('disabled', true);
 				
 				// Upload to temporary storage and get URL
 				$.ajax({
-					url: '{{route('upload-author-image')}}',
+					url: '{{ route("upload-author-image") }}',
 					method: 'POST',
 					processData: false,
 					contentType: false,
@@ -92,6 +84,7 @@
 					success: function(response) {
 						let authorOriginalImage = response.url;
 						let authorOriginalImagePath = response.path;
+						
 						// Now call removeBg with the temporary URL
 						$.ajax({
 							url: '{{ route("remove-bg2") }}',
@@ -104,16 +97,29 @@
 							success: function(response) {
 								const result = JSON.parse(response);
 								if (result.success) {
-									// Save both versions to localStorage
-									localStorage.setItem('authorImage', authorOriginalImage);
-									localStorage.setItem('authorImageNoBg', result.image_filename);
-									continueBtn.prop('disabled', false);
+									// Save both versions to database
+									$.ajax({
+										url: '{{ route("update-book") }}',
+										method: 'POST',
+										data: {
+											_token: '{{ csrf_token() }}',
+											book_guid: '{{ $book->book_guid }}',
+											step: 4,
+											author_image: authorOriginalImagePath,
+											author_image_no_bg: result.image_filename
+										},
+										success: function(response) {
+											if (response.success) {
+												continueBtn.prop('disabled', false);
+											}
+										}
+									});
 								} else {
-									alert('{{ __('default.create.step4.error_processing') }}');
+									alert('{{ __("default.create.step4.error_processing") }}');
 								}
 							},
 							error: function() {
-								alert('{{ __('default.create.step4.error_processing') }}');
+								alert('{{ __("default.create.step4.error_processing") }}');
 							},
 							complete: function() {
 								uploadSpinner.addClass('d-none');
@@ -121,7 +127,7 @@
 						});
 					},
 					error: function() {
-						alert('{{ __('default.create.step4.error_upload') }}');
+						alert('{{ __("default.create.step4.error_upload") }}');
 						uploadSpinner.addClass('d-none');
 					}
 				});
@@ -131,15 +137,29 @@
 				imagePreview.attr('src', '');
 				imagePreviewContainer.addClass('d-none');
 				imageUpload.val('');
-				localStorage.removeItem('authorImage');
-				localStorage.removeItem('authorImageNoBg');
-				continueBtn.prop('disabled', true);
+				
+				// Clear images from database
+				$.ajax({
+					url: '{{ route("update-book") }}',
+					method: 'POST',
+					data: {
+						_token: '{{ csrf_token() }}',
+						book_guid: '{{ $book->book_guid }}',
+						step: 4,
+						author_image: null,
+						author_image_no_bg: null
+					},
+					success: function(response) {
+						if (response.success) {
+							continueBtn.prop('disabled', true);
+						}
+					}
+				});
 			});
 			
 			continueBtn.on('click', function() {
-				nextStep();
+				window.location.href = '{{ route("create-book") }}?step=5&book_guid={{ $book->book_guid }}';
 			});
-			
 		});
 	</script>
 @endpush

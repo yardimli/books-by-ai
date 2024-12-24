@@ -3,7 +3,8 @@
 		<div class="mb-4">
 			<div class="back-button p-0">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+					      stroke-linejoin="round"/>
 				</svg>
 			</div>
 		</div>
@@ -19,9 +20,8 @@
 				$bookOptions = json_decode($book->book_options, true);
 				$selectedOption = $bookOptions[$book->selected_book_option] ?? null;
 			@endphp
-			<div class="fw-bold fs-5 book-title">{{ $selectedOption['title'] ?? '' }}</div>
-			<div class="book-subtitle" style="display: none;">{{ $selectedOption['subtitle'] ?? '' }}</div>
-			<div class="book-author-name">{{ $book->author_name }}</div>
+			<div class="fw-bold fs-4 book-title">{{ $selectedOption['title'] ?? '' }}</div>
+			<div class="book-author-name fs-5">{{ $book->author_name }}</div>
 		</div>
 		
 		<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
@@ -167,7 +167,15 @@
         background-color: #212529;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
+    .book-title {
+        color: #333;
+    }
+
+    .book-author-name {
+        color: #333;
+    }
+
     /* Add these to your existing styles */
     .act-title {
         color: #111;
@@ -188,18 +196,25 @@
         color: #555;
     }
 
+    [data-bs-theme=dark] .book-title {
+        color: #ddd;
+    }
+
+    [data-bs-theme=dark] .book-author-name {
+        color: #ddd;
+    }
+
     [data-bs-theme=dark] .act-title {
-				color: #ddd;
-		}
-    
+        color: #ddd;
+    }
+
     [data-bs-theme=dark] .chapter-title-color {
-				color: #ddd;
-		}
-    
+        color: #ddd;
+    }
+
     [data-bs-theme=dark] .chapter-description-color {
         color: #ccc;
     }
-    
 
 
 </style>
@@ -253,7 +268,7 @@
 					book_guid: '{{ $book->book_guid }}',
 					_token: '{{ csrf_token() }}'
 				},
-				success: function(response) {
+				success: function (response) {
 					$('#loadingSpinner').addClass('d-none');
 					$('#regenerateBtn').show();
 					
@@ -271,7 +286,7 @@
 						$('#bookTOC').html('<div class="alert alert-danger">{{ __("default.create.step6.error.loading_error") }}</div>');
 					}
 				},
-				error: function() {
+				error: function () {
 					$('#regenerateBtn').show();
 					$('#loadingSpinner').addClass('d-none');
 					$('#bookTOC').html('<div class="alert alert-danger">{{ __("default.create.step6.error.loading_error") }}</div>');
@@ -289,7 +304,7 @@
 					step: 6,
 					toc: toc
 				},
-				success: function(response) {
+				success: function (response) {
 					if (!response.success) {
 						console.error('Failed to save TOC to database');
 					}
@@ -297,23 +312,23 @@
 			});
 		}
 		
-		$(document).ready(function() {
+		$(document).ready(function () {
 			$('#continueBtn').prop('disabled', true);
 			
 			// Load existing TOC from database
-			const existingTOC =  {!! $book->book_toc ?? 'null' !!};
-			console.log( existingTOC);
+			const existingTOC = {!! $book->book_toc ?? 'null' !!};
+			console.log(existingTOC);
 			if (existingTOC && existingTOC.acts && existingTOC.acts.length > 0) {
 				renderBookTOC(existingTOC);
 			} else {
 				createBookTOC();
 			}
 			
-			$('#regenerateBtn').click(function() {
+			$('#regenerateBtn').click(function () {
 				createBookTOC();
 			});
 			
-			$('#continueBtn').click(function() {
+			$('#continueBtn').click(function () {
 				window.location.href = '{{ route("create-book") }}?adim=7&kitap_kodu={{ $book->book_guid }}';
 			});
 		});

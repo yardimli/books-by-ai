@@ -528,12 +528,12 @@
 			'title' => 'Kapak Seçenekleri',
 			'description' => 'Her biri kendine özgü çekiciliğe sahip iki cilt stili',
 			'paperback' => [
-				'title' => 'karton kapak',
-				'description' => 'Hafif ve esnek'
+				'title' => 'Normal Boy',
+				'description' => '13x19,5 cm'
 			],
 			'hardcover' => [
-				'title' => 'sert kapak',
-				'description' => 'Premium, sağlam his'
+				'title' => 'Büyük Boy',
+				'description' => '16x23 cm'
 			]
 		],
 
@@ -664,5 +664,30 @@
 				'Please select and generate a cover design first' => 'Lütfen önce bir kapak tasarımı seçin ve oluşturun',
 				'Please generate table of contents first' => 'Lütfen önce içindekiler tablosunu oluşturun',
 			]
-		]
+		],
+		'checkout' => [
+			'page_title' => 'Ödeme',
+			'title' => 'Ödeme',
+			'loading' => 'Yükleniyor',
+			'page_count' => '160 sayfa',
+			'page_count_description' => 'Bu kitap, 160 sayfalık komik yapay zeka içeriği ile dolacak 📖',
+			'normal_cover_size' => '13x19,5 cm',
+			'currency_prefix' => '₺ ',
+			'currency_suffix' => '',
+			'normal_cover_size_price' => '1600',
+			'large_cover_size' => '16x23 cm',
+			'large_cover_size_price' => '2000',
+			'copies' => 'Kopya Sayısı',
+			'copies_description' => 'Her 4 kopya için ₺ 1000 ek ücret',
+			'shipping' => 'Kargo',
+			'standard_shipping' => 'Standart Kargo',
+			'shipping_time' => '15-18 iş günü',
+			'free_shipping' => 'Ücretsiz',
+			'summary' => 'Sipariş Özeti',
+			'base_product' => '160 Sayfalık Kitap - İlk 4 Adet',
+			'additional_copies' => 'Ek 4 Adet',
+			'additional_copies_price' => '1000',
+			'subtotal' => 'Toplam',
+			'checkout_button' => 'Ödemeye Geç',
+		],
 	];

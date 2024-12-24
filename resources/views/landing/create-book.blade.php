@@ -137,11 +137,13 @@
           margin-bottom: 20px;
           border-radius: 8px;
       }
+
       .alert-danger {
           background-color: rgba(220, 53, 69, 0.1);
           border-color: rgba(220, 53, 69, 0.2);
           color: #dc3545;
       }
+
       [data-bs-theme=dark] .alert-danger {
           background-color: rgba(220, 53, 69, 0.2);
           border-color: rgba(220, 53, 69, 0.3);
@@ -155,16 +157,23 @@
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				
-				<div class="wizard-progress mb-5">
-					<div class="wizard-progress-bar"></div>
-					<a href="{{ route('create-book') }}?adim=1&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">1</a>
-					<a href="{{ route('create-book') }}?adim=2&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">2</a>
-					<a href="{{ route('create-book') }}?adim=3&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">3</a>
-					<a href="{{ route('create-book') }}?adim=4&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">4</a>
-					<a href="{{ route('create-book') }}?adim=5&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">5</a>
-					<a href="{{ route('create-book') }}?adim=6&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">6</a>
-					<a href="{{ route('create-book') }}?adim=7&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">7</a>
-				</div>
+				@if ($currentStep <= 6)
+					<div class="wizard-progress mb-5">
+						<div class="wizard-progress-bar"></div>
+						<a href="{{ route('create-book') }}?adim=1&kitap_kodu={{ $book->book_guid }}"
+						   class="wizard-progress-step">1</a>
+						<a href="{{ route('create-book') }}?adim=2&kitap_kodu={{ $book->book_guid }}"
+						   class="wizard-progress-step">2</a>
+						<a href="{{ route('create-book') }}?adim=3&kitap_kodu={{ $book->book_guid }}"
+						   class="wizard-progress-step">3</a>
+						<a href="{{ route('create-book') }}?adim=4&kitap_kodu={{ $book->book_guid }}"
+						   class="wizard-progress-step">4</a>
+						<a href="{{ route('create-book') }}?adim=5&kitap_kodu={{ $book->book_guid }}"
+						   class="wizard-progress-step">5</a>
+						<a href="{{ route('create-book') }}?adim=6&kitap_kodu={{ $book->book_guid }}"
+						   class="wizard-progress-step">6</a>
+					</div>
+				@endif
 				
 				@if(session('error'))
 					<div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">

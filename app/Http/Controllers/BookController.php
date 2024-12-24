@@ -22,6 +22,8 @@
 			$step = $request->get('adim', 1);
 			$book_guid = $request->get('kitap_kodu', '');
 
+			$selectedFormat = $request->get('book_format', 'print_13_19_5_cm');
+
 			if (empty($book_guid)) {
 				// Create new book record
 				$book = new Book();
@@ -30,7 +32,7 @@
 				$book->save();
 
 				// Redirect with the new book_guid
-				return redirect()->route('create-book', ['adim' => 1, 'kitap_kodu' => $book->book_guid]);
+				return redirect()->route('create-book', ['adim' => 1, 'kitap_kodu' => $book->book_guid, 'selected_format' => $selectedFormat]);
 			}
 
 			// Load existing book data
@@ -51,7 +53,8 @@
 
 			return view('landing.create-book')
 				->with('step', $step)
-				->with('book', $book);
+				->with('book', $book)
+				->with('selectedFormat', $selectedFormat);
 		}
 
 		private function validateStep($currentStep, Book $book): array

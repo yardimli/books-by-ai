@@ -497,12 +497,12 @@
 			'title' => 'Cover Options',
 			'description' => 'Two binding styles, each with its own appeal',
 			'paperback' => [
-				'title' => 'paperback',
-				'description' => 'Light and flexible'
+				'title' => 'Regular Size',
+				'description' => '13x19,5 cm'
 			],
 			'hardcover' => [
-				'title' => 'hardcover',
-				'description' => 'Premium, solid feel'
+				'title' => 'Large Size',
+				'description' => '16x23 cm'
 			]
 		],
 

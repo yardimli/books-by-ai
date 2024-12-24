@@ -7,9 +7,9 @@
 				</svg>
 			</div>
 		</div>
-		<div class="d-flex justify-content-between align-items-center mb-4">
-			<h2 class="serif-font mb-0">{{ __('default.create.step3.title') }}</h2>
-			<div id="regenerateBtn" class="btn btn-dark">
+		<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+			<h2 class="inria-serif-regular mb-0">{{ __('default.create.step3.title') }}</h2>
+			<div id="regenerateBtn" class="btn btn-dark mt-3 mt-md-0"> <!-- Added margin-top for spacing on mobile -->
 				<i class="bi bi-arrow-clockwise"></i> {{ __('default.create.buttons.regenerate') }}
 			</div>
 		</div>
@@ -148,7 +148,7 @@
 			});
 			
 			$('#continueBtn').on('click', function() {
-				window.location.href = '{{ route("create-book") }}?step=4&book_guid={{ $book->book_guid }}';
+				window.location.href = '{{ route("create-book") }}?adim=4&kitap_kodu={{ $book->book_guid }}';
 			});
 		});
 	</script>

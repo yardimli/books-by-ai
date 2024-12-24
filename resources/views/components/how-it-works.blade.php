@@ -6,9 +6,9 @@
 		<div class="row step-content-dynamic-margin">
 			<div class="col-lg-6 d-flex align-items-center">
 				<div class="step-content">
-					<div class="step-number serif-font">{{ __('default.how_it_works.step1.number') }}</div>
-					<h4 class="serif-font">{{ __('default.how_it_works.step1.heading') }}</h4>
-					<p class="step-description serif-font">{{ __('default.how_it_works.step1.description') }}</p>
+					<div class="step-number inria-serif-regular">{{ __('default.how_it_works.step1.number') }}</div>
+					<h4 class="inria-serif-regular">{{ __('default.how_it_works.step1.heading') }}</h4>
+					<p class="step-description inria-serif-regular">{{ __('default.how_it_works.step1.description') }}</p>
 				</div>
 			</div>
 			<div class="col-lg-6 d-flex justify-content-center">
@@ -17,22 +17,22 @@
 						<div class="profile-img mb-2">
 							<img src="/images/profile1.jpg" alt="Profile">
 						</div>
-						<h5 class="serif-font">{{ __('default.how_it_works.step1.profile_title') }}</h5>
+						<h5 class="inria-serif-regular">{{ __('default.how_it_works.step1.profile_title') }}</h5>
 					</div>
 					<div class="question-form">
 						<div class="question-item question-item-shadow">
 							<div class="d-flex justify-content-between">
-								<span class="serif-font fw-bold">{{ __('default.how_it_works.step1.hobby_question') }}</span>
+								<span class="inria-serif-regular fw-bold">{{ __('default.how_it_works.step1.hobby_question') }}</span>
 								<i class="bi bi-chevron-up"></i>
 							</div>
-							<div class="answer-text serif-font">
+							<div class="answer-text inria-serif-regular">
 								{{ __('default.how_it_works.step1.hobby_answer') }}
 							</div>
 							<button class="btn btn-dark w-100">{{ __('default.how_it_works.step1.save_button') }}</button>
 						</div>
 						<div class="question-item collapsed">
 							<div class="d-flex justify-content-between">
-								<span class=" serif-font">{{ __('default.how_it_works.step1.friends_question') }}</span>
+								<span class=" inria-serif-regular">{{ __('default.how_it_works.step1.friends_question') }}</span>
 								<i class="bi bi-chevron-down"></i>
 							</div>
 						</div>
@@ -45,9 +45,9 @@
 		<div class="row step-content-dynamic-margin">
 			<div class="col-lg-6 d-flex align-items-center">
 				<div class="step-content">
-					<div class="step-number serif-font">{{ __('default.how_it_works.step2.number') }}</div>
-					<h4 class="serif-font">{{ __('default.how_it_works.step2.heading') }}</h4>
-					<p class="step-description serif-font">{{ __('default.how_it_works.step2.description') }}</p>
+					<div class="step-number inria-serif-regular">{{ __('default.how_it_works.step2.number') }}</div>
+					<h4 class="inria-serif-regular">{{ __('default.how_it_works.step2.heading') }}</h4>
+					<p class="step-description inria-serif-regular">{{ __('default.how_it_works.step2.description') }}</p>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -65,9 +65,9 @@
 		<div class="row step-content-dynamic-margin">
 			<div class="col-lg-6 d-flex align-items-center">
 				<div class="step-content">
-					<div class="step-number serif-font">{{ __('default.how_it_works.step3.number') }}</div>
-					<h4 class="serif-font">{{ __('default.how_it_works.step3.heading') }}</h4>
-					<p class="step-description serif-font">{{ __('default.how_it_works.step3.description') }}</p>
+					<div class="step-number inria-serif-regular">{{ __('default.how_it_works.step3.number') }}</div>
+					<h4 class="inria-serif-regular">{{ __('default.how_it_works.step3.heading') }}</h4>
+					<p class="step-description inria-serif-regular">{{ __('default.how_it_works.step3.description') }}</p>
 				</div>
 			</div>
 			<div class="col-lg-6 text-center">

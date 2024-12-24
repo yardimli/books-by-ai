@@ -9,17 +9,20 @@
 			</div>
 		</div>
 		
-		<div class="d-flex justify-content-center align-items-center gap-0">
+		<div class="cover-container">
 			<!-- Left div -->
-			<div style="width: 320px; height: 480px;" class="bg-light shadow-sm" id="front-cover">
+			<div style="width: 320px; height: 480px; display: inline-block; vertical-align: top; text-align: left; white-space: normal;"
+			     class="bg-light shadow-sm" id="front-cover">
 				@include('landing.cover1')
 			</div>
 			<!-- Middle div -->
-			<div style="width: 24px; height: 480px;" class="bg-light shadow-sm mx-2" id="spine-cover">
+			<div style="width: 24px; height: 480px; display: inline-block; vertical-align: top; text-align: left; white-space: normal;"
+			     class="bg-light shadow-sm mx-2" id="spine-cover">
 				@include('landing.spine1')
 			</div>
 			<!-- Right div -->
-			<div style="width: 320px; height: 480px;" class="bg-light shadow-sm" id="back-cover">
+			<div style="width: 320px; height: 480px;  display: inline-block;  vertical-align: top;  text-align: left; white-space: normal;"
+			     class="bg-light shadow-sm" id="back-cover">
 				@include('landing.back1')
 			</div>
 		</div>
@@ -82,6 +85,13 @@
 </div>
 
 <style>
+    .cover-container {
+        overflow-x: auto;
+        overflow-y: hidden;
+        text-align: center;
+        white-space: nowrap;
+    }
+
     .cover-style-btn {
         transition: all 0.3s ease;
         cursor: pointer;
@@ -533,7 +543,7 @@
 				},
 				success: function (response) {
 					if (response.success) {
-						window.location.href = '{{ route("create-book") }}?step=6&book_guid={{ $book->book_guid }}';
+						window.location.href = '{{ route("create-book") }}?adim=6&kitap_kodu={{ $book->book_guid }}';
 					} else {
 						console.error('Failed to save cover images');
 					}
@@ -623,7 +633,7 @@
 				captureCovers()
 					.then(() => {
 						// Redirect to next step
-						window.location.href = '{{ route("create-book") }}?step=6&book_guid={{ $book->book_guid }}';
+						window.location.href = '{{ route("create-book") }}?adim=6&kitap_kodu={{ $book->book_guid }}';
 					})
 					.catch(error => {
 						$('#continueBtn').html('{{ __("default.create.buttons.continue")}}');

@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-lg-6 mb-3">
 				<h1>{{ __('default.hero.title') }}</h1>
-				<p class="lead serif-font">{{ __('default.hero.subtitle') }}</p>
+				<p class="lead inria-serif-regular">{{ __('default.hero.subtitle') }}</p>
 				<a href="{{route('create-book')}}" class="btn btn-lg btn-primary d-none d-lg-inline-block">{{ __('default.hero.cta') }}</a>
 			</div>
 			<div class="col-lg-6 mb-3">

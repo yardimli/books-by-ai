@@ -6,25 +6,23 @@
 	<link rel="stylesheet" href="/css/flickity.css" media="screen">
 	<script src="/js/flickity.pkgd.min.js"></script>
 	<style>
-      .serif-font {
-          font-family: Georgia, Times, "Times New Roman", serif;
-      }
+		@include('landing.create-book-fonts')
 
-      @media (max-width: 767.98px) {
-          /* Add padding to prevent content from being hidden behind fixed button */
-          main {
-              padding-bottom: 80px;
-          }
+		@media (max-width: 767.98px) {
+        /* Add padding to prevent content from being hidden behind fixed button */
+        main {
+            padding-bottom: 80px;
+        }
 
-          .mobile-cta {
-              box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-          }
+        .mobile-cta {
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-          .mobile-cta .btn-lg {
-              width: 90%;
-              max-width: 300px;
-          }
-      }
+        .mobile-cta .btn-lg {
+            width: 90%;
+            max-width: 300px;
+        }
+    }
 	</style>
 	
 	

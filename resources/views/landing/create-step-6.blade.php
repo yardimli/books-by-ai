@@ -24,8 +24,8 @@
 			<div class="book-author-name">{{ $book->author_name }}</div>
 		</div>
 		
-		<div class="d-flex justify-content-end align-items-center mb-4">
-			<div id="regenerateBtn" class="btn btn-dark">
+		<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+			<div id="regenerateBtn" class="btn btn-dark mt-3 mt-md-0"> <!-- Added margin-top for spacing on mobile -->
 				<i class="bi bi-arrow-clockwise"></i> {{ __('default.create.buttons.regenerate') }}
 			</div>
 		</div>
@@ -41,10 +41,18 @@
 			<!-- Book TOC will be inserted here -->
 		</div>
 		
-		<div class="d-grid mt-4">
-			<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
-				{{ __('default.create.buttons.continue') }}
-			</button>
+		<div class="fixed-bottom-bar">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-8">
+						<div class="d-grid">
+							<button class="btn btn-lg text-white" style="background-color: #dc6832;" id="continueBtn">
+								{{ __('default.create.buttons.continue') }}
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -142,46 +150,107 @@
         box-shadow: -10px 0 50px 10px #666;
     }
 
+
+    .fixed-bottom-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        z-index: 1000;
+        background-color: #ffffff;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+
+    [data-bs-theme=dark] .fixed-bottom-bar {
+        background-color: #212529;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Add these to your existing styles */
+    .act-title {
+        color: #111;
+        margin-top: 2rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .chapter-container {
+        margin-left: 1.5rem;
+        padding-left: 1rem;
+    }
+
     .chapter-title-color {
-        color: #dc6832;
+        color: #222;
     }
 
     .chapter-description-color {
-        color: #a4a4a4;
+        color: #555;
     }
+
+    [data-bs-theme=dark] .act-title {
+				color: #ddd;
+		}
     
     [data-bs-theme=dark] .chapter-title-color {
-				color: #dc6832;
+				color: #ddd;
 		}
     
     [data-bs-theme=dark] .chapter-description-color {
-        color: #f1f1f1;
+        color: #ccc;
     }
+    
+
+
 </style>
 
 @push('scripts')
 	<script>
+		function renderBookTOC(bookTOC) {
+			if (bookTOC && bookTOC.acts && bookTOC.acts.length > 0) {
+				$('#bookTOC').html('<div class="fs-4 mb-4 inria-serif-bold chapter-title-color">İçindekiler</div>');
+				
+				bookTOC.acts.forEach((act, actIndex) => {
+					// Add act name
+					const actHtml = `
+                <div class="fs-4 inria-serif-bold act-title mb-3">${act.name}</div>
+            `;
+					$('#bookTOC').append(actHtml);
+					
+					// Add chapters under this act
+					if (act.chapters && act.chapters.length > 0) {
+						act.chapters.forEach((chapter, chapterIndex) => {
+							const chapterHtml = `
+                        <div class="ms-4 mb-4">
+                            <div class="fs-5 inria-serif-bold chapter-title-color">
+                                ${chapter.chapter_number}. ${chapter.chapter_title}
+                            </div>
+                            <div class="fs-6 inria-serif-regular chapter-description-color">
+                                ${chapter.chapter_short_description}
+                            </div>
+                        </div>
+                    `;
+							$('#bookTOC').append(chapterHtml);
+						});
+					}
+				});
+				
+				$('#continueBtn').prop('disabled', false);
+			}
+		}
+		
 		function createBookTOC() {
 			$('#loadingSpinner').removeClass('d-none');
 			$('#bookTOC').empty();
 			$('#regenerateBtn').hide();
 			$('#continueBtn').prop('disabled', true);
 			
-			const bookOptions = @json($bookOptions);
-			const selectedOption = @json($selectedOption);
-			const bookAnswers = @json($book->questions_and_answers);
-			
 			$.ajax({
 				url: "{{ route('create-book-toc') }}",
 				method: 'POST',
 				dataType: 'json',
 				data: {
-					author_name: '{{ $book->author_name }}',
-					book_title: selectedOption?.title ?? '',
-					book_subtitle: selectedOption?.subtitle ?? '',
-					book_description: selectedOption?.short_description ?? '',
-					book_reviews: JSON.stringify(selectedOption?.reviews ?? []),
-					user_answers: bookAnswers,
+					book_guid: '{{ $book->book_guid }}',
 					_token: '{{ csrf_token() }}'
 				},
 				success: function(response) {
@@ -189,10 +258,10 @@
 					$('#regenerateBtn').show();
 					
 					try {
-						if (response.table_of_contents && Array.isArray(response.table_of_contents)) {
+						if (response.acts) {
 							// Save TOC to database
-							saveTOCToDatabase(response.table_of_contents);
-							renderBookTOC(response.table_of_contents);
+							saveTOCToDatabase(response);
+							renderBookTOC(response);
 						} else {
 							console.error('TOC not found in the response');
 							$('#bookTOC').html('<div class="alert alert-danger">{{ __("default.create.step6.error.loading_error") }}</div>');
@@ -228,28 +297,13 @@
 			});
 		}
 		
-		function renderBookTOC(bookTOC) {
-			if (bookTOC && bookTOC.length > 0) {
-				$('#bookTOC').html('<div class="fs-4 mb-4 eb-garamond-bold chapter-title-color">İçindekiler</div>');
-				
-				bookTOC.forEach((bookChapter, index) => {
-					const bookTOCHtml = `
-                <div class="fs-5 eb-garamond-bold chapter-title-color">${bookChapter.chapter_title}</div>
-                <div class="fs-6 mb-3 eb-garamond-regular chapter-description-color">${bookChapter.chapter_short_description}</div>
-            `;
-					$('#bookTOC').append(bookTOCHtml);
-				});
-				
-				$('#continueBtn').prop('disabled', false);
-			}
-		}
-		
 		$(document).ready(function() {
 			$('#continueBtn').prop('disabled', true);
 			
 			// Load existing TOC from database
-			const existingTOC = @json(json_decode($book->book_toc, true));
-			if (existingTOC && existingTOC.length > 0) {
+			const existingTOC =  {!! $book->book_toc ?? 'null' !!};
+			console.log( existingTOC);
+			if (existingTOC && existingTOC.acts && existingTOC.acts.length > 0) {
 				renderBookTOC(existingTOC);
 			} else {
 				createBookTOC();
@@ -260,7 +314,7 @@
 			});
 			
 			$('#continueBtn').click(function() {
-				window.location.href = '{{ route("create-book") }}?step=7&book_guid={{ $book->book_guid }}';
+				window.location.href = '{{ route("create-book") }}?adim=7&kitap_kodu={{ $book->book_guid }}';
 			});
 		});
 	</script>

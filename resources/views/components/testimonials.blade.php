@@ -9,7 +9,7 @@
 							<div class="card h-100 border-0 shadow-sm">
 								<img src="{{ $review['image'] }}" class="card-img-top" alt="Customer Review">
 								<div class="card-body text-center">
-									<p class="card-text serif-font">"{{ $review['text'] }}"</p>
+									<p class="card-text inria-serif-regular">"{{ $review['text'] }}"</p>
 								</div>
 							</div>
 						</div>

@@ -1,7 +1,7 @@
 <section class="pt-5 bg-light">
 	<div class="container">
 		<h2 class="text-center mb-2">{{ __('default.cover_options.title') }}</h2>
-		<p class="step-description text-center serif-font mb-4">{{ __('default.cover_options.description') }}</p>
+		<p class="step-description text-center inria-serif-regular mb-4">{{ __('default.cover_options.description') }}</p>
 		
 		<div class="row justify-content-center">
 			<div class="d-flex justify-content-center gap-4 flex-wrap">
@@ -11,8 +11,8 @@
 							<img src="/images/paperback.webp" alt="Paperback" class="cover-image">
 						</div>
 						<div class="card-body cover-options-text-center">
-							<h4 class="serif-font">{{ __('default.cover_options.paperback.title') }}</h4>
-							<p class="mb-0 serif-font">{{ __('default.cover_options.paperback.description') }}</p>
+							<h4 class="inria-serif-regular">{{ __('default.cover_options.paperback.title') }}</h4>
+							<p class="mb-0 inria-serif-regular">{{ __('default.cover_options.paperback.description') }}</p>
 						</div>
 					</div>
 				</div>
@@ -22,8 +22,8 @@
 							<img src="/images/hardcover.webp" alt="Hardcover" class="cover-image">
 						</div>
 						<div class="card-body cover-options-text-center">
-							<h4 class="serif-font">{{ __('default.cover_options.hardcover.title') }}</h4>
-							<p class="mb-0 serif-font">{{ __('default.cover_options.hardcover.description') }}</p>
+							<h4 class="inria-serif-regular">{{ __('default.cover_options.hardcover.title') }}</h4>
+							<p class="mb-0 inria-serif-regular">{{ __('default.cover_options.hardcover.description') }}</p>
 						</div>
 					</div>
 				</div>

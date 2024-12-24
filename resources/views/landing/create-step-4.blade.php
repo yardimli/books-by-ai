@@ -158,7 +158,7 @@
 			});
 			
 			continueBtn.on('click', function() {
-				window.location.href = '{{ route("create-book") }}?step=5&book_guid={{ $book->book_guid }}';
+				window.location.href = '{{ route("create-book") }}?adim=5&kitap_kodu={{ $book->book_guid }}';
 			});
 		});
 	</script>

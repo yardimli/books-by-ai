@@ -1,5 +1,5 @@
 @push('google-fonts')
-	<link href="https://fonts.googleapis.com/css2?family=Birthstone&family=Bungee+Tint&family=Cabin:ital,wght@0,400..700;1,400..700&family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Goudy+Bookletter+1911&family=Instrument+Serif:ital@0;1&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Young+Serif&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Birthstone&family=Bungee+Tint&family=Cabin:ital,wght@0,400..700;1,400..700&family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Goudy+Bookletter+1911&family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Instrument+Serif:ital@0;1&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Young+Serif&display=swap" rel="stylesheet">
 @endpush
 
 <style>
@@ -302,7 +302,40 @@
         /*-webkit-background-clip: text;*/
         /*-webkit-text-fill-color: transparent;*/
     }
-
-    .serif-font {
-        font-family: Georgia, Times, "Times New Roman", serif;
+    
+    .inria-serif-light {
+        font-family: "Inria Serif", serif;
+        font-weight: 300;
+        font-style: normal;
     }
+    
+    .inria-serif-regular {
+        font-family: "Inria Serif", serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    .inria-serif-bold {
+        font-family: "Inria Serif", serif;
+        font-weight: 700;
+        font-style: normal;
+    }
+    
+    .inria-serif-light-italic {
+        font-family: "Inria Serif", serif;
+        font-weight: 300;
+        font-style: italic;
+    }
+    
+    .inria-serif-regular-italic {
+        font-family: "Inria Serif", serif;
+        font-weight: 400;
+        font-style: italic;
+    }
+    
+    .inria-serif-bold-italic {
+        font-family: "Inria Serif", serif;
+        font-weight: 700;
+        font-style: italic;
+    }
+    

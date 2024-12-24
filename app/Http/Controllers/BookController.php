@@ -19,8 +19,8 @@
 
 		public function createBook(Request $request)
 		{
-			$step = $request->get('step', 1);
-			$book_guid = $request->get('book_guid', '');
+			$step = $request->get('adim', 1);
+			$book_guid = $request->get('kitap_kodu', '');
 
 			if (empty($book_guid)) {
 				// Create new book record
@@ -30,13 +30,104 @@
 				$book->save();
 
 				// Redirect with the new book_guid
-				return redirect()->route('create-book', ['step' => 1, 'book_guid' => $book->book_guid]);
+				return redirect()->route('create-book', ['adim' => 1, 'kitap_kodu' => $book->book_guid]);
 			}
 
 			// Load existing book data
-			$book = Book::where('book_guid', $book_guid)->firstOrFail();
+			$book = Book::where('book_guid', $book_guid)->first();
+			// if book not found, redirect to create new book
+			if (!$book) {
+				return redirect()->route('create-book');
+			}
 
-			return view('landing.create-book')->with('step', $step)->with('book', $book);
+			// Validate current step and redirect if needed
+			$validationResult = $this->validateStep($step, $book);
+			if (!$validationResult['valid']) {
+				return redirect()->route('create-book', [
+					'adim' => $validationResult['redirect_step'],
+					'kitap_kodu' => $book->book_guid
+				])->with('error', $validationResult['message']);
+			}
+
+			return view('landing.create-book')
+				->with('step', $step)
+				->with('book', $book);
+		}
+
+		private function validateStep($currentStep, Book $book): array
+		{
+			$result = [
+				'valid' => true,
+				'redirect_step' => 1,
+				'message' => ''
+			];
+
+			// Validate all previous steps
+			for ($i = 1; $i < $currentStep; $i++) {
+				switch ($i) {
+					case 1:
+						if (empty($book->author_name)) {
+							return [
+								'valid' => false,
+								'redirect_step' => 1,
+								'message' => __('default.create.step_errors.Please enter author name first')
+							];
+						}
+						break;
+
+					case 2:
+						if (empty($book->questions_and_answers)) {
+							return [
+								'valid' => false,
+								'redirect_step' => 2,
+								'message' => __('default.create.step_errors.Please complete the questionnaire first')
+							];
+						}
+						break;
+
+					case 3:
+						if (empty($book->book_options) || $book->selected_book_option < 0) {
+							return [
+								'valid' => false,
+								'redirect_step' => 3,
+								'message' => __('default.create.step_errors.Please select a book option first')
+							];
+						}
+						break;
+
+					case 4:
+						if (empty($book->author_image)) {
+							return [
+								'valid' => false,
+								'redirect_step' => 4,
+								'message' => __('default.create.step_errors.Please upload an author image first')
+							];
+						}
+						break;
+
+					case 5:
+						if (empty($book->selected_cover_template) || empty($book->book_cover_image)) {
+							return [
+								'valid' => false,
+								'redirect_step' => 5,
+								'message' => __('default.create.step_errors.Please select and generate a cover design first')
+							];
+						}
+						break;
+
+					case 6:
+						if (empty($book->book_toc)) {
+							return [
+								'valid' => false,
+								'redirect_step' => 6,
+								'message' => __('default.create.step_errors.Please generate table of contents first')
+							];
+						}
+						break;
+				}
+			}
+
+			return $result;
 		}
 
 		public function updateBook(Request $request)
@@ -88,16 +179,6 @@
 			]);
 		}
 
-		public function getBookData(Request $request)
-		{
-			$book_guid = $request->input('book_guid');
-			$book = Book::where('book_guid', $book_guid)->firstOrFail();
-
-			return response()->json([
-				'success' => true,
-				'book' => $book
-			]);
-		}
 
 		public function loadCover($style = 1)
 		{
@@ -218,7 +299,8 @@ return 3 suggestions in the following JSON format:
 
 			$llm = 'anthropic/claude-3.5-sonnet:beta';
 
-			$book_suggestions = MyHelper::llm_no_tool_call($llm, '', $chat_history, true);
+//			$book_suggestions = MyHelper::llm_no_tool_call($llm, '', $chat_history, true);
+			$book_suggestions = MyHelper::gemini_call('', $chat_history, true);
 			Log::info('Book Suggestions');
 			Log::info($gpt_prompt);
 			Log::info($book_suggestions);
@@ -229,63 +311,118 @@ return 3 suggestions in the following JSON format:
 
 		function createBookTOC(Request $request)
 		{
-			$book_author_name = $request->input('author_name', 'Ali');
+			$book_guid = $request->input('book_guid');
+			$book = Book::where('book_guid', $book_guid)->firstOrFail();
 
-			$user_answers = $request->input('user_answers', '[{"question": "What is the meaning of life?", "answer": "42"}, {"question": "What do you think about the universe?", "answer": "It is vast and mysterious"}]');
+			$book_author_name = $book->author_name;
+
+			$user_answers = $book->questions_and_answers;
 
 			$user_answers = json_decode($user_answers, true);
 			// Format user answers as string
 			$user_answers = implode("\n", array_map(function ($item) {
-				return "Soru: " . $item['question'] . "\nCevap: " . $item['answer'] . "\n";
+				return "Question: " . $item['question'] . "\nAnswer: " . $item['answer'] . "\n";
 			}, $user_answers));
 
-			$book_title = $request->input('book_title', 'Yaratıcılığın Komik Halleri');
-			$book_subtitle = $request->input('book_subtitle', 'Bir Tasarımcının Absürt Günlüğü');
-			$book_description = $request->input('book_description', 'Yaratıcı süreçlerin absürt yanlarını, ilham perisinin kaprisleri ve tasarımcı bloğunun trajikomik yönlerini anlatan eğlenceli bir kitap.');
+			$bookOptions = json_decode($book->book_options ?? '[]', true);
+			$selectedOption = $bookOptions[$book->selected_book_option ?? 0] ?? null;
 
-			$book_reviews = $request->input('book_reviews', '[{"review": "Yaratıcı sürecin tüm çılgınlığını muhteşem bir şekilde yansıtmış. Her sayfada kendimi buldum ve kahkaha attım. Mutlaka okunması gereken bir eser.", "source": "Sanat ve Tasarım Dergisi"}, {"review": "İlham perisinin kapris lerini bu kadar güzel anlatan başka bir kitap görmedim. Yazarın mizah anlayışı muhteşem. Her yaratıcı insanın okuması gereken bir kitap.", "source": "Kreatif Düşünce Platformu"}, {"review": "Hem eğlenceli hem de gerçekçi bir kitap. Yaratıcı sürecin tüm zorluklarını mizahi bir dille anlatmış. Kesinlikle tavsiye ediyorum.", "source": "Tasarım ve Sanat Blogu"}, {"review": "Bu kitap tam bir terapi gibi. Her sayfada kendimi buldum ve rahatladım. Yaratıcı blokajı olan herkese şiddetle tavsiye ederim.", "source": "Sanatçılar Birliği"}]');
-			$book_reviews = json_decode($book_reviews, true);
-			// Format book reviews as string
-			$book_reviews = implode("\n", array_map(function ($item) {
-				return "Yorum: " . $item['review'] . "\nKaynak: " . $item['source'] . "\n";
-			}, $book_reviews));
+			$book_title = $selectedOption['title'] ?? 'Absürt Günlük';
+			$book_subtitle = $selectedOption['subtitle'] ?? 'Bir Tasarımcının Absürt Günlüğü';
+			$book_description = $selectedOption['short_description'] ?? 'Yaratıcı süreçlerin absürt yanlarını, ilham perisinin kaprisleri ve tasarımcı bloğunun trajikomik yönlerini anlatan eğlenceli bir kitap.';
 
+			$book_structure = 'Write a table of contents for a book in ##language##. Use the following details to create the table of contents, pay attention to the author\'s answers, on some of the chapters use the author\'s name. The book content is a satirical and humorous. Avoid serious, controversial, and political topics and keep the tone light and fun. It should be a fun read.
 
-			$gpt_prompt = "Write the table of contents for a book titled '" . $book_title . "' by " . $book_author_name . ". 
-			The book subtitle is '" . $book_subtitle . "'.
-			The description of the book is:" . $book_description . "
-			The book content is a satirical and humorous. 
-			The book will have 20 chapters and will be in Turkish. 
-			The table of contents should include chapters with a title and a short description for each chapter. 
-			Use the author's answers and the reviews as inspiration.
-			Question and Answers:
-			" . $user_answers . "
-			Reviews:
-			" . $book_reviews . "
-			
-			write in Turkish
-			return in the following JSON format: 
-			" . '
+Author Name: ##author_name##
+Book Title: ##book_title##
+Book Sub Title: ##book_subtitle##
+Book Description: ##book_description##
+Book Language: ##language##
+Question and Answers: ##answers##
+Number of chapters: 18
+
+Create a story outline in the format "3 Act Structure" with the structure like
+
+1. Perde - Başlangıç:
+Bölüm 1: Ana karakterin sıradan hayatını ve komik alışkanlıklarını tanıtma
+Bölüm 2: Günlük rutinini bozan beklenmedik komik bir olay
+Bölüm 3: Bu olayın yarattığı absürt durumlar ve karakterin tepkileri
+Bölüm 4: İşlerin daha da karışması ve karakterin çözüm arayışları
+
+2. Perde - Orta:
+Bölüm 5: Karakterin durumu düzeltme çabalarının ters tepmesi
+Bölüm 6: Yeni ve daha komik sorunların ortaya çıkması
+Bölüm 7: Yardım almak için başvurduğu kişilerin işleri daha da karıştırması
+Bölüm 8: Absürt çözüm denemelerinin başarısızlıkla sonuçlanması
+Bölüm 9: Beklenmedik bir şans, ama karakterin bunu yanlış anlaması
+Bölüm 10: Yanlış anlamanın yol açtığı trajikomik durumlar
+Bölüm 11: Her şeyi düzeltme fırsatının ortaya çıkması
+Bölüm 12: Bu fırsatı değerlendirirken yapılan komik hatalar
+Bölüm 13: İşlerin en karışık hale gelmesi
+Bölüm 14: Çözüme yaklaşırken son bir büyük karışıklık
+
+3. Perde - Son:
+Bölüm 15: Tüm yanlış anlaşılmaların ortaya çıkması
+Bölüm 16: Beklenmedik ve komik bir şekilde olayların çözülmeye başlaması
+Bölüm 17: Son süprizler ve gülünç tesadüfler
+Bölüm 18: Her şeyin absürt bir şekilde çözüme kavuşması ve mutlu son
+
+Not: Her bölümde:
+- Abartılı karakterler ve durumlar
+- Komik diyaloglar
+- Beklenmedik olaylar
+- Günlük hayattan gülünç detaylar
+- Absürt tesadüfler
+kullanılarak hikaye ilerletilir.
+
+Output should be in JSON format as follows:
 {
-  "table_of_contents": [
-    {
-			"chapter_title":"A Funny 4-5 word title",
-      "chapter_short_description" : "3-4 sentence description of the chapter",
-    }
-  ]
-}';
+"acts": [
+{
+"name": "The name of the act",
+"chapters": [
+{
+"chapter_number":"number of the chapter",
+"chapter_title": "The name of the chapter",
+"chapter_short_description": "A detailed description of what happens in this chapter. it should be 3 to 4 sentences long.",
+"events": "Notable events in the chapter.",
+"people": "Description of people in the chapter.",
+"places": "Description of the places in this chapter.",
+}
+]
+}
+]
+}
 
+Don\'t include any text in front or after the JSON object.
+
+Use Double Quotes for Keys and String Values.
+		Avoid Double Quotes Inside String Values. Instead, use Single Quotes.
+		All opening double quotes should have a corresponding closing double quote.
+		Output 4 chapters for the first act, 8 chapters for the second act, and 4 chapters for the third act.
+
+		```json
+';
+			$book_structure = str_replace('##language##', 'Turkish', $book_structure);
+			$book_structure = str_replace('##author_name##', $book_author_name, $book_structure);
+			$book_structure = str_replace('##book_title##', $book_title, $book_structure);
+			$book_structure = str_replace('##book_subtitle##', $book_subtitle, $book_structure);
+			$book_structure = str_replace('##book_description##', $book_description, $book_structure);
+			$book_structure = str_replace('##answers##', $user_answers, $book_structure);
 
 			$chat_history[] = [
 				'role' => 'user',
-				'content' => $gpt_prompt,
+				'content' => $book_structure,
 			];
 
 			$llm = 'anthropic/claude-3.5-sonnet:beta';
+			$llm = 'google/gemini-flash-1.5';
+			$llm = 'google/gemini-2.0-flash-exp:free';
 
-			$book_toc = MyHelper::llm_no_tool_call($llm, '', $chat_history, true);
+//			$book_toc = MyHelper::llm_no_tool_call($llm, '', $chat_history, true);
+			$book_toc = MyHelper::gemini_call('', $chat_history, true);
 			Log::info('Book Table of Contents');
-			Log::info($gpt_prompt);
+			Log::info($book_structure);
 			Log::info($book_toc);
 
 			return response()->json($book_toc);

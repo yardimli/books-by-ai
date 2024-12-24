@@ -502,7 +502,7 @@
 
 			if ($llm === 'anthropic-haiku' || $llm === 'anthropic-sonet') {
 			} else {
-				$chat_messages = [ [
+				$chat_messages = [[
 					'role' => 'system',
 					'content' => $system_prompt],
 					...$chat_messages
@@ -570,8 +570,8 @@
 			} else {
 				$headers[] = 'Content-Type: application/json';
 				$headers[] = "Authorization: Bearer " . $llm_api_key;
-				$headers[] = "HTTP-Referer: https://my-laravel-saas-site.com";
-				$headers[] = "X-Title: BooksByAI";
+				$headers[] = "HTTP-Referer: https://writebookswithai.com";
+				$headers[] = "X-Title: WriteBooksWithAI";
 			}
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
@@ -732,4 +732,213 @@
 
 		//-------------------------------------------------------------------------
 
+
+		public static function gemini_call($system_prompt, $chat_messages, $return_json = true)
+		{
+			set_time_limit(300);
+			session_write_close();
+
+			$model = 'gemini-1.5-flash';
+			$model = 'gemini-2.0-flash-exp';
+
+			$llm_base_url = 'https://generativelanguage.googleapis.com/v1beta/models/' . $model . ':generateContent';
+			$llm_api_key = $_ENV['GOOGLE_KEY'];
+
+
+			//Prepare the Gemini API request data
+			$gemini_messages = [];
+			if ($system_prompt) {
+				$gemini_messages[] = ["text" => $system_prompt];
+			}
+			foreach ($chat_messages as $chat_message) {
+				$gemini_messages[] = ["text" => $chat_message['content']];
+			}
+
+			$data = [
+				"contents" => [
+					[
+						"parts" => $gemini_messages
+					]
+				]
+			];
+
+
+			$post_json = json_encode($data);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $llm_base_url . '?key=' . $llm_api_key);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_json);
+
+			$headers = array(
+				'Content-Type: application/json'
+			);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+
+			$complete = curl_exec($ch);
+
+			if (curl_errno($ch)) {
+				Log::info('CURL Error:');
+				Log::info(curl_getinfo($ch));
+			}
+			curl_close($ch);
+			$complete = trim($complete, " \n\r\t\v\0");
+
+
+			$complete_rst = json_decode($complete, true);
+
+			Log::info("GPT NO STREAM RESPONSE:");
+			Log::info($complete_rst);
+			$prompt_tokens = 0;
+			$completion_tokens = 0;
+
+			if (isset($complete_rst['error'])) {
+				Log::info('================== ERROR =====================');
+				Log::info($complete_rst);
+				Log::info($complete_rst['error']['message']);
+				return json_decode($complete_rst['error']['message'] ?? '{}');
+			}
+			if (isset($complete_rst['candidates'][0]['content']['parts'][0]['text'])) {
+				$content = $complete_rst['candidates'][0]['content']['parts'][0]['text'];
+
+				//Gemini does not provide tokens, setting to 0 for now
+				$prompt_tokens = 0;
+				$completion_tokens = 0;
+			} else {
+				$content = '';
+			}
+
+
+			if (!$return_json) {
+				Log::info('Return is NOT JSON. Will return content presuming it is text.');
+				return array('content' => $content, 'prompt_tokens' => $prompt_tokens, 'completion_tokens' => $completion_tokens);
+			}
+
+
+			$content = $content ?? '';
+
+			$content = self::getContentsInBackticksOrOriginal(
+				$content);
+
+			//remove all backticks
+			$content = str_replace("`", "", $content);
+
+			//check if content is JSON
+			$content_json_string = self::extractJsonString($content);
+			$content_json_string = self::repaceNewLineWithBRInsideQuotes($content_json_string);
+
+			$validate_result = self::validateJson($content_json_string);
+
+			if ($validate_result !== "Valid JSON") {
+				Log::info('================== VALIDATE JSON ON FIRST PASS FAILED =====================');
+				Log::info('String that failed:: ---- Error:' . $validate_result);
+				Log::info("$content_json_string");
+
+				$content_json_string = (new Fixer)->silent(true)->missingValue('"truncated"')->fix($content_json_string);
+				$validate_result = self::validateJson($content_json_string);
+			}
+
+
+			if (strlen($content ?? '') < 20) {
+				Log::info('================== CONTENT IS EMPTY =====================');
+				Log::info($complete);
+				return '';
+			}
+
+
+			//if JSON failed make a second call to get the rest of the JSON
+			if ($validate_result !== "Valid JSON") {
+
+				//------ Check if JSON is complete or not with a prompt to continue ------------
+				//-----------------------------------------------------------------------------
+				$verify_completed_prompt = 'If the JSON is complete output DONE otherwise continue writing the JSON response. Only write the missing part of the JSON response, don\'t repeat the already written story JSON. Continue from exactly where the JSON response left off. Make sure the combined JSON response will be valid JSON.';
+
+				$chat_messages[] = [
+					'role' => 'assistant',
+					'content' => $content
+				];
+				$chat_messages[] = [
+					'role' => 'user',
+					'content' => $verify_completed_prompt
+				];
+
+				$data['contents'] = [
+					[
+						"parts" => array_map(function ($message) {
+							return ["text" => $message['content']];
+						}, $chat_messages)
+					]
+				];
+
+
+				Log::info('======== SECOND CALL TO FINISH JSON =========');
+				Log::info($data);
+				$post_json = json_encode($data);
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $llm_base_url . '?key=' . $llm_api_key);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_json);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+				$complete2 = curl_exec($ch);
+				if (curl_errno($ch)) {
+					Log::info('CURL Error:');
+					Log::info(curl_getinfo($ch));
+				}
+				curl_close($ch);
+
+				$complete2 = trim($complete2, " \n\r\t\v\0");
+
+				Log::info("GPT NO STREAM RESPONSE FOR EXTENDED VERSION JSON CHECK:");
+				Log::info($complete2);
+
+				$complete2_rst = json_decode($complete2, true);
+				if (isset($complete2_rst['candidates'][0]['content']['parts'][0]['text'])) {
+					$content2 = $complete2_rst['candidates'][0]['content']['parts'][0]['text'];
+				} else {
+					$content2 = '';
+				}
+
+				//$content2 = str_replace("\\\"", "\"", $content2);
+				$content2 = self::getContentsInBackticksOrOriginal($content2);
+
+				if (!str_contains($content2, 'DONE')) {
+					$content = self::mergeStringsWithoutRepetition($content, $content2, 255);
+				}
+
+				//------------------------------------------------------------
+
+				$content_json_string = self::extractJsonString($content);
+				$content_json_string = self::repaceNewLineWithBRInsideQuotes($content_json_string);
+
+				$validate_result = self::validateJson($content_json_string);
+
+				if ($validate_result !== "Valid JSON") {
+					$content_json_string = (new Fixer)->silent(true)->missingValue('"truncated"')->fix($content_json_string);
+					$validate_result = self::validateJson($content_json_string);
+				}
+
+			} else {
+				Log::info("GPT NO STREAM RESPONSE:");
+				Log::info($complete_rst);
+			}
+
+
+			if ($validate_result == "Valid JSON") {
+				Log::info('================== VALID JSON =====================');
+				$content_rst = json_decode($content_json_string, true);
+				Log::info($content_rst);
+				return $content_rst;
+			} else {
+				Log::info('================== INVALID JSON =====================');
+				Log::info('JSON error : ' . $validate_result . ' -- ');
+				Log::info($content);
+			}
+		}
 	}

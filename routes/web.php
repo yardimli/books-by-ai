@@ -34,7 +34,7 @@
 
 	Route::get('/kitap-yaz', [BookController::class, 'createBook'])->name('create-book');
 	Route::post('/kitap-guncelle', [BookController::class, 'updateBook'])->name('update-book');
-	Route::get('/kitap-bilgi-al', [BookController::class, 'getBookData'])->name('get-book-data');
+
 
 	Route::post('/kitap-sakla', [BookController::class, 'saveBook'])->name('save-book');
 	Route::post('/kitap-oneri', [BookController::class, 'suggestBookTitleAndShortDescription'])->name('suggest-book-title-and-short-description');

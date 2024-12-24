@@ -1,6 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Create Book')
+@php
+	$currentStep = (int)request()->query('adim', 1);
+	$bookOptions = json_decode($book->book_options ?? '[]', true);
+	$selectedOption = $bookOptions[$book->selected_book_option ?? 0] ?? null;
+	$bookTitle = $selectedOption['title'] ?? '';
+	
+	// Define step titles
+	$stepTitles = [
+			1 => __('default.create.step1.page_title'),
+			2 => __('default.create.step2.page_title', ['author' => $book->author_name]),
+			3 => __('default.create.step3.page_title', ['author' => $book->author_name]),
+			4 => __('default.create.step4.page_title', ['author' => $book->author_name]),
+			5 => __('default.create.step5.page_title', ['author' => $book->author_name, 'title' => $bookTitle]),
+			6 => __('default.create.step6.page_title', ['author' => $book->author_name, 'title' => $bookTitle]),
+			7 => __('default.create.step7.page_title', ['author' => $book->author_name, 'title' => $bookTitle])
+	];
+	
+	$pageTitle = $stepTitles[$currentStep] ?? $stepTitles[1];
+@endphp
+
+@section('title', $pageTitle)
 
 @section('content')
 	<script src="/js/html2canvas.min.js"></script>
@@ -22,7 +42,7 @@
           width: 30px;
           height: 30px;
           border-radius: 50%;
-          background-color: #d9dcdf;
+          background-color: #d9dcdf !important;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -36,7 +56,7 @@
 
       .wizard-progress-step.active {
           background-color: #dc6832 !important;
-          color: white;
+          color: white !important;
       }
 
       .wizard-progress-bar {
@@ -112,6 +132,21 @@
       [data-bs-theme=dark] .bg-light {
           background-color: #343a40 !important;
       }
+
+      .alert {
+          margin-bottom: 20px;
+          border-radius: 8px;
+      }
+      .alert-danger {
+          background-color: rgba(220, 53, 69, 0.1);
+          border-color: rgba(220, 53, 69, 0.2);
+          color: #dc3545;
+      }
+      [data-bs-theme=dark] .alert-danger {
+          background-color: rgba(220, 53, 69, 0.2);
+          border-color: rgba(220, 53, 69, 0.3);
+          color: #ff6b6b;
+      }
 	
 	
 	</style>
@@ -119,19 +154,27 @@
 	<div class="container py-5 mt-5" style="min-height: calc(100vh);">
 		<div class="row justify-content-center">
 			<div class="col-md-8">
+				
 				<div class="wizard-progress mb-5">
 					<div class="wizard-progress-bar"></div>
-					<div class="wizard-progress-step active">1</div>
-					<div class="wizard-progress-step">2</div>
-					<div class="wizard-progress-step">3</div>
-					<div class="wizard-progress-step">4</div>
-					<div class="wizard-progress-step">5</div>
-					<div class="wizard-progress-step">6</div>
-					<div class="wizard-progress-step">7</div>
+					<a href="{{ route('create-book') }}?adim=1&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">1</a>
+					<a href="{{ route('create-book') }}?adim=2&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">2</a>
+					<a href="{{ route('create-book') }}?adim=3&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">3</a>
+					<a href="{{ route('create-book') }}?adim=4&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">4</a>
+					<a href="{{ route('create-book') }}?adim=5&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">5</a>
+					<a href="{{ route('create-book') }}?adim=6&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">6</a>
+					<a href="{{ route('create-book') }}?adim=7&kitap_kodu={{ $book->book_guid }}" class="wizard-progress-step">7</a>
 				</div>
 				
+				@if(session('error'))
+					<div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+						{{ session('error') }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				@endif
+				
 				@php
-					$currentStep = (int)request()->query('step', 1);
+					$currentStep = (int)request()->query('adim', 1);
 				@endphp
 				
 				
@@ -188,7 +231,7 @@
 				},
 				success: function (response) {
 					if (response.success) {
-						window.location.href = `{{ route('create-book') }}?step=${step + 1}&book_guid={{ $book->book_guid }}`;
+						window.location.href = `{{ route('create-book') }}?adim=${step + 1}&kitap_kodu={{ $book->book_guid }}`;
 					}
 				}
 			});
@@ -196,7 +239,7 @@
 		
 		function previousStep() {
 			if (currentStep > 1) {
-				window.location.href = `${window.location.pathname}?step=${currentStep - 1}`;
+				window.location.href = `${window.location.pathname}?adim=${currentStep - 1}`;
 			}
 		}
 		
@@ -207,74 +250,11 @@
 			}
 		}
 		
-		function validateCurrentStep(currentStep) {
-			let valid = true;
-			console.log('Validating step', currentStep);
-			if (currentStep === 1) {
-				const authorName = localStorage.getItem('authorName');
-				if (!authorName) {
-					valid = false;
-				}
-			}
-			
-			if (currentStep === 2) {
-				let answers = JSON.parse(localStorage.getItem('bookAnswers')) || [];
-				if (answers.length === 0) {
-					valid = false;
-				}
-			}
-			
-			if (currentStep === 3) {
-				const storedSuggestions = localStorage.getItem('bookSuggestions');
-				const selectedSuggestionIndex = localStorage.getItem('selectedSuggestionIndex');
-				if (storedSuggestions && selectedSuggestionIndex && storedSuggestions.length > 0 && selectedSuggestionIndex >= 0) {
-				} else {
-					valid = false;
-				}
-			}
-			
-			if (currentStep === 4) {
-				const authorImage = localStorage.getItem('authorImage');
-				if (!authorImage) {
-					valid = false;
-				}
-			}
-			
-			if (currentStep === 5) {
-				const savedStyle = localStorage.getItem('selectedCoverStyle') ?? '';
-				if (savedStyle === '') {
-					valid = false;
-				}
-				const savedFrontImage = localStorage.getItem('frontCoverImage') ?? '';
-				if (savedFrontImage === '') {
-					valid = false;
-				}
-			}
-			if (valid) {
-				console.log('Step', currentStep, 'is valid');
-			} else {
-				console.log('Step', currentStep, 'is invalid');
-			}
-			
-			return valid;
-		}
-		
-		
 		$(document).ready(function () {
 			// Get initial step from URL
 			const urlParams = new URLSearchParams(window.location.search);
-			currentStep = parseInt(urlParams.get('step')) || 1;
+			currentStep = parseInt(urlParams.get('adim')) || 1;
 			console.log('Current step:', currentStep);
-			
-			//validate all previous steps
-			// if (currentStep > 1) {
-			// 	for (let i = 1; i < currentStep; i++) {
-			// 		if (!validateCurrentStep(i)) {
-			{{--			window.location.href = `{{ route('create-book') }}?step=${i}`;--}}
-			// 		}
-			// 	}
-			// }
-			
 			
 			// Update progress bar
 			updateProgressBar();
@@ -284,7 +264,7 @@
 				if (currentStep === 1) {
 					window.location.href = "{{ route('landing-page') }}";
 				} else {
-					window.location.href = `{{ route('create-book') }}?step=${currentStep - 1}`;
+					window.location.href = `{{ route('create-book') }}?adim=${currentStep - 1}&kitap_kodu={{ $book->book_guid }}`;
 				}
 			});
 			

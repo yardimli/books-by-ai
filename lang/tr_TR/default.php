@@ -580,12 +580,14 @@
 
 		'create' => [
 			'step1' => [
+				'page_title' => '1. Adım - Yazar Bilgileri',
 				'title' => 'Kitap Oluştur - Adım 1',
 				'author_question' => 'Kitabın yazarı kim olacak?',
 				'author_hint' => 'Kim olursa olsun, bu bir arkadaşınız, aile üyeniz hatta siz olabilirsiniz',
 				'author_placeholder' => 'Yazarın tam adı',
 			],
 			'step2' => [
+				'page_title' => '2. Adım - :author ile tanışalım',
 				'title' => ':author ile tanışalım',
 				'subtitle' => 'Harika bir kitap için mümkün olduğunca çok soruyu cevaplayın',
 				'select_question' => 'Bir soru seçin ve cevaplayın',
@@ -606,6 +608,7 @@
 				]
 			],
 			'step3' => [
+				'page_title' => '3. Adım - :author\'ın Kitap Seçenekleri',
 				'title' => "Bir kitap fikri seçelim",
 				'loading' => 'Yükleniyor...',
 				'error' => [
@@ -616,6 +619,7 @@
 				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
 			],
 			'step4' => [
+				'page_title' => '4. Adım - :author\'ın Fotoğrafı',
 				'title' => "Yazarın bir fotoğrafını yükle",
 				'description' => 'Bunu kapakta kullanacağız',
 				'loading' => 'Yükleniyor...',
@@ -625,10 +629,16 @@
 				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
 			],
 			'step5' => [
+				'page_title' => '5. Adım - :author\'ın ":title" Kapak Tasarımı',
 				'please_wait' => 'Lütfen bekleyin...',
 			],
 			'step6' => [
+				'page_title' => '6. Adım - :author\'ın ":title" İçindekiler Tablosu',
 				'loading' => 'Yükleniyor...',
+				'please_wait' => 'Lütfen bekleyin...',
+			],
+			'step7' => [
+				'page_title' => '7. Adım - :author\'ın ":title" Alışveriş Sepeti',
 				'please_wait' => 'Lütfen bekleyin...',
 			],
 			'modals' => [
@@ -640,11 +650,19 @@
 				'reset' => 'Sıfırla',
 				'cancel' => 'İptal',
 				'save_answer' => 'Cevabı Kaydet',
-				'save_changes' => 'Değişiklikleri Kaydet',
+				'save_changes' => 'Kaydet',
 				'regenerate' => 'Yeniden Oluştur',
 				'adjust_image' => 'Fotoğrafı Ayarla',
 				'remove_image' => 'Fotoğrafı Kaldır',
 				'choose_image' => 'Fotoğraf Seç',
+			],
+			'step_errors' => [
+				'Please enter author name first' => 'Lütfen önce yazar adını girin',
+				'Please complete the questionnaire first' => 'Lütfen önce bilgi anketini tamamlayın',
+				'Please select a book option first' => 'Lütfen önce bir kitap seçeneği seçin',
+				'Please upload an author image first' => 'Lütfen önce bir yazar fotoğrafı yükleyin',
+				'Please select and generate a cover design first' => 'Lütfen önce bir kapak tasarımı seçin ve oluşturun',
+				'Please generate table of contents first' => 'Lütfen önce içindekiler tablosunu oluşturun',
 			]
 		]
 	];

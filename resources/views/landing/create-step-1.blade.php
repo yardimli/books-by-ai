@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		
-		<h2 class="serif-font mb-4">{{ __('default.create.step1.author_question') }}</h2>
+		<h2 class="inria-serif-regular mb-4">{{ __('default.create.step1.author_question') }}</h2>
 		<p class="text-muted mb-4">{{ __('default.create.step1.author_hint') }}</p>
 		
 		<div class="mb-4">
@@ -55,7 +55,7 @@
 					},
 					success: function(response) {
 						if (response.success) {
-							window.location.href = '{{ route("create-book") }}?step=2&book_guid={{ $book->book_guid }}';
+							window.location.href = '{{ route("create-book") }}?adim=2&kitap_kodu={{ $book->book_guid }}';
 						}
 					},
 					error: function(xhr, status, error) {

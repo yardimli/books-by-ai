@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		
-		<h2 class="serif-font mb-4">{!! __('default.create.step2.title', ['author' => '<span class="author_name">'.$book->author_name.'</span>']) !!}</h2>
+		<h2 class="inria-serif-regular mb-4">{!! __('default.create.step2.title', ['author' => '<span class="author_name">'.$book->author_name.'</span>']) !!}</h2>
 		<p class="text-muted mb-4">{{ __('default.create.step2.subtitle') }}</p>
 		
 		<!-- Previous answers will be displayed here -->
@@ -210,7 +210,7 @@
 			
 			
 			$('#continueBtn').on('click', function() {
-				window.location.href = '{{ route("create-book") }}?step=4&book_guid={{ $book->book_guid }}';
+				window.location.href = '{{ route("create-book") }}?adim=3&kitap_kodu={{ $book->book_guid }}';
 			});
 		});
 	</script>

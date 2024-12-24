@@ -550,12 +550,14 @@
 
 		'create' => [
 			'step1' => [
+				'page_title' => 'Step 1 - Author Information',
 				'title' => 'Create Book - Step 1',
 				'author_question' => 'Who will be the author of the book?',
 				'author_hint' => 'Whoever you like, this can be a friend, family member or even you',
 				'author_placeholder' => "Author's full name",
 			],
 			'step2' => [
+				'page_title' => 'Step 2 - :author\'s Book Questions',
 				'title' => "Let's get to know #author#",
 				'subtitle' => 'Answer as many questions as possible to get a great book',
 				'select_question' => 'Select a question and answer it',
@@ -573,15 +575,18 @@
 				]
 			],
 			'step3' => [
+				'page_title' => 'Step 3 - :author\'s Book Options',
 				'title' => "Let's pick a book idea",
 				'loading' => 'Loading...',
 				'error' => [
+					'select_suggestion' => 'Please select a suggestion',
 					'no_suggestions' => 'No suggestions available',
 					'loading_error' => 'Error loading suggestions'
 				],
 				'author_prefix' => 'by', // for the "by [author name]" text
 			],
 			'step4' => [
+				'page_title' => 'Step 4 - :author\'s Author Image',
 				'title' => "Upload a photo of your character",
 				'description' => 'We\'ll use it on the cover',
 				'loading' => 'Loading...',
@@ -591,7 +596,18 @@
 				'author_prefix' => 'by', // for the "by [author name]" text
 			],
 			'step5' => [
+				'page_title' => 'Step 5 - :author\'s ":title" Cover Design',
 				'Please wait...' => 'Please wait...',
+			],
+			'step6' => [
+				'page_title' => 'Step 6 - :author\'s ":title" Table of Contents',
+				'loading' => 'Loading...',
+				'please_wait' => 'Please wait...'
+			],
+			'step7' => [
+				'page_title' => 'Step 7 - :author\'s ":title" Shopping Cart',
+				'loading' => 'Loading...',
+				'please_wait' => 'Please wait...'
 			],
 			'modals' => [
 				'adjust_image' => 'Adjust Author Image',
@@ -607,6 +623,14 @@
 				'adjust_image' => 'Adjust Image',
 				'remove_image' => 'Remove Image',
 				'choose_image' => 'Choose Image',
+			],
+			'step_errors' => [
+				'Please enter author name first' => 'Please enter author name first',
+				'Please complete the questionnaire first' => 'Please complete the questionnaire first',
+				'Please select a book option first' => 'Please select a book option first',
+				'Please upload an author image first' => 'Please upload an author image first',
+				'Please select and generate a cover design first' => 'Please select and generate a cover design first',
+				'Please generate table of contents first' => 'Please generate table of contents first',
 			]
 		]
 	];

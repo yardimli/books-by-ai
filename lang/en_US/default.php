@@ -532,11 +532,11 @@
 				],
 				[
 					'question' => 'Is there customer support if I need help?',
-					'answer' => 'Yes, send us an email at hi@kitabimzade.com, and we\'ll gladly help with anything you need.'
+					'answer' => 'Yes, send us an email at hi@herkesyazar.app, and we\'ll gladly help with anything you need.'
 				],
 				[
 					'question' => 'What is your return policy?',
-					'answer' => 'We provide a refund only if the book is defective or damaged upon arrival. Notify us within 7 days of receiving the book by emailing hi@kitabimzade.com with your order number and a description of the issue, and we\'ll resolve it quickly.'
+					'answer' => 'We provide a refund only if the book is defective or damaged upon arrival. Notify us within 7 days of receiving the book by emailing hi@herkesyazar.app with your order number and a description of the issue, and we\'ll resolve it quickly.'
 				],
 				[
 					'question' => 'Is the book intended for commercial use?',

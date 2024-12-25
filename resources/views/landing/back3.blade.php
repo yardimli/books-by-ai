@@ -94,8 +94,8 @@
 	
 	<div class="back-footer">
 		<div class="back-publisher">
-			<div class="back-website lato-bold">kitabimzade.com'yi ziyaret edin</div>
-			<div class="back-publisher-name lato-bold">KITABIMZADE</div>
+			<div class="back-website lato-bold">herkesyazar.app'yi ziyaret edin</div>
+			<div class="back-publisher-name lato-bold">Herkes Yazar</div>
 		</div>
 		
 		<div class="back-pricing oswald-regular">250 ₺</div>

@@ -7,7 +7,7 @@
 				<a href="{{route('create-book')}}" class="btn btn-lg btn-primary d-none d-lg-inline-block">{{ __('default.hero.cta') }}</a>
 			</div>
 			<div class="col-lg-6 mb-3">
-				<img src="/images/hero-image.webp" alt="{{ __('default.hero.title') }}" class="img-fluid hero-image">
+				<img src="/images/herkes-yazar-1.jpg" alt="{{ __('default.hero.title') }}" class="img-fluid hero-image">
 			</div>
 		</div>
 	</div>

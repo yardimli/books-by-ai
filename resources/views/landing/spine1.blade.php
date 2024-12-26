@@ -1,76 +1,63 @@
 <style>
     .spine {
-        width: 24px;
-        height: 480px;
-        background-color: #993333;
+        width: 480px;
+        height: 24px;
+        background-color: #993333; /* Adjust per spine version */
         position: relative;
         overflow: hidden;
     }
-    
+
     .spine-text {
-        position: absolute;
-        top: 20px;
-        left: 24px;
-        padding: 0px;
-        margin: 0px;
-        transform-origin: left top;
-        white-space: nowrap;
-        width: 440px; /* Set to spine height */
-        height: 24px; /* Set to spine width */
-        transform: rotate(90deg);
-        overflow: hidden;
-		}
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 20px; /* Space for logo */
+    }
 
     .spine-author-name {
-        line-height: 24px;
-        height: 24px;
-        min-height: 24px;
-		    font-size:12px;
-        color: #FFFFDD;
-		    margin-right: 20px;
+        font-size: 12px;
+        color: #FFFFDD; /* Adjust per spine version */
+        margin-right: 20px;
+        white-space: nowrap;
         overflow: hidden;
-        display: inline-block;
+		    line-height: 24px;
     }
 
     .spine-title {
-        line-height: 24px;
-        height: 24px;
-        min-height: 24px;
         font-size: 12px;
-        color: #DDEE99;
+        color: #DDEE99; /* Adjust per spine version */
+        white-space: nowrap;
         overflow: hidden;
-        display: inline-block;
+		    line-height: 24px;
     }
 
     .uppercase-spine-title {
-        line-height: 24px;
-        height: 24px;
-        min-height: 24px;
         font-size: 12px;
-        color: #DDEE99;
+        color: #DDEE99; /* Adjust per spine version */
         text-transform: uppercase;
+        white-space: nowrap;
         overflow: hidden;
-        display: inline-block;
     }
 
     .uppercase-spine-title-first-letter {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .spine-logo {
         position: absolute;
-        bottom: 10px;
-        left: 0px;
-        width: 24px;
-        text-align: center;
+        right: 2px;
+        top: 0px;
+        height: 20px;
     }
 
     .spin-logo-img {
+        height: auto;
         width: 20px;
+		    transform: rotate(90deg);
     }
 </style>
-</head>
-<body>
+
 <div class="spine">
 	<div class="spine-text">
 		<span class="spine-author-name book-spine-author-name eb-garamond-regular"></span>
@@ -79,4 +66,4 @@
 	<div class="spine-logo">
 		<img src="{{ asset('images/logo.png') }}" alt="Logo" class="spin-logo-img">
 	</div>
-</div>
+</div>z

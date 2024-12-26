@@ -440,7 +440,7 @@
 			'reviews' => [
 				[
 					'text' => "You can't get enough of it!",
-					'image' => '/images/testimonial1.webp'
+					'image' => '/images/testimonial1.jpg'
 				],
 				[
 					'text' => "This is the most memorable party gift!",

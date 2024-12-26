@@ -462,16 +462,16 @@
 
 		//----------------------------------------
 		'hero' => [
-			'title' => '2 dakika içinde komik ve hafif bir kitap yazıp yazdırın',
-			'subtitle' => 'Bir arkadaşınız, aile üyeniz veya kendiniz tarafından yazılmış',
+			'title' => '2 Dakikada Mizah Dolu Kitabınızı Yazdırın',
+			'subtitle' => 'En Sevdiğiniz Kişiye ya da Kendinize Özel: Yapay Zekayla Yazılmış Mizah Dolu Bir Armağan!',
 			'cta' => 'Başlayın'
 		],
 		'testimonials' => [
-			'heading' => '100.000\'den Fazla Kitap Basıldı',
+			'heading' => '1000\'den Fazla Kitap Basıldı',
 			'reviews' => [
 				[
 					'text' => "Doyamıyorsunuz!",
-					'image' => '/images/testimonial1.webp'
+					'image' => '/images/testimonial1.jpg'
 				],
 				[
 					'text' => "Bu en unutulmaz parti hediyesi!",

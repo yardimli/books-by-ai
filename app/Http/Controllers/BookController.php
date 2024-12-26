@@ -166,8 +166,56 @@
 					break;
 				case 52:
 					$book->book_cover_image = $request->input('cover_image');
-//					$book->book_spine_image = $request->input('spine_image');
-//					$book->book_back_image = $request->input('back_image');
+					$book->book_spine_image = $request->input('spine_image');
+					$book->book_back_image = $request->input('back_image');
+
+					// Create directory if it doesn't exist
+					if (!Storage::disk('public')->exists('book-covers')) {
+						Storage::disk('public')->makeDirectory('book-covers');
+					}
+
+					// Generate a unique filename using the book's GUID
+					$timestamp = time();
+					$coverFilename = "book-covers/{$book->book_guid}_front_{$timestamp}.png";
+					$spineFilename = "book-covers/{$book->book_guid}_spine_{$timestamp}.png";
+					$backFilename = "book-covers/{$book->book_guid}_back_{$timestamp}.png";
+
+					try {
+						// Save front cover
+						if ($request->input('cover_image')) {
+							$coverImage = $request->input('cover_image');
+							$coverImage = str_replace('data:image/png;base64,', '', $coverImage);
+							$coverImage = str_replace(' ', '+', $coverImage);
+							$coverImageData = base64_decode($coverImage);
+							Storage::disk('public')->put($coverFilename, $coverImageData);
+						}
+
+						// Save spine cover
+						if ($request->input('spine_image')) {
+							$spineImage = $request->input('spine_image');
+							$spineImage = str_replace('data:image/png;base64,', '', $spineImage);
+							$spineImage = str_replace(' ', '+', $spineImage);
+							$spineImageData = base64_decode($spineImage);
+							Storage::disk('public')->put($spineFilename, $spineImageData);
+						}
+
+						// Save back cover
+						if ($request->input('back_image')) {
+							$backImage = $request->input('back_image');
+							$backImage = str_replace('data:image/png;base64,', '', $backImage);
+							$backImage = str_replace(' ', '+', $backImage);
+							$backImageData = base64_decode($backImage);
+							Storage::disk('public')->put($backFilename, $backImageData);
+						}
+
+					} catch (\Exception $e) {
+						Log::error('Error saving cover images: ' . $e->getMessage());
+						return response()->json([
+							'success' => false,
+							'message' => 'Error saving cover images: ' . $e->getMessage()
+						], 500);
+					}
+
 					break;
 				case 6:
 					$book->book_toc = json_encode($request->input('toc'));
@@ -209,7 +257,7 @@
 			}, $user_answers));
 
 
-			$gpt_prompt = "Suggest a title and a short description for a book that should not be taken seriously. It will be a full book with 200 pages. But the content will be satirical and humorous. The books language will be in Turkish. The book's title should be 2-3 words long, write 4 short reviews each consisting of 4 sentences with their sources. Try to include the author's name and book's title in the short reviews.
+			$gpt_prompt = "Suggest a title and a short description for a book that should not be taken seriously. It will be a full book with 200 pages. But the content will be satirical and humorous. The books language will be in Turkish. The book's title should be 2-3 words long, write 4 short reviews each consisting of 3 sentences with their sources. Try to include the author's name and book's title in the short reviews.
 			
 The author has answered the following questions, use that as inspiration:
 

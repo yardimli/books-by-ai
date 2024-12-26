@@ -16,10 +16,15 @@
 				@include('landing.cover1')
 			</div>
 			<!-- Middle div -->
-			<div style="width: 24px; height: 480px; display: inline-block; vertical-align: top; text-align: left; white-space: normal;"
-			     class="bg-light shadow-sm mx-2" id="spine-cover">
-				@include('landing.spine1')
+			<div style="width: 24px; height: 480px; display: inline-block; vertical-align: top; text-align: left; white-space: normal; overflow: hidden;" class="bg-light shadow-sm mx-2">
+				<div style="width: 480px; height: 24px; transform: rotate(90deg) translateY(-24px); transform-origin: 0 0;" id="spine-cover">
+					@include('landing.spine1')
+				</div>
 			</div>
+{{--			<div style="width: 24px; height: 480px; display: inline-block; vertical-align: top; text-align: left; white-space: normal;"--}}
+{{--			     class="bg-light shadow-sm mx-2" id="spine-cover">--}}
+{{--				@include('landing.spine1')--}}
+{{--			</div>--}}
 			<!-- Right div -->
 			<div style="width: 320px; height: 480px;  display: inline-block;  vertical-align: top;  text-align: left; white-space: normal;"
 			     class="bg-light shadow-sm" id="back-cover">
@@ -194,24 +199,24 @@
 					const frontCoverImage = frontCover.toDataURL('image/png');
 					
 					// Capture spine
-					// const spineCover = await html2canvas(document.querySelector('#spine-cover'), {
-					// 	scale: 2,
-					// 	useCORS: true,
-					// 	allowTaint: true,
-					// 	backgroundColor: null,
-					// 	logging: false
-					// });
-					// const spineCoverImage = spineCover.toDataURL('image/png');
-					
+					const spineCover = await html2canvas(document.querySelector('#spine-cover'), {
+						scale: 2,
+						useCORS: true,
+						allowTaint: true,
+						backgroundColor: null,
+						logging: false
+					});
+					const spineCoverImage = spineCover.toDataURL('image/png');
+
 					// Capture back cover
-					// const backCover = await html2canvas(document.querySelector('#back-cover'), {
-					// 	scale: 2,
-					// 	useCORS: true,
-					// 	allowTaint: true,
-					// 	backgroundColor: null,
-					// 	logging: false
-					// });
-					// const backCoverImage = backCover.toDataURL('image/png');
+					const backCover = await html2canvas(document.querySelector('#back-cover'), {
+						scale: 2,
+						useCORS: true,
+						allowTaint: true,
+						backgroundColor: null,
+						logging: false
+					});
+					const backCoverImage = backCover.toDataURL('image/png');
 					
 					// Save all images to database
 					$.ajax({
@@ -222,8 +227,8 @@
 							book_guid: '{{ $book->book_guid }}',
 							step: 52,
 							cover_image: frontCoverImage,
-							// spine_image: spineCoverImage,
-							// back_image: backCoverImage
+							spine_image: spineCoverImage,
+							back_image: backCoverImage
 						},
 						success: function (response) {
 							if (response.success) {

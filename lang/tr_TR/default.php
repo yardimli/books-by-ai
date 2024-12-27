@@ -475,27 +475,23 @@
 				],
 				[
 					'text' => "Bu en unutulmaz parti hediyesi!",
-					'image' => '/images/testimonial2.webp'
+					'image' => '/images/testimonial2.jpg'
 				],
 				[
 					'text' => "Yüksek kalite ve hızlı teslimat!",
-					'image' => '/images/testimonial3.webp'
+					'image' => '/images/testimonial3.jpg'
 				],
 				[
 					'text' => "Her özel gün için mükemmel hediye!",
-					'image' => '/images/testimonial4.webp'
+					'image' => '/images/testimonial4.jpg'
 				],
 				[
 					'text' => "Harika kalite ve hizmet!",
-					'image' => '/images/testimonial5.webp'
-				],
-				[
-					'text' => "Tüm beklentileri aştı!",
-					'image' => '/images/testimonial6.webp'
+					'image' => '/images/testimonial5.jpg'
 				],
 				[
 					'text' => "Şimdiye kadarki en iyi kişiselleştirilmiş hediye!",
-					'image' => '/images/testimonial7.webp'
+					'image' => '/images/testimonial6.jpg'
 				],
 			]
 		],

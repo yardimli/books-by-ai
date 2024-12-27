@@ -8,7 +8,7 @@
 				<div class="cover-option">
 					<div class="card border-0">
 						<div class="cover-image-wrapper">
-							<img src="/images/paperback.webp" alt="13x19,5 cm" class="cover-image">
+							<img src="/images/paperback.jpg" alt="13x19,5 cm" class="cover-image">
 						</div>
 						<div class="card-body cover-options-text-center">
 							<h4 class="inria-serif-regular">{{ __('default.cover_options.paperback.title') }}</h4>
@@ -19,7 +19,7 @@
 				<div class="cover-option">
 					<div class="card border-0">
 						<div class="cover-image-wrapper">
-							<img src="/images/hardcover.webp" alt="Hardcover" class="cover-image">
+							<img src="/images/big-paperback.jpg" alt="Hardcover" class="cover-image">
 						</div>
 						<div class="card-body cover-options-text-center">
 							<h4 class="inria-serif-regular">{{ __('default.cover_options.hardcover.title') }}</h4>

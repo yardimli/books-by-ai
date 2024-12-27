@@ -502,11 +502,11 @@
 				'number' => '1',
 				'heading' => 'Yazar hakkında soruları yanıtlayın',
 				'description' => 'Ne kadar spesifik olursanız, kitap o kadar kişiselleştirilmiş ve eğlenceli olacaktır',
-				'profile_title' => "Sophie'yi tanıyalım",
-				'hobby_question' => "Sophie'nin hobileri nelerdir?",
+				'profile_title' => "Elif'i tanıyalım",
+				'hobby_question' => "Elif'in hobileri nelerdir?",
 				'hobby_answer' => '12 yaşından beri model tren koleksiyonu yapıyor ve bu konuda çok bilgili',
 				'save_button' => 'Cevabı kaydet',
-				'friends_question' => "Sophie'nin en iyi arkadaşları kimler?"
+				'friends_question' => "Elif'in en iyi arkadaşları kimler?"
 			],
 			'step2' => [
 				'number' => '2',

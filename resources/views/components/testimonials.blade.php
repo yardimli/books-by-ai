@@ -23,6 +23,7 @@
 <style>
     .carousel-cell {
         width: 220px;
+		    min-height: 300px;
         margin-left:10px;
         margin-right: 10px;
     }
@@ -43,6 +44,7 @@
 
     .testimonial-responsive-padding-top {
         padding-top: 40px;
+		    padding-bottom: 40px;
     }
 
     @media (max-width: 768px) {

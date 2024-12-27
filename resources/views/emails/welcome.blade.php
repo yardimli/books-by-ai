@@ -100,7 +100,7 @@
 
 <!-- start preheader -->
 <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
-	Welcome to {{__('default.SAAS LARAVEL BOILERPLATE')}}
+	Welcome to {{__('default.Books By AI')}}
 ! We're excited to have you on board.
 </div>
 <!-- end preheader -->
@@ -145,7 +145,7 @@
 			<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
 				<tr>
 					<td align="left" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
-						<h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Welcome to {{__('default.SAAS LARAVEL BOILERPLATE')}}: {{__('default.Boilerplate Site Tagline')}}</h1>
+						<h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Welcome to {{__('default.Books By AI')}}: {{__('default.Boilerplate Site Tagline')}}</h1>
 					</td>
 				</tr>
 			</table>
@@ -174,7 +174,7 @@
 						<p style="margin: 0;">
 							Dear {{$name}},
 							<br><br>
-							Welcome to the vibrant world of <a href="https://my-laravel-saas-site.com">{{__('default.SAAS LARAVEL BOILERPLATE')}} - {{__('default.Boilerplate Site Tagline')}}! If you didn't create an account with us, please feel free to disregard this email.
+							Welcome to the vibrant world of <a href="https://my-laravel-saas-site.com">{{__('default.Books By AI')}} - {{__('default.Boilerplate Site Tagline')}}! If you didn't create an account with us, please feel free to disregard this email.
 							<br><br>
 							We are excited to have you as a member of our community and can't wait to see your unique stories unfold. my-laravel-saas-site.com is an online platform dedicated to empowering writers by providing ample creative space and harnessing the power of AI to refine and expand ideas. Our community is constantly growing, and we are thrilled you have joined us in this exciting literary journey!
 							<br><br>

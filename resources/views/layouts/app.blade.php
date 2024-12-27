@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="fictionfusion.io">
 	<meta name="description"
-	      content="{{__('default.SAAS LARAVEL BOILERPLATE')}} - {{__('default.Boilerplate Site Tagline')}}">
+	      content="{{__('default.Books By AI')}} - {{__('default.Boilerplate Site Tagline')}}">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	
 	<script src="/assets/js/core/jquery.min.js"></script>

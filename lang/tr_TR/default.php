@@ -9,7 +9,7 @@
 		'Books By AI' => 'HerkesYazar',
 
 // Found in: resources\views\auth\forgot-password.blade.php, resources\views\auth\login.blade.php, resources\views\auth\register.blade.php, resources\views\emails\welcome.blade.php, resources\views\errors\error-404.blade.php, resources\views\landing\landing.blade.php, resources\views\layouts\app.blade.php, resources\views\paypal\paypal-finish-page.blade.php, resources\views\user\my-books.blade.php, resources\views\user\showcase-library.blade.php, resources\views\user\stories.blade.php
-		'Boilerplate Site Tagline' => 'Kalıp Site Sloganı',
+		'Boilerplate Site Tagline' => 'Herkes Artik Kitap Yaziyor',
 
 // Found in: resources\views\auth\login.blade.php
 		'Log in with Google' => 'Google ile Giriş Yap',

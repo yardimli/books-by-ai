@@ -115,7 +115,7 @@
 				<tr>
 					<td align="center" valign="top" style="padding: 12px 24px;">
 						<a href="https://my-laravel-saas-site.com" target="_blank" style="display: inline-block;">
-							<img src="https://my-laravel-saas-site.com/assets/images/logo/logo-large.png" alt="SAAS LARAVEL BOILERPLATE Logo" border="0" width="200" style="display: block; width: 200px; max-width: 200px; min-width: 200px;">
+							<img src="https://my-laravel-saas-site.com/assets/images/logo/logo-large.png" alt="Books By AI Logo" border="0" width="200" style="display: block; width: 200px; max-width: 200px; min-width: 200px;">
 						</a>
 					</td>
 				</tr>
@@ -166,7 +166,7 @@
 				<!-- start copy -->
 				<tr>
 					<td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-						<p style="margin: 0;">Tap the button below to reset your password. If you didn't create an account with <a href="https://my-laravel-saas-site.com">SAAS LARAVEL BOILERPLATE</a>, or request a password reset you can safely delete this email.</p>
+						<p style="margin: 0;">Tap the button below to reset your password. If you didn't create an account with <a href="https://my-laravel-saas-site.com">Books By AI</a>, or request a password reset you can safely delete this email.</p>
 					</td>
 				</tr>
 				<!-- end copy -->
@@ -203,7 +203,7 @@
 				<!-- start copy -->
 				<tr>
 					<td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-						<p style="margin: 0;">Cheers,<br> SAAS LARAVEL BOILERPLATE</p>
+						<p style="margin: 0;">Cheers,<br> Books By AI</p>
 					</td>
 				</tr>
 				<!-- end copy -->
@@ -231,7 +231,7 @@
 				<!-- start permission -->
 				<tr>
 					<td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-						<p style="margin: 0;">You received this email because we received a request for reseting password on SAAS LARAVEL BOILERPLATE. If you didn't request reseting your password on SAAS LARAVEL BOILERPLATE you can safely delete this email.</p>
+						<p style="margin: 0;">You received this email because we received a request for reseting password on Books By AI. If you didn't request reseting your password on Books By AI you can safely delete this email.</p>
 					</td>
 				</tr>
 				<!-- end permission -->

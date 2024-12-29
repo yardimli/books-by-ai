@@ -18,6 +18,7 @@
 
 	use App\Http\Controllers\Controller;
 	use App\Mail\WelcomeMail;
+	use App\Models\Book;
 	use App\Models\TokenUsage;
 	use App\Models\User;
 	use Illuminate\Foundation\Auth\RegistersUsers;
@@ -99,18 +100,18 @@
 		protected function create(array $data)
 		{
 			$new_user = User::create([
-				                         'name' => $data['username'],
-				                         'email' => $data['email'],
-				                         'password' => Hash::make($data['password']),
-				                         'avatar' => '',
-				                         'picture' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($data['email']))) . '?s=200&d=mp',
-				                         'username' => $data['username'],
-				                         'about_me' => 'I am a new writer!',
-				                         'member_status' => 1,
-				                         'member_type' => 2,
-				                         'last_ip' => request()->ip(),
-				                         'background_image' => '',
-			                         ]);
+				'name' => $data['username'],
+				'email' => $data['email'],
+				'password' => Hash::make($data['password']),
+				'avatar' => '',
+				'picture' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($data['email']))) . '?s=200&d=mp',
+				'username' => $data['username'],
+				'about_me' => 'I am a new writer!',
+				'member_status' => 1,
+				'member_type' => 2,
+				'last_ip' => request()->ip(),
+				'background_image' => '',
+			]);
 
 			return $new_user;
 		}
@@ -118,6 +119,18 @@
 		protected function registered(Request $request, $user)
 		{
 			Mail::to($request->input('email'))->send(new WelcomeMail($user->name, $user->email));
-			return redirect()->route('settings.account');
+
+			if ($book_guid = session('temp_book_guid')) {
+				$book = Book::where('book_guid', $book_guid)
+					->where('user_id', 0)
+					->first();
+				$book->user_id = $user->id;
+				$book->save();
+
+				session()->forget('temp_book_guid');
+				return redirect()->route('checkout.show', ['book_guid' => $book_guid]);
+			} else {
+				return redirect()->route('my-books');
+			}
 		}
 	}

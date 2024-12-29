@@ -13,6 +13,7 @@
 			'user_id',
 			'book_guid',
 			'book_language_id',
+			'is_published',
 			'author_name',
 			'questions_and_answers',
 			'book_options',

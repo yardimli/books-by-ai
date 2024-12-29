@@ -3,6 +3,7 @@
 	namespace App\Http\Controllers;
 
 	use App\Helpers\MyHelper;
+	use App\Models\Book;
 	use Illuminate\Http\Request;
 	use Illuminate\Support\Facades\Hash;
 	use Laravel\Socialite\Facades\Socialite;
@@ -64,8 +65,21 @@
 
 					Auth::login($finduser);
 
-					return redirect()->intended('/chat');
-
+					if ($book_guid = session('temp_book_guid')) {
+						$book = Book::where('book_guid', $book_guid)
+							->where('user_id', 0)
+							->first();
+						if ($book) {
+							$book->user_id = $finduser->id;
+							$book->save();
+							session()->forget('temp_book_guid');
+							return redirect()->route('checkout.show', ['book_guid' => $book_guid]);
+						} else {
+							return redirect()->route('my-books');
+						}
+					} else {
+						return redirect()->route('my-books');
+					}
 				} else {
 					$username = $user->getNickname() ?? Str::slug($user->name);
 					//verify if username exists if so add a number to it
@@ -107,7 +121,18 @@
 
 					Auth::login($new_user);
 
-					return redirect()->intended('/chat');
+					if ($book_guid = session('temp_book_guid')) {
+						$book = Book::where('book_guid', $book_guid)
+							->where('user_id', 0)
+							->first();
+						$book->user_id = $user->id;
+						$book->save();
+
+						session()->forget('temp_book_guid');
+						return redirect()->route('checkout.show', ['book_guid' => $book_guid]);
+					} else {
+						return redirect()->route('my-books');
+					}
 				}
 
 			} catch

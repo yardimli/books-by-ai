@@ -4,11 +4,11 @@
 	use App\Http\Controllers\BookController;
 	use App\Http\Controllers\CategoryController;
 	use App\Http\Controllers\ChatController;
+	use App\Http\Controllers\CheckoutController;
 	use App\Http\Controllers\ImageController;
 	use App\Http\Controllers\LanguageController;
 	use App\Http\Controllers\LoginWithGoogleController;
 	use App\Http\Controllers\StaticPagesController;
-	use App\Http\Controllers\UserController;
 	use App\Http\Controllers\UserSettingsController;
 	use App\Http\Controllers\VerifyThankYouController;
 	use App\Mail\WelcomeMail;
@@ -67,27 +67,33 @@
 	Route::get('/contact', [StaticPagesController::class, 'contact'])->name('contact-page');
 	Route::get('/onboarding', [StaticPagesController::class, 'onboarding'])->name('onboarding-page');
 	Route::get('/change-log', [StaticPagesController::class, 'changeLog'])->name('change-log-page');
-	Route::get('/buy-packages', [UserSettingsController::class, 'buyPackages'])->name('buy-packages');
-
 	Route::get('/help', [StaticPagesController::class, 'help'])->name('help-page');
 
-	//-------------------------------------------------------------------------
+	// web.php
 
-	Route::get('/buy-packages', [UserSettingsController::class, 'buyPackages'])->name('buy-packages');
-
-	Route::get('/buy-credits-test/{id}', [PayPalController::class, 'beginTransaction'])->name('beginTransaction');
-	Route::get('/buy-credits/{id}', [PayPalController::class, 'processTransaction'])->name('processTransaction');
-	Route::get('/success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
-	Route::get('/cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
-
-	Route::get('/user-profile/{username}', [StaticPagesController::class, 'userProfile'])->name('user-profile');
-
+	Route::match(['get', 'post'], '/checkout', [CheckoutController::class, 'index'])->name('checkout');
+	Route::get('/checkout/{book_guid}', [CheckoutController::class, 'index'])->name('checkout.show');
 
 	//-------------------------------------------------------------------------
 	Route::middleware(['auth'])->group(function () {
 
-		Route::get('/check-llms-json', [ChatController::class, 'checkLLMsJson']);
 
+		Route::get('/kitaplarim', [BookController::class, 'myBooks'])->name('my-books');
+		Route::delete('/kitap-sil/{book_guid}', [BookController::class, 'destroy'])->name('delete-book');
+
+		Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+		Route::get('/order/success/{order}', [CheckoutController::class, 'success'])->name('order.success');
+
+
+		Route::post('/settings', [UserSettingsController::class, 'updateSettings'])->name('settings-update');
+
+		Route::get('/settings/account', [UserSettingsController::class, 'account'])->name('settings.account');
+		Route::post('/settings/password', [UserSettingsController::class, 'updatePassword'])->name('settings-password-update');
+		Route::post('/settings/password', [UserSettingsController::class, 'updatePassword'])->name('settings-password-update');
+		Route::get('/settings/close-account', [UserSettingsController::class, 'closeAccount'])->name('settings.close-account');
+
+		//------------------------------------------------------------------------- ADMIN
+		Route::get('/check-llms-json', [ChatController::class, 'checkLLMsJson']);
 
 		Route::get('/chat/sessions', [ChatController::class, 'getChatSessions']);
 		Route::get('/chat/{session_id?}', [ChatController::class, 'index'])->name('chat');
@@ -96,28 +102,14 @@
 		Route::post('/send-llm-prompt', [ChatController::class, 'sendLlmPrompt'])->name('send-llm-prompt');
 		Route::delete('/chat/{sessionId}', [ChatController::class, 'destroy'])->name('chat.destroy');
 
-
-
-
-
-		Route::post('/settings', [UserSettingsController::class, 'updateSettings'])->name('settings-update');
-
-		Route::get('/settings/account', [UserSettingsController::class, 'account'])->name('settings.account');
 		Route::get('/settings/languages', [UserSettingsController::class, 'languages'])->name('settings.languages');
 		Route::get('/settings/categories', [UserSettingsController::class, 'categories'])->name('settings.categories');
 		Route::get('/settings/images', [UserSettingsController::class, 'images'])->name('settings.images');
-		Route::get('/settings/close-account', [UserSettingsController::class, 'closeAccount'])->name('settings.close-account');
 
-
-
-		Route::post('/settings/password', [UserSettingsController::class, 'updatePassword'])->name('settings-password-update');
 		Route::post('/settings/api-keys', [UserSettingsController::class, 'updateApiKeys'])->name('settings-update-api-keys');
 
-		Route::get('/users', [UserController::class, 'index'])->name('users-index');
-		Route::post('/login-as', [UserController::class, 'loginAs'])->name('users-login-as');
-
-		Route::post('/settings/password', [UserSettingsController::class, 'updatePassword'])->name('settings-password-update');
-
+		Route::get('/users', [UserSettingsController::class, 'admin_index'])->name('admin-index');
+		Route::post('/login-as', [UserSettingsController::class, 'loginAs'])->name('users-login-as');
 
 		Route::resource('articles', ArticleController::class);
 

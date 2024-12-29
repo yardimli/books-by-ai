@@ -22,6 +22,7 @@
 		'Login' => 'Login',
 		'Not a member yet?' => 'Not a member yet?',
 		'Sign up' => 'Sign up',
+		'Sign in' => 'Sign in',
 
 // Found in: resources\views\auth\passwords\email.blade.php, resources\views\auth\passwords\reset.blade.php
 		'Reset Password' => 'Reset Password',
@@ -546,6 +547,12 @@
 		],
 
 		//-----------------------------
+		'Books' => 'Books',
+		'No books found' => 'No books found',
+		'Create New Book' => 'Create New Book',
+		'Book deleted successfully' => 'Book deleted successfully',
+		'Failed to delete book' => 'Failed to delete book',
+		'Are you sure you want to delete this book?' => 'Are you sure you want to delete this book?',
 
 
 		'create' => [

@@ -17,12 +17,58 @@
 	class BookController extends Controller
 	{
 
+		public function myBooks(Request $request)
+		{
+			$book_data = Book::where('user_id', Auth::id())->get();
+			$books = [];
+			foreach ($book_data as $book) {
+				$book_options = json_decode($book->book_options, true);
+				$selected_option = $book_options[$book->selected_book_option] ?? null;
+				$book_title = $selected_option['title'] ?? 'Adsız Kitap';
+				$book_subtitle = $selected_option['subtitle'] ?? 'Adsız Alt Başlık';
+				$book_description = $selected_option['short_description'] ?? 'Adsız bir kitap açıklaması.';
+
+				$books[] = [
+					'id' => $book->id,
+					'is_published' => $book->is_published,
+					'book_guid' => $book->book_guid,
+					'author_name' => $book->author_name,
+					'book_title' => $book_title,
+					'book_subtitle' => $book_subtitle,
+					'book_description' => $book_description,
+					'created_at' => $book->created_at->format('Y-m-d H:i:s'),
+					'updated_at' => $book->updated_at->format('Y-m-d H:i:s'),
+				];
+			}
+
+
+			return view('user.my-books')->with('books', $books);
+		}
+
+		public function destroy($book_guid)
+		{
+			if (!Auth::check()) {
+				return redirect()->route('login');
+			}
+			try {
+				$book = Book::where('book_guid', $book_guid)
+					->where('user_id', Auth::id())
+					->firstOrFail();
+				$book->delete();
+
+				// Redirect with success message
+				return redirect()->back()->with('success', __('default.Book deleted successfully'));
+
+			} catch (\Exception $e) {
+				// Redirect with error message if something goes wrong
+				return redirect()->back()->with('error', __('default.Failed to delete book'));
+			}
+		}
+
 		public function createBook(Request $request)
 		{
 			$step = $request->get('adim', 1);
 			$book_guid = $request->get('kitap_kodu', '');
-
-			$selectedFormat = $request->get('book_format', 'print_13_19_5_cm');
 
 			if (empty($book_guid)) {
 				// Create new book record
@@ -31,8 +77,12 @@
 				$book->user_id = Auth::id() ?? 0;
 				$book->save();
 
+				if (!Auth::check()) {
+					session(['temp_book_guid' => $book->book_guid]);
+				}
+
 				// Redirect with the new book_guid
-				return redirect()->route('create-book', ['adim' => 1, 'kitap_kodu' => $book->book_guid, 'selected_format' => $selectedFormat]);
+				return redirect()->route('create-book', ['adim' => 1, 'kitap_kodu' => $book->book_guid]);
 			}
 
 			// Load existing book data
@@ -40,6 +90,11 @@
 			// if book not found, redirect to create new book
 			if (!$book) {
 				return redirect()->route('create-book');
+			}
+
+			//if user hasnt logged in, and session has no temp_book_guid, assign temp_book_guid to session
+			if (!Auth::check() && !session()->has('temp_book_guid')) {
+				session(['temp_book_guid' => $book_guid]);
 			}
 
 			// Validate current step and redirect if needed
@@ -51,10 +106,9 @@
 				])->with('error', $validationResult['message']);
 			}
 
-			return view('landing.create-book')
+			return view('create-book.create-book')
 				->with('step', $step)
-				->with('book', $book)
-				->with('selectedFormat', $selectedFormat);
+				->with('book', $book);
 		}
 
 		private function validateStep($currentStep, Book $book): array
@@ -233,17 +287,17 @@
 
 		public function loadCover($style = 1)
 		{
-			return view('landing.cover' . $style);
+			return view('create-book.cover' . $style);
 		}
 
 		public function loadSpine($style = 1)
 		{
-			return view('landing.spine' . $style);
+			return view('create-book.spine' . $style);
 		}
 
 		public function loadBack($style = 1)
 		{
-			return view('landing.back' . $style);
+			return view('create-book.back' . $style);
 		}
 
 		function suggestBookTitleAndShortDescription(Request $request)

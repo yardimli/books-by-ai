@@ -22,6 +22,7 @@
 		'Login' => 'Giriş Yap',
 		'Not a member yet?' => 'Henüz üye değil misin?',
 		'Sign up' => 'Kaydol',
+		'Sign in' => 'Giriş Yap',
 
 // Found in: resources\views\auth\passwords\email.blade.php, resources\views\auth\passwords\reset.blade.php
 		'Reset Password' => 'Şifreyi Sıfırla',
@@ -572,7 +573,15 @@
 		],
 
 		//-----------------------------
-
+		'Books' => 'Kitaplar',
+		'No books found' => 'Kitap bulunamadı',
+		'Create New Book' => 'Yeni Kitap Oluştur',
+		'Book deleted successfully' => 'Kitap başarıyla silindi',
+		'Failed to delete book' => 'Kitap silinemedi',
+		'Are you sure you want to delete this book?' => 'Bu kitabı silmek istediğinizden emin misiniz?',
+		'Shopping History' => 'Alışveriş Geçmişi',
+		'Checkout' => 'Ödeme',
+		'Purchase' => 'Satın Al',
 
 		'create' => [
 			'step1' => [
@@ -593,14 +602,25 @@
 				],
 				'questions' => [
 					'job' => '#author# ne iş yapıyor?',
-					'family' => '#author# aile üyeleri kimler?',
-					'friends' => '#author# en iyi arkadaşları kimler?',
-					'hobbies' => '#author# hobileri neler?',
-					'dream' => '#author# hayali ne?',
+					'family' => '#author#[suffix] aile üyeleri kimler?',
+					'friends' => '#author#[suffix] en iyi arkadaşları kimler?',
+					'hobbies' => '#author#[suffix] hobileri neler?',
+					'dream' => '#author#[suffix] hayali ne?',
 					'genre' => '#author# hangi türde bir kitap yazacak?',
 					'sayoften' => '#author# sık sık ne der?',
 					'expertise' => '#author# hangi konuda uzmandır?',
-					'funny' => '#author# en komik özelliği nedir?',
+					'funny' => '#author#[suffix] en komik özelliği nedir?',
+					'childhood' => '#author# çocukluğunda nasıl biriydi?',
+					'achievement' => '#author#[suffix] hayatındaki en büyük başarısı nedir?',
+					'challenge' => '#author#[suffix] hayatında karşılaştığı en büyük zorluk neydi?',
+					'inspiration' => '#author#[suffix] ilham kaynakları nelerdir?',
+					'routine' => '#author#[suffix] günlük rutini nasıldır?',
+					'values' => '#author# için en önemli değerler nelerdir?',
+					'future' => '#author# gelecekte kendini nerede görüyor?',
+					'regret' => '#author#[suffix] hayatında en çok pişman olduğu şey nedir?',
+					'talent' => '#author#[suffix] gizli yetenekleri nelerdir?',
+					'motto' => '#author#[suffix] hayat mottosu nedir?',
+					'impact' => '#author# dünyada nasıl bir iz bırakmak istiyor?'
 				]
 			],
 			'step3' => [

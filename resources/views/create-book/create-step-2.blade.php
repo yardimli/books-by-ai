@@ -45,7 +45,7 @@
 				<h5 class="modal-title">{{ __('default.create.step2.modal.title') }}</h5>
 				<div class="btn-close btn-close-white" data-bs-dismiss="modal"></div>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
 				<div class="list-group list-group-flush" id="questionsList">
 					<!-- Questions will be inserted here by JavaScript -->
 				</div>
@@ -75,26 +75,73 @@
 	</div>
 </div>
 
+<style>
+    .list-group-item.disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+
+    .list-group-item.disabled:hover {
+        /*background-color: #f8f9fa !important;*/
+    }
+</style>
 
 
 @push('scripts')
 	<script>
 		let answers = [];
 		
+		function addTurkishPossessiveSuffix(name) {
+			name = name.toLowerCase();
+			const vowels = name.match(/[aeıioöuü]/g);
+			const lastLetter = name.slice(-1);
+			const lastVowel = vowels ? vowels[vowels.length - 1] : null;
+			
+			const isVowel = /[aeıioöuü]/.test(lastLetter);
+			
+			if (isVowel) {
+				switch (lastVowel) {
+					case 'a': case 'ı': return 'nın';
+					case 'e': case 'i': return 'nin';
+					case 'o': case 'u': return 'nun';
+					case 'ö': case 'ü': return 'nün';
+				}
+			} else {
+				switch (lastVowel) {
+					case 'a': case 'ı': return 'ın';
+					case 'e': case 'i': return 'in';
+					case 'o': case 'u': return 'un';
+					case 'ö': case 'ü': return 'ün';
+				}
+			}
+			return 'ın';
+		}
+		
 		function renderAnswers(answers) {
-			const answersHtml = answers.map((item, index) => `
-        <div class="card bg-light mb-3 position-relative">
-            <div class="position-absolute top-0 end-0 m-2">
-                <div class="btn btn-link text-danger p-0" onclick="deleteAnswer(${index})" style="line-height: 1;">
-                    <i class="bi bi-x-circle-fill"></i>
+			const authorName = '{{ $book->author_name }}';
+			const answersHtml = answers.map((item, index) => {
+				let questionText = item.question;
+				if (questionText.includes('[suffix]')) {
+					const suffix = addTurkishPossessiveSuffix(authorName);
+					questionText = questionText.replace('#author#[suffix]', `${authorName}'${suffix}`);
+				} else {
+					questionText = questionText.replace('#author#', authorName);
+				}
+				
+				return `
+            <div class="card bg-light mb-3 position-relative">
+                <div class="position-absolute top-0 end-0 m-2">
+                    <div class="btn btn-link text-danger p-0" onclick="deleteAnswer(${index})" style="line-height: 1;">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">${questionText}</h5>
+                    <p class="card-text">${item.answer}</p>
                 </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">${item.question.replace('#author#', '{{ $book->author_name }}')}</h5>
-                <p class="card-text">${item.answer}</p>
-            </div>
-        </div>
-    `).join('');
+        `;
+			}).join('');
 			$('#previous-answers').html(answersHtml);
 		}
 		
@@ -102,18 +149,32 @@
 			const questionsList = $('#questionsList');
 			questionsList.empty();
 			let bookQuestions = @json(__('default.create.step2.questions'));
+			const authorName = '{{ $book->author_name }}';
 			
 			Object.entries(bookQuestions).forEach(([key, question]) => {
-				const questionText = question.replace('#author#', '{{ $book->author_name }}');
+				let questionText = question;
+				if (questionText.includes('[suffix]')) {
+					const suffix = addTurkishPossessiveSuffix(authorName);
+					questionText = questionText.replace('#author#[suffix]', `${authorName}'${suffix}`);
+				} else {
+					questionText = questionText.replace('#author#', authorName);
+				}
+				
+				// Check if question has already been answered
+				const isAnswered = answers.some(answer => answer.question === questionText);
+				
 				const questionButton = $(`
-            <div class="list-group-item list-group-item-action">
+            <div class="list-group-item list-group-item-action ${isAnswered ? 'disabled' : ''}">
                 ${questionText}
+                ${isAnswered ? '<span class="float-end text-success"><i class="bi bi-check-circle-fill"></i></span>' : ''}
             </div>
         `);
 				questionButton.data('original-question', question);
+				questionButton.data('is-answered', isAnswered);
 				questionsList.append(questionButton);
 			});
 		}
+		
 		
 		function checkIfHasAnswers(answers) {
 			if (answers.length === 0) {
@@ -139,9 +200,24 @@
 			});
 			
 			// Question selection
+			// Question selection
 			$(document).on('click', '#questionsList .list-group-item', function () {
+				// If question is already answered, don't do anything
+				if ($(this).data('is-answered')) {
+					return;
+				}
+				
 				const originalQuestion = $(this).data('original-question');
-				const questionText = originalQuestion.replace('#author#', '{{ $book->author_name }}');
+				let questionText = originalQuestion;
+				const authorName = '{{ $book->author_name }}';
+				
+				if (questionText.includes('[suffix]')) {
+					const suffix = addTurkishPossessiveSuffix(authorName);
+					questionText = questionText.replace('#author#[suffix]', `${authorName}'${suffix}`);
+				} else {
+					questionText = questionText.replace('#author#', authorName);
+				}
+				
 				$('#selectedQuestion').text(questionText);
 				$('#questionModal').modal('hide');
 				$('#answerModal').modal('show');
@@ -158,6 +234,12 @@
 				const answer = $('#answerText').val();
 				
 				if (answer.trim()) {
+					// Check if question has already been answered
+					if (answers.some(a => a.question === originalQuestion)) {
+						alert('This question has already been answered.');
+						return;
+					}
+					
 					answers.push({
 						question: originalQuestion,
 						answer: answer
@@ -179,6 +261,7 @@
 								checkIfHasAnswers(answers);
 								$('#answerModal').modal('hide');
 								$('#answerText').val('');
+								buildQuestionsList(); // Rebuild questions list to update UI
 							}
 						}
 					});
@@ -203,6 +286,7 @@
 						if (response.success) {
 							renderAnswers(answers);
 							checkIfHasAnswers(answers);
+							buildQuestionsList(); // Rebuild questions list to update UI
 						}
 					}
 				});

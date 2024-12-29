@@ -15,93 +15,107 @@
 			</div>
 		</div>
 		
-		<div class="text-center mt-4">
-			@php
-				$bookOptions = json_decode($book->book_options, true);
-				$selectedOption = $bookOptions[$book->selected_book_option] ?? null;
-			@endphp
-			<div class="fs-4 book-title inria-serif-bold">{{ $selectedOption['title'] ?? '' }}</div>
-			<div class="book-author-name inria-serif-regular fs-5">{{ $book->author_name }}
-				- {{__('default.checkout.page_count')}}</div>
+		<form action="/checkout" method="POST">
+			@csrf <!-- Include CSRF token for security -->
+			<input type="hidden" name="book_guid" value="{{ $book->book_guid }}">
+			<input type="hidden" name="quantity" id="quantity" value="1">
+			<input type="hidden" name="print_size" id="print_size" value="print_13_19_5_cm">
 			
-			<div class="alert alert-info mt-3 mb-5 inria-serif-regular">
-				{{ __('default.checkout.page_count_description') }}
-			</div>
-		
-		</div>
-		
-		<div class="mt-5">
-			<!-- Book Format Selection -->
-			<div class="d-flex gap-3 mb-4">
-				<div
-					class="format-option flex-grow-1 p-4 rounded-3 text-center {{ $selectedFormat === 'print_13_19_5_cm' ? 'selected' : '' }}"
-					data-format="print_13_19_5_cm" data-price="{{__('default.checkout.normal_cover_size_price')}}">
-					<div class="fs-5 inria-serif-regular">{{__('default.checkout.normal_cover_size')}}</div>
-					<div class="inria-serif-bold price">{{__('default.checkout.currency_prefix')}}{{__('default.checkout.normal_cover_size_price')}}{{__('default.checkout.currency_suffix')}}</div>
+			<div class="text-center mt-4">
+				@php
+					$bookOptions = json_decode($book->book_options, true);
+					$selectedOption = $bookOptions[$book->selected_book_option] ?? null;
+				@endphp
+				<div class="fs-4 book-title inria-serif-bold">{{ $selectedOption['title'] ?? '' }}</div>
+				<div class="book-author-name inria-serif-regular fs-5">{{ $book->author_name }}
+					- {{__('default.checkout.page_count')}}</div>
+				
+				<div class="alert alert-info mt-3 mb-5 inria-serif-regular">
+					{{ __('default.checkout.page_count_description') }}
 				</div>
-				<div
-					class="format-option flex-grow-1 p-4 rounded-3 text-center {{ $selectedFormat === 'print_16_20_cm' ? 'selected' : '' }}"
-					data-format="print_16_20_cm" data-price="{{__('default.checkout.large_cover_size_price')}}">
-					<div class="fs-5 inria-serif-regular">{{__('default.checkout.large_cover_size')}}</div>
-					<div class="price inria-serif-bold">{{__('default.checkout.currency_prefix')}}{{__('default.checkout.large_cover_size_price')}}{{__('default.checkout.currency_suffix')}}</div>
-				</div>
+			
 			</div>
 			
-			<!-- Copies Selection -->
-			<div class="d-flex justify-content-between mb-4">
-				<div>
-					<div class="fs-4 inria-serif-bold">{{ __('default.checkout.copies') }}</div>
-					<div class="text-muted inria-serif-regular mt-2">{{ __('default.checkout.copies_description') }}</div>
-				</div>
-				<div class="copies-container d-flex align-items-center gap-3">
-					<button class="copy-btn rounded-circle" data-action="decrease">-</button>
-					<span id="copyCount" class="fs-5">1</span>
-					<button class="copy-btn rounded-circle" data-action="increase">+</button>
-				</div>
-			</div>
-			
-			
-			<!-- Shipping Options -->
-			<div class="mb-4">
-				<div class="fs-4 inria-serif-bold mb-2">{{ __('default.checkout.shipping') }}</div>
-				<div class="shipping-option d-flex justify-content-between align-items-center p-3 mb-2 rounded-3">
-					<div>
-						<input type="radio" name="shipping" id="standard" checked>
-						<label class="inria-serif-regular" for="standard">
-							<strong>{{ __('default.checkout.standard_shipping') }}</strong><br>
-							<span class="text-muted">{{ __('default.checkout.shipping_time') }}</span>
-						</label>
+			<div class="mt-5">
+				<!-- Book Format Selection -->
+				<div class="d-flex gap-3 mb-4">
+					<div
+						class="format-option flex-grow-1 p-4 rounded-3 text-center selected"
+						data-format="print_13_19_5_cm" data-price="{{__('default.checkout.normal_cover_size_price')}}">
+						<div class="fs-5 inria-serif-regular">{{__('default.checkout.normal_cover_size')}}</div>
+						<div
+							class="inria-serif-bold price">{{__('default.checkout.currency_prefix')}}{{__('default.checkout.normal_cover_size_price')}}{{__('default.checkout.currency_suffix')}}</div>
 					</div>
-					<div>{{ __('default.checkout.free_shipping') }}</div>
+					<div
+						class="format-option flex-grow-1 p-4 rounded-3 text-center"
+						data-format="print_16_20_cm" data-price="{{__('default.checkout.large_cover_size_price')}}">
+						<div class="fs-5 inria-serif-regular">{{__('default.checkout.large_cover_size')}}</div>
+						<div
+							class="price inria-serif-bold">{{__('default.checkout.currency_prefix')}}{{__('default.checkout.large_cover_size_price')}}{{__('default.checkout.currency_suffix')}}</div>
+					</div>
+				</div>
+				
+				<!-- Copies Selection -->
+				<div class="d-flex justify-content-between mb-4">
+					<div>
+						<div class="fs-4 inria-serif-bold">{{ __('default.checkout.copies') }}</div>
+						<div class="text-muted inria-serif-regular mt-2">{{ __('default.checkout.copies_description') }}</div>
+					</div>
+					<div class="copies-container d-flex align-items-center gap-3">
+						<button class="copy-btn rounded-circle" data-action="decrease">-</button>
+						<span id="copyCount" class="fs-5">1</span>
+						<button class="copy-btn rounded-circle" data-action="increase">+</button>
+					</div>
+				</div>
+				
+				
+				<!-- Shipping Options -->
+				<div class="mb-4">
+					<div class="fs-4 inria-serif-bold mb-2">{{ __('default.checkout.shipping') }}</div>
+					<div class="shipping-option d-flex justify-content-between align-items-center p-3 mb-2 rounded-3">
+						<div>
+							<input type="radio" name="shipping" id="standard" checked>
+							<label class="inria-serif-regular" for="standard">
+								<strong>{{ __('default.checkout.standard_shipping') }}</strong><br>
+								<span class="text-muted">{{ __('default.checkout.shipping_time') }}</span>
+							</label>
+						</div>
+						<div>{{ __('default.checkout.free_shipping') }}</div>
+					</div>
+				</div>
+				
+				<!-- Order Summary -->
+				<div class="summary mt-3">
+					<div class="fs-4 inria-serif-bold mb-2">{{ __('default.checkout.summary') }}</div>
+					<div class="d-flex justify-content-between mb-2">
+						<div class="inria-serif-regular">{{ __('default.checkout.base_product') }}</div>
+						<div
+							class="inria-serif-regular">{{__('default.checkout.currency_prefix')}}{{ __('default.checkout.normal_cover_size_price') }}{{__('default.checkout.currency_suffix')}}</div>
+					</div>
+					<div class="d-flex justify-content-between mb-2">
+						<div class="inria-serif-regular"><span
+								id="additional_copies_label"></span>{{ __('default.checkout.additional_copies') }}</div>
+						<div
+							class="inria-serif-regular">{{__('default.checkout.currency_prefix')}}{{ __('default.checkout.additional_copies_price') }}{{__('default.checkout.currency_suffix')}}</div>
+					</div>
+					<div class="d-flex justify-content-between mb-3">
+						<div class="inria-serif-regular">{{ __('default.checkout.shipping') }}</div>
+						<div class="inria-serif-regular">{{ __('default.checkout.free_shipping') }}</div>
+					</div>
+					<div class="d-flex justify-content-between fw-bold">
+						<div class="inria-serif-bold">{{ __('default.checkout.subtotal') }}</div>
+						<div
+							class="inria-serif-bold">{{__('default.checkout.currency_prefix')}}{{ __('default.checkout.normal_cover_size_price') }}{{__('default.checkout.currency_suffix')}}</div>
+					</div>
+				</div>
+				
+				<!-- Checkout Button -->
+				<div class="d-grid gap-2 mt-4">
+					<button type="submit"
+					        class="btn btn-primary btn-lg checkout-btn">{{ __('default.checkout.checkout_button') }}</button>
 				</div>
 			</div>
-			
-			<!-- Order Summary -->
-			<div class="summary mt-3">
-				<div class="fs-4 inria-serif-bold mb-2">{{ __('default.checkout.summary') }}</div>
-				<div class="d-flex justify-content-between mb-2">
-					<div class="inria-serif-regular">{{ __('default.checkout.base_product') }}</div>
-					<div class="inria-serif-regular">{{__('default.checkout.currency_prefix')}}{{ __('default.checkout.normal_cover_size_price') }}{{__('default.checkout.currency_suffix')}}</div>
-				</div>
-				<div class="d-flex justify-content-between mb-2">
-					<div class="inria-serif-regular"><span id="additional_copies_label"></span>{{ __('default.checkout.additional_copies') }}</div>
-					<div class="inria-serif-regular">{{__('default.checkout.currency_prefix')}}{{ __('default.checkout.additional_copies_price') }}{{__('default.checkout.currency_suffix')}}</div>
-				</div>
-				<div class="d-flex justify-content-between mb-3">
-					<div class="inria-serif-regular">{{ __('default.checkout.shipping') }}</div>
-					<div class="inria-serif-regular">{{ __('default.checkout.free_shipping') }}</div>
-				</div>
-				<div class="d-flex justify-content-between fw-bold">
-					<div class="inria-serif-bold">{{ __('default.checkout.subtotal') }}</div>
-					<div class="inria-serif-bold">{{__('default.checkout.currency_prefix')}}{{ __('default.checkout.normal_cover_size_price') }}{{__('default.checkout.currency_suffix')}}</div>
-				</div>
-			</div>
-			
-			<!-- Checkout Button -->
-			<div class="d-grid gap-2 mt-4">
-				<button class="btn btn-primary btn-lg checkout-btn">{{ __('default.checkout.checkout_button') }}</button>
-			</div>
-		</div>
+		</form>
 	
 	</div>
 </div>
@@ -288,12 +302,14 @@
 			$('.format-option').click(function () {
 				$('.format-option').removeClass('selected');
 				$(this).addClass('selected');
+				$('#print_size').val($(this).data('format'));
 				basePrice = parseFloat($(this).data('price'));
 				updateTotal();
 			});
 			
 			// Copy count buttons
-			$('.copy-btn').click(function () {
+			$('.copy-btn').click(function (e) {
+				e.preventDefault();
 				const action = $(this).data('action');
 				if (action === 'decrease' && copyCount > 0) {
 					copyCount--;
@@ -301,6 +317,7 @@
 					copyCount++;
 				}
 				$('#copyCount').text(copyCount);
+				$('#quantity').val(copyCount); // Update hidden input value
 				$("#additional_copies_label").text(copyCount + 'x ');
 				updateTotal();
 			});
@@ -318,10 +335,6 @@
 			
 			updateTotal();
 			
-			$('.checkout-btn').click(function () {
-				// Handle checkout process
-				alert('Proceeding to checkout...');
-			});
 		});
 	</script>
 @endpush

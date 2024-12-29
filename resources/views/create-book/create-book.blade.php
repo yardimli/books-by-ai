@@ -27,7 +27,7 @@
 	
 	<style>
 
-      @include('landing.create-book-fonts')
+      @include('create-book.create-book-fonts')
 
       .wizard-progress {
           position: relative;
@@ -190,28 +190,28 @@
 				<div class="wizard-step">
 					@switch($currentStep)
 						@case(1)
-							@include('landing.create-step-1')
+							@include('create-book.create-step-1')
 							@break
 						@case(2)
-							@include('landing.create-step-2')
+							@include('create-book.create-step-2')
 							@break
 						@case(3)
-							@include('landing.create-step-3')
+							@include('create-book.create-step-3')
 							@break
 						@case(4)
-							@include('landing.create-step-4')
+							@include('create-book.create-step-4')
 							@break
 						@case(5)
-							@include('landing.create-step-5')
+							@include('create-book.create-step-5')
 							@break
 						@case(6)
-							@include('landing.create-step-6')
+							@include('create-book.create-step-6')
 							@break
 						@case(7)
-							@include('landing.create-step-7')
+							@include('create-book.create-step-7')
 							@break
 						@default
-							@include('landing.create-step-1')
+							@include('create-book.create-step-1')
 					@endswitch
 				</div>
 			

@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="/css/flickity.css" media="screen">
 	<script src="/js/flickity.pkgd.min.js"></script>
 	<style>
-		@include('landing.create-book-fonts')
+		@include('create-book.create-book-fonts')
 
 		@media (max-width: 767.98px) {
         /* Add padding to prevent content from being hidden behind fixed button */
@@ -27,11 +27,11 @@
 	
 	
 	<main>
-		@include('components.hero')
-		@include('components.testimonials')
-		@include('components.how-it-works')
-		@include('components.cover-options')
-		@include('components.faq')
+		@include('landing.hero')
+		@include('landing.testimonials')
+		@include('landing.how-it-works')
+		@include('landing.cover-options')
+		@include('landing.faq')
 		
 		<div class="d-md-none fixed-bottom p-3 bg-light text-center mobile-cta">
 			<a href="{{route('create-book')}}" class="btn btn-primary btn-lg px-5">{{ __('default.hero.cta') }}</a>

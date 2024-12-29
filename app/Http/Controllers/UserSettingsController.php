@@ -6,6 +6,7 @@
 	use App\Models\User;
 	use App\Models\Language;
 	use App\Models\Category;
+	use Illuminate\Pagination\LengthAwarePaginator;
 	use Illuminate\Support\Facades\Auth;
 	use Illuminate\Support\Facades\DB;
 	use Illuminate\Support\Facades\Log;
@@ -25,6 +26,46 @@
 		// Index
 		public function index()
 		{
+		}
+
+		public function admin_index(Request $request)
+		{
+			// Check if the logged-in user is user_id 1
+			if (Auth::user()->id === 1) {
+				// Fetch all users
+				$query = User::query();
+
+				if ($request->has('search')) {
+					$query->where('name', 'like', "%{$request->search}%")
+						->orWhere('email', 'like', "%{$request->search}%");
+				}
+
+//				$users = $query->paginate(200);
+				$users = $query->orderBy('id', 'desc')->get();
+
+				$page = LengthAwarePaginator::resolveCurrentPage() ?: 1;
+
+				// Create a new LengthAwarePaginator instance
+				$items = $users->forPage($page, 100);
+				$users = new LengthAwarePaginator($items, $users->count(), 100, $page, [
+					'path' => LengthAwarePaginator::resolveCurrentPath(),
+				]);
+
+				// Return to the users view
+				return view('user.users', compact('users'));
+			} else {
+				abort(403, 'Unauthorized action.');
+			}
+		}
+
+		public function loginAs(Request $request)
+		{
+			if (Auth::user()->id === 1) {
+				Auth::loginUsingId($request->user_id);
+				return redirect()->back();
+			} else {
+				abort(403, 'Unauthorized action.');
+			}
 		}
 
 		public function account()
@@ -90,23 +131,6 @@
 			// Redirect back with success message
 			Session::flash('success', 'Your password has been updated successfully.');
 			return redirect()->back();
-		}
-
-		//-------------------------------------------------------------------------
-		// privacy
-		public function buyPackages(Request $request)
-		{
-			if (Auth::check()) {
-				$checkout_starter = 'starter';
-				$checkout_novella = 'novella';
-				$checkout_novel = 'novel';
-			} else {
-				$checkout_starter = null;
-				$checkout_novella = null;
-				$checkout_novel = null;
-			}
-
-			return view('user.buy-packages', compact('checkout_starter', 'checkout_novella', 'checkout_novel'));
 		}
 
 

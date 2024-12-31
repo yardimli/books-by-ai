@@ -639,6 +639,7 @@
 		'Card number must be 15 or 16 digits' => 'Kart numarası 15 veya 16 haneli olmalıdır',
 		'CVV must be 3 digits' => 'CVV 3 haneli olmalıdır',
 		'Invalid expiry date or card has expired' => 'Geçersiz son kullanma tarihi veya kart süresi dolmuş',
+		'books' => 'Kitap',
 
 		'create' => [
 			'step1' => [

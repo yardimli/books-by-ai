@@ -92,7 +92,7 @@
 											{{ $selectedOption['title'] ?? 'Book Title' }}
 										</td>
 										<td>{{ $item->print_size === 'print_13_19_5_cm' ? '13 x 19.5 cm' : '16 x 20 cm' }}</td>
-										<td>{{ $item->quantity }}</td>
+										<td>{{$item->quantity}} ({{ $item->quantity * 4}} {{__('default.books')}})</td>
 										<td
 											class="text-end">{{__('default.checkout.currency_prefix')}}{{ number_format($item->price, 2) }}{{__('default.checkout.currency_suffix')}}</td>
 										<td
@@ -108,8 +108,6 @@
 								</tr>
 								<tr>
 									<td colspan="4" class="text-end">{{ __('default.Shipping') }}:</td>
-									<td
-										class="text-end">{{ $order->shipping > 0 ? __('default.checkout.currency_prefix') . number_format($order->shipping, 2) . __('default.checkout.currency_suffix') : __('default.free_shipping') }}</td>
 									<td
 										class="text-end">{{ $order->shipping > 0 ? __('default.checkout.currency_prefix') . number_format($order->shipping, 2) . __('default.checkout.currency_suffix') : __('default.free_shipping') }}</td>
 								</tr>

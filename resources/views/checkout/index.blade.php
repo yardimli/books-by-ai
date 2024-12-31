@@ -165,7 +165,8 @@
 								</div>
 								<div class="col-md-3">
 									<label class="form-label">{{ __('default.Expiry Date') }}</label>
-									<input type="text" class="form-control" name="card_expiry" id="card_expiry" placeholder="MM/YY" required>
+									<input type="text" class="form-control" name="card_expiry" id="card_expiry" placeholder="MM/YY"
+									       required>
 								</div>
 								<div class="col-md-3">
 									<label class="form-label">{{ __('default.CVV') }}</label>
@@ -204,30 +205,30 @@
 							</div>
 							
 							<div class="d-flex justify-content-between mb-2">
-								<span>{{ __('default.checkout.copies') }}:</span>
-								<span>{{ $quantity }} x4</span>
+								<span>{{ __('default.checkout.copies') }} ({{ $quantity * 4 }}):</span>
+								<span>{{1000 * $quantity}}</span>
 							</div>
 							
 							<div class="d-flex justify-content-between mb-2">
 								<span>{{ __('default.base_product') }}:</span>
-								<span>{{ number_format($base_price, 2) }} ₺</span>
+								<span>{{__('default.checkout.currency_prefix')}}{{ number_format($base_price, 2) }}{{__('default.checkout.currency_suffix')}}</span>
 							</div>
 							
 							<div class="d-flex justify-content-between mb-2">
 								<span>{{ __('default.Subtotal') }}:</span>
-								<span>{{ number_format($subtotal, 2) }} ₺</span>
+								<span>{{__('default.checkout.currency_prefix')}}{{ number_format($subtotal, 2) }}{{__('default.checkout.currency_suffix')}}</span>
 							</div>
 							
 							<div class="d-flex justify-content-between mb-2">
 								<span>{{ __('default.Shipping') }}:</span>
-								<span>{{ $shipping > 0 ? number_format($shipping, 2) . ' ₺' : __('default.free_shipping') }}</span>
+								<span>{{ $shipping > 0 ? __('default.checkout.currency_prefix') . number_format($shipping, 2) . __('default.checkout.currency_suffix') : __('default.free_shipping') }}</span>
 							</div>
 							
 							<hr>
 							
 							<div class="d-flex justify-content-between mb-2 fw-bold">
 								<span>{{ __('default.Total') }}:</span>
-								<span>{{ number_format($total, 2) }} ₺</span>
+								<span>{{__('default.checkout.currency_prefix')}}{{ number_format($total, 2) }}{{__('default.checkout.currency_suffix')}}</span>
 							</div>
 						</div>
 					</div>
@@ -235,6 +236,9 @@
 			</div>
 		</div>
 	</div>
+	
+	@include('layouts.footer')
+	
 	
 	<style>
       .form-control {

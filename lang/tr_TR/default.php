@@ -750,7 +750,7 @@
 			'normal_cover_size_price' => '1600',
 			'large_cover_size' => '16x23 cm',
 			'large_cover_size_price' => '2000',
-			'copies' => 'Kopya Sayısı',
+			'copies' => 'Ek Kopya Sayısı',
 			'copies_description' => 'Her 4 kopya için ₺ 1000 ek ücret',
 			'shipping' => 'Kargo',
 			'standard_shipping' => 'Standart Kargo',

@@ -93,24 +93,31 @@
 										</td>
 										<td>{{ $item->print_size === 'print_13_19_5_cm' ? '13 x 19.5 cm' : '16 x 20 cm' }}</td>
 										<td>{{ $item->quantity }}</td>
-										<td class="text-end">{{ number_format($item->price, 2) }} ₺</td>
-										<td class="text-end">{{ number_format($item->subtotal, 2) }} ₺</td>
+										<td
+											class="text-end">{{__('default.checkout.currency_prefix')}}{{ number_format($item->price, 2) }}{{__('default.checkout.currency_suffix')}}</td>
+										<td
+											class="text-end">{{__('default.checkout.currency_prefix')}}{{ number_format($item->subtotal, 2) }}{{__('default.checkout.currency_suffix')}}</td>
 									</tr>
 								@endforeach
 								</tbody>
 								<tfoot>
 								<tr>
 									<td colspan="4" class="text-end">{{ __('default.Subtotal') }}:</td>
-									<td class="text-end">{{ number_format($order->subtotal, 2) }} ₺</td>
+									<td
+										class="text-end">{{__('default.checkout.currency_prefix')}}{{ number_format($order->subtotal, 2) }}{{__('default.checkout.currency_suffix')}}</td>
 								</tr>
 								<tr>
 									<td colspan="4" class="text-end">{{ __('default.Shipping') }}:</td>
 									<td
-										class="text-end">{{ $order->shipping > 0 ? number_format($order->shipping, 2) . ' ₺' : __('default.free_shipping') }}</td>
+										class="text-end">{{ $order->shipping > 0 ? __('default.checkout.currency_prefix') . number_format($order->shipping, 2) . __('default.checkout.currency_suffix') : __('default.free_shipping') }}</td>
+									<td
+										class="text-end">{{ $order->shipping > 0 ? __('default.checkout.currency_prefix') . number_format($order->shipping, 2) . __('default.checkout.currency_suffix') : __('default.free_shipping') }}</td>
 								</tr>
 								<tr>
 									<td colspan="4" class="text-end"><strong>{{ __('default.Total') }}:</strong></td>
-									<td class="text-end"><strong>{{ number_format($order->total, 2) }} ₺</strong></td>
+									<td class="text-end">
+										<strong>{{__('default.checkout.currency_prefix')}}{{ number_format($order->total, 2) }}{{__('default.checkout.currency_suffix')}}</strong>
+									</td>
 								</tr>
 								</tfoot>
 							</table>
@@ -136,6 +143,7 @@
 			</div>
 		</div>
 	</div>
+	@include('layouts.footer')
 	
 	<style>
       .card {

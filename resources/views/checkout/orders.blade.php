@@ -35,7 +35,7 @@
 								@endforeach
 							</td>
 							<td>{{ $order->created_at->format('d/m/Y') }}</td>
-							<td>{{ number_format($order->total, 2) }} ₺</td>
+							<td>{{__('default.checkout.currency_prefix')}}{{ number_format($order->total, 2) }}{{__('default.checkout.currency_suffix')}}</td>
 							<td>
               <span class="badge bg-{{ $order->status === 'pending' ? 'warning' : 'success' }}">
                   {{ ucfirst($order->status) }}
@@ -59,6 +59,8 @@
 			</div>
 		</div>
 	</div>
+	
+	@include('layouts.footer')
 	
 	<style>
       .card {

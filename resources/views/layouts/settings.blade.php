@@ -68,9 +68,9 @@
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link {{ Route::currentRouteName() == 'settings.close-account' ? 'active' : '' }}"
+												<a class="nav-link {{ Route::currentRouteName() == 'settings.shopping-history' ? 'active' : '' }}"
 												   style="margin-bottom: 0px;"
-												   href="{{ route('settings.close-account') }}">
+												   href="{{ route('orders.index') }}">
 													<img class="me-2 h-20px" src="/assets/images/icon/shopping-bag-outline-filled.svg" alt="">
 													{{__('default.Shopping History')}}
 												</a>

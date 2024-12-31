@@ -81,8 +81,11 @@
 		Route::get('/kitaplarim', [BookController::class, 'myBooks'])->name('my-books');
 		Route::delete('/kitap-sil/{book_guid}', [BookController::class, 'destroy'])->name('delete-book');
 
-		Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
-		Route::get('/order/success/{order}', [CheckoutController::class, 'success'])->name('order.success');
+		Route::post('/alisveris/islem', [CheckoutController::class, 'process'])->name('checkout.process');
+		Route::get('/alisveris/basarili/{order}', [CheckoutController::class, 'success'])->name('order.success');
+
+		Route::get('/siparisler', [CheckoutController::class, 'orders'])->name('orders.index');
+		Route::get('/siparisler/{orderNumber}', [CheckoutController::class, 'orderDetails'])->name('orders.details');
 
 
 		Route::post('/settings', [UserSettingsController::class, 'updateSettings'])->name('settings-update');

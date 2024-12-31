@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CountryStateCityController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+	Route::get('/countries', [CountryStateCityController::class, 'getCountries']);
+	Route::get('/cities/{countryId}', [CountryStateCityController::class, 'getCities']);
+	Route::get('/counties/{cityId}', [CountryStateCityController::class, 'getCounties']);
+	Route::get('/districts/{countyId}', [CountryStateCityController::class, 'getDistricts']);
+	Route::get('/neighborhoods/{districtId}', [CountryStateCityController::class, 'getNeighborhoods']);

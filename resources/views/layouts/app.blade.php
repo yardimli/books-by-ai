@@ -32,7 +32,7 @@
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css">
-	
+
 </head>
 @php
 	use Carbon\Carbon;
@@ -163,22 +163,23 @@ Header START -->
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				
 				<ul class="navbar-nav navbar-nav-scroll ms-auto">
-{{--					<li class="nav-item">--}}
-{{--						<a class="nav-link active" href="{{route('chat')}}">{{__('default.Chat')}}</a>--}}
-{{--					</li>--}}
-{{--					<li class="nav-item">--}}
-{{--						<a class="nav-link" href="{{route('articles.index')}}">{{__('default.Blog')}}</a>--}}
-{{--					</li>--}}
-
-{{--					<li class="nav-item">--}}
-{{--						<a class="nav-link" href="{{route('help-page')}}">{{__('default.Help')}}</a>--}}
-{{--					</li>--}}
+					{{--					<li class="nav-item">--}}
+					{{--						<a class="nav-link active" href="{{route('chat')}}">{{__('default.Chat')}}</a>--}}
+					{{--					</li>--}}
+					{{--					<li class="nav-item">--}}
+					{{--						<a class="nav-link" href="{{route('articles.index')}}">{{__('default.Blog')}}</a>--}}
+					{{--					</li>--}}
+					
+					{{--					<li class="nav-item">--}}
+					{{--						<a class="nav-link" href="{{route('help-page')}}">{{__('default.Help')}}</a>--}}
+					{{--					</li>--}}
 					
 					<li class="nav-item">
-						<a class="nav-link" href="{{route('my-books')}}"><img class="me-2 h-20px" src="/assets/images/icon/book-outline-filled.svg" alt="">
+						<a class="nav-link" href="{{route('my-books')}}"><img class="me-2 h-20px"
+						                                                      src="/assets/images/icon/book-outline-filled.svg"
+						                                                      alt="">
 							{{__('default.My Books')}}</a>
 					</li>
-				
 				
 				
 				</ul>
@@ -230,7 +231,13 @@ Header START -->
 									</div>
 								</div>
 								<a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center"
-								   href="{{ route('settings.account') }}">{{ __('Images') }}</a>
+								   href="{{ route('orders.index') }}">
+									{{ __('default.My Orders') }}
+								</a>
+								@if (auth()->user()->is_admin)
+									<a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center"
+									   href="{{ route('settings.account') }}">{{ __('Images') }}</a>
+								@endif
 							</li>
 							<a class="dropdown-item" href="{{route('settings.account')}}"><i
 									class="bi bi-person  me-2"></i>{{__('default.Settings')}}</a>
@@ -252,7 +259,7 @@ Header START -->
 						@endif
 						<!-- Dark mode options START -->
 						<hr class="dropdown-divider">
-						
+				
 				</li>
 				<!-- Dark mode options END-->
 			</ul>

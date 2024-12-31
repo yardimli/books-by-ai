@@ -22,6 +22,15 @@ run `php artisan migrate`
 
 run `php artisan storage:link`
 
+---
+for turkish address run
+
+run `composer require epigra/trgeozones`
+
+run `php artisan db:seed --class="\Epigra\TrGeoZones\Database\Seeders\TrGeoZonesDatabaseSeeder"`
+
+---
+
 run `npm install`
 
 run `npm run build`

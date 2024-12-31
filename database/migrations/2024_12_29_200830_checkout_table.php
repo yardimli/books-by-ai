@@ -20,28 +20,26 @@
 				$table->string('status')->default('pending');
 
 				// Billing Address
-				$table->string('billing_name');
-				$table->string('billing_email');
-				$table->string('billing_phone');
-				$table->string('billing_address');
-				$table->string('billing_city');
-				$table->string('billing_state');
-				$table->string('billing_zip');
-				$table->string('billing_country');
+				$table->string('billing_name')->nullable();
+				$table->string('billing_phone')->nullable();
+				$table->string('billing_address')->nullable();
+				$table->string('billing_city')->nullable();
+				$table->string('billing_state')->nullable();
+				$table->string('billing_zip')->nullable();
+				$table->string('billing_country')->nullable();
 
 				// Shipping Address
-				$table->string('shipping_name');
-				$table->string('shipping_email');
-				$table->string('shipping_phone');
-				$table->string('shipping_address');
-				$table->string('shipping_city');
-				$table->string('shipping_state');
-				$table->string('shipping_zip');
-				$table->string('shipping_country');
+				$table->string('shipping_name')->nullable();
+				$table->string('shipping_phone')->nullable();
+				$table->string('shipping_address')->nullable();
+				$table->string('shipping_city')->nullable();
+				$table->string('shipping_state')->nullable();
+				$table->string('shipping_zip')->nullable();
+				$table->string('shipping_country')->nullable();
 
 				// Payment
-				$table->string('payment_method');
-				$table->string('payment_status');
+				$table->string('payment_method')->nullable();
+				$table->string('payment_status')->nullable();
 				$table->string('transaction_id')->nullable();
 
 				$table->timestamps();

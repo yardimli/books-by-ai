@@ -27,29 +27,45 @@
 				<div class="row mb-4">
 					<div class="col-md-6">
 						<h4>{{ __('default.Billing Address') }}</h4>
-						<p>{{ $order->billing_name }}<br>
+						<p>
+							{{ $order->billing_name }}<br>
 							{{ $order->billing_address }}<br>
 							@if($order->billing_country == 1)
-								{{ $order->billing_neighborhood }}, {{ $order->billing_district }}<br>
-								{{ $order->billing_county }}, {{ $order->billing_city }}<br>
+								@php
+									$billingCity = \Epigra\TrGeoZones\Models\City::find($order->billing_city);
+									$billingCounty = \Epigra\TrGeoZones\Models\County::find($order->billing_county);
+									$billingDistrict = \Epigra\TrGeoZones\Models\District::find($order->billing_district);
+									$billingNeighborhood = \Epigra\TrGeoZones\Models\Neighbourhood::find($order->billing_neighborhood);
+								@endphp
+								{{ $billingNeighborhood->name ?? '' }}, {{ $billingDistrict->name ?? '' }}<br>
+								{{ $billingCounty->name ?? '' }}, {{ $billingCity->name ?? '' }}<br>
 							@else
 								{{ $order->billing_city }}<br>
 							@endif
 							{{ $order->billing_zip }}<br>
-							{{ __('default.countries.' . $order->billing_country) }}</p>
+							{{ __('default.countries.' . $order->billing_country) }}
+						</p>
 					</div>
 					<div class="col-md-6">
 						<h4>{{ __('default.Shipping Address') }}</h4>
-						<p>{{ $order->shipping_name }}<br>
+						<p>
+							{{ $order->shipping_name }}<br>
 							{{ $order->shipping_address }}<br>
 							@if($order->shipping_country == 1)
-								{{ $order->shipping_neighborhood }}, {{ $order->shipping_district }}<br>
-								{{ $order->shipping_county }}, {{ $order->shipping_city }}<br>
+								@php
+									$shippingCity = \Epigra\TrGeoZones\Models\City::find($order->shipping_city);
+									$shippingCounty = \Epigra\TrGeoZones\Models\County::find($order->shipping_county);
+									$shippingDistrict = \Epigra\TrGeoZones\Models\District::find($order->shipping_district);
+									$shippingNeighborhood = \Epigra\TrGeoZones\Models\Neighbourhood::find($order->shipping_neighborhood);
+								@endphp
+								{{ $shippingNeighborhood->name ?? '' }}, {{ $shippingDistrict->name ?? '' }}<br>
+								{{ $shippingCounty->name ?? '' }}, {{ $shippingCity->name ?? '' }}<br>
 							@else
 								{{ $order->shipping_city }}<br>
 							@endif
 							{{ $order->shipping_zip }}<br>
-							{{ __('default.countries.' . $order->shipping_country) }}</p>
+							{{ __('default.countries.' . $order->shipping_country) }}
+						</p>
 					</div>
 				</div>
 				

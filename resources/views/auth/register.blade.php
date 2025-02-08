@@ -74,12 +74,12 @@
 				
 				<!-- REGISTER PAGE WRAPPER -->
 				<div class="col-lg-11">
-					<div class="register-page-wrapper r-16 bg--fixed">
+					<div class="">
 						<div class="row justify-content-center">
 							
 							
 							<!-- SIGN UP FORM -->
-							<div class="col-12 col-md-8 col-lg-6">
+							<div class="col-12 col-md-8 col-lg-6" style="background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
 								<div class="text-center mt-2">
 									<a href="/" class="logo-black"><img src="/images/logo.png" id="site_logo" alt="logo"
 									                                    style="max-height: 80px;"></a>

@@ -319,7 +319,7 @@
 		'We\'ll never share your email with anyone else.' => 'E-postanızı asla başkalarıyla paylaşmayacağız.',
 		'I Agree with' => '<a href=":terms_url">Şartlar</a> ve <a href=":privacy_url">Gizlilik</a> politikasını kabul ediyorum',
 		'Already Have Account Sign In' => 'Zaten Hesabınız Var Mı? <a href=":login_url">Giriş Yapın</a>',
-		'&copy; 2024 my-laravel-saas-site.com All rights reserved.' => '&copy; 2024 my-laravel-saas-site.com Tüm hakları saklıdır.',
+		'&copy; 2024 my-laravel-saas-site.com All rights reserved.' => '© 2025 HerkesYazar',
 		'Email address' => 'E-posta adresi',
 		'Or' => 'Veya',
 		'at least 8 characters' => 'en az 8 karakter',

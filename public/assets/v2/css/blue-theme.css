@@ -9295,13 +9295,10 @@ img.footer-logo-dark {
 }
 
 #login .register-page-wrapper {
-  background: url(../images/login-wrapper.jpg);
-  background-position: left top;
 }
 
 #signup .register-page-wrapper {
-  background: url(../images/login-wrapper.jpg);
-  background-position: right center;
+
 }
 
 #login .register-page-wrapper:after,

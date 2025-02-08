@@ -75,11 +75,11 @@
 				<!-- REGISTER PAGE WRAPPER -->
 				<div class="col-lg-11">
 					<div class="register-page-wrapper r-16 bg--fixed">
-						<div class="row">
+						<div class="row justify-content-center">
 							
 							
 							<!-- SIGN UP FORM -->
-							<div class="col-md-6">
+							<div class="col-12 col-md-8 col-lg-6">
 								<div class="text-center mt-2">
 									<a href="/" class="logo-black"><img src="/images/logo.png" id="site_logo" alt="logo"
 									                                    style="max-height: 80px;"></a>
@@ -193,24 +193,6 @@
 									</form>
 								</div>
 							</div>  <!-- END SIGN UP FORM -->
-							
-							
-							<!-- SIGN UP PAGE TEXT -->
-							<div class="col-md-6">
-								<div class="register-page-txt color--white">
-									
-									<!-- Text -->
-									<p
-										class="p-md mt-25">{{__('default.Boilerplate Site Tagline')}}
-									</p>
-									
-									<!-- Copyright -->
-									<div class="register-page-copyright">
-										<p class="p-sm">{{__('default.&copy; 2024 my-laravel-saas-site.com All rights reserved.')}}</p>
-									</div>
-								
-								</div>
-							</div>  <!-- END SIGN UP PAGE TEXT -->
 						
 						
 						</div>  <!-- End row -->

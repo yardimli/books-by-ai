@@ -8,7 +8,7 @@
 				<img src="/images/paperback.jpg" alt="{{ __('default.cover_options.paperback.title') }}" class="cover-option-image shadow" style="transform: rotate(-3deg);">
 				<div class="mt-3">
 					<h4 class="inria-serif-regular mb-1">{{ __('default.cover_options.paperback.title') }}</h4>
-					<p class="mb-0 inria-serif-regular text-muted">{{ __('default.cover_options.paperback.description') }}</p>
+					<p class="mb-0 inria-serif-regular">{{ __('default.cover_options.paperback.description') }}</p>
 				</div>
 			</div>
 			{{-- Hardcover Option --}}
@@ -16,7 +16,7 @@
 				<img src="/images/big-paperback.jpg" alt="{{ __('default.cover_options.hardcover.title') }}" class="cover-option-image shadow" style="transform: rotate(3deg);">
 				<div class="mt-3">
 					<h4 class="inria-serif-regular mb-1">{{ __('default.cover_options.hardcover.title') }}</h4>
-					<p class="mb-0 inria-serif-regular text-muted">{{ __('default.cover_options.hardcover.description') }}</p>
+					<p class="mb-0 inria-serif-regular">{{ __('default.cover_options.hardcover.description') }}</p>
 				</div>
 			</div>
 		</div>

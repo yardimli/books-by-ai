@@ -4,7 +4,7 @@
 		{{-- <div class="hero-background-shape"></div> --}}
 		<div class="row align-items-center">
 			<div class="col-lg-6 mb-4 mb-lg-0 text-center text-lg-start" style="z-index: 2;"> {{-- Added z-index --}}
-				<h1 class="display-4 fw-bold mb-3">{{ __('default.hero.title') }}</h1> {{-- Made heading bigger --}}
+				<h1 class="display-6 fw-bold mb-3">{{ __('default.hero.title') }}</h1> {{-- Made heading bigger --}}
 				<p class="lead inria-serif-regular mb-4">{{ __('default.hero.subtitle') }}</p>
 				<a href="{{route('create-book')}}" class="btn btn-lg btn-primary px-5 py-3">{{ __('default.hero.cta') }}</a> {{-- Larger CTA --}}
 			</div>

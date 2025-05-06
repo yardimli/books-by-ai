@@ -28,7 +28,7 @@
 	
 	<main>
 		@include('landing.hero')
-		@include('landing.testimonials')
+{{--		@include('landing.testimonials')--}}
 		@include('landing.how-it-works')
 		@include('landing.cover-options')
 		@include('landing.faq')

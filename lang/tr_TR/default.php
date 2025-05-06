@@ -450,7 +450,7 @@
 					'image' => '/images/testimonial2.jpg'
 				],
 				[
-					'text' => "Kitap o kadar hızlı geldi ki, AI'ın gerçekten yazdığına emin olamadım. Kalitesi de şaşırtıcı derecede iyi!", // The book arrived so fast, I wasn't sure the AI actually wrote it. The quality is surprisingly good too!
+					'text' => "Kitap o kadar hızlı geldi ki, YZ'nin gerçekten yazdığına emin olamadım. Kalitesi de şaşırtıcı derecede iyi!", // The book arrived so fast, I wasn't sure the AI actually wrote it. The quality is surprisingly good too!
 					'image' => '/images/testimonial3.jpg'
 				],
 				[
@@ -481,12 +481,12 @@
 			],
 			'step2' => [
 				'number' => '2',
-				'heading' => 'AI\'ın Garip Fikirlerinden Birini Seçin (ve Güzel Bir Kapakla Kamufle Edin)', // Choose One of the AI's Weird Ideas (and Camouflage It With a Nice Cover)
-				'description' => "AI'ımız size birkaç absürt kitap başlığı sunacak. En az kötü olanı seçin ve havalı kapaklarımızdan biriyle durumu kurtarın." // Our AI will offer a few absurd book titles. Pick the least bad one and save the day with one of our cool covers.
+				'heading' => 'YZ\'nin Garip Fikirlerinden Birini Seçin (ve Güzel Bir Kapakla Kamufle Edin)', // Choose One of the AI's Weird Ideas (and Camouflage It With a Nice Cover)
+				'description' => "YZ'ımız size birkaç absürt kitap başlığı sunacak. En az kötü olanı seçin ve havalı kapaklarımızdan biriyle durumu kurtarın." // Our AI will offer a few absurd book titles. Pick the least bad one and save the day with one of our cool covers.
 			],
 			'step3' => [
 				'number' => '3',
-				'heading' => "Arkanıza Yaslanın, AI Saçmalasın (ve Biz Basıp Gönderelim)", // Sit Back While the AI Spouts Nonsense (and We Print & Ship It)
+				'heading' => "Arkanıza Yaslanın, YZ Saçmalasın (ve Biz Basıp Gönderelim)", // Sit Back While the AI Spouts Nonsense (and We Print & Ship It)
 				'description' => "İçinde ne olacağını biz de tam bilmiyoruz, ama 160 sayfa yapay zeka ürünü 'bilgelik' (veya zırva) olacak. Gerçek kitap gibi görünecek, şaşırtıcı!" // We don't entirely know what will be inside, but it'll be 160 pages of AI-generated 'wisdom' (or nonsense). It'll look like a real book, surprisingly!
 			]
 		],

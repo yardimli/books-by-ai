@@ -50,6 +50,14 @@
 	<script>
 		var current_page = 'my.landing';
 		$(document).ready(function () {
+		    $('.main-carousel').flickity({
+		        cellAlign: 'left',
+		        contain: true,
+		        wrapAround: true,
+		        autoPlay: 5000,
+		        prevNextButtons: false, // Hide arrows
+		        pageDots: true // Show dots
+		    });
 		});
 	</script>
 

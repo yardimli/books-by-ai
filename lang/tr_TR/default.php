@@ -2,101 +2,74 @@
 
 	return [
 
-// Found in: app\Http\Controllers\BookCodexController.php
 		'Codex saved successfully' => 'Kodeks başarıyla kaydedildi',
 
-// Found in: resources\views\auth\forgot-password.blade.php, resources\views\emails\reset_password.blade.php, resources\views\emails\thankyouforyourorder.blade.php, resources\views\emails\verify-email.blade.php, resources\views\emails\welcome.blade.php, resources\views\errors\error-404.blade.php, resources\views\landing\landing.blade.php, resources\views\layouts\app.blade.php, resources\views\layouts\footer.blade.php, resources\views\user\codex.blade.php, resources\views\user\edit-book.blade.php, resources\views\user\my-books.blade.php, resources\views\user\privacy.blade.php, resources\views\user\showcase-library.blade.php, resources\views\user\stories.blade.php, resources\views\user\terms.blade.php, resources\views\welcome.blade.php
 		'Books By AI' => 'HerkesYazar',
 
-// Found in: resources\views\auth\forgot-password.blade.php, resources\views\auth\login.blade.php, resources\views\auth\register.blade.php, resources\views\emails\welcome.blade.php, resources\views\errors\error-404.blade.php, resources\views\landing\landing.blade.php, resources\views\layouts\app.blade.php, resources\views\paypal\paypal-finish-page.blade.php, resources\views\user\my-books.blade.php, resources\views\user\showcase-library.blade.php, resources\views\user\stories.blade.php
 		'Boilerplate Site Tagline' => 'Herkes Artik Kitap Yaziyor',
 
-// Found in: resources\views\auth\login.blade.php
 		'Log in with Google' => 'Google ile Giriş Yap',
 		'Remember me?' => 'Beni hatırla?',
 
-// Found in: resources\views\auth\login.blade.php, resources\views\auth\passwords\email.blade.php, resources\views\auth\passwords\reset.blade.php
 		'Forgot password?' => 'Şifreni mi unuttun?',
 
-// Found in: resources\views\auth\login.blade.php
 		'Login' => 'Giriş Yap',
 		'Not a member yet?' => 'Henüz üye değil misin?',
 		'Sign up' => 'Kaydol',
 		'Sign in' => 'Giriş Yap',
 
-// Found in: resources\views\auth\passwords\email.blade.php, resources\views\auth\passwords\reset.blade.php
 		'Reset Password' => 'Şifreyi Sıfırla',
 
-// Found in: resources\views\auth\register.blade.php
 		'Sign up with Google' => 'Google ile Kaydol',
 		'Enter Username...' => 'Kullanıcı Adı Girin...',
 		'Password' => 'Şifre',
 		'Confirm Password' => 'Şifreyi Onayla',
 		'Create Account' => 'Hesap Oluştur',
 
-// Found in: resources\views\layouts\app.blade.php
 		'Search...' => 'Ara...',
 		'Blog' => 'Blog',
 
-
-// Found in: resources\views\layouts\app.blade.php, resources\views\user\settings.blade.php
 		'My Books' => 'Kitaplarım',
 
-// Found in: resources\views\layouts\app.blade.php
 		'Help' => 'Yardım',
 
-// Found in: resources\views\layouts\app.blade.php, resources\views\user\settings.blade.php
 		'Settings' => 'Ayarlar',
 
-// Found in: resources\views\user\all-beats.blade.php
 		'Books By AI - Book Beats' => 'Yapay Zeka ile Kitap Yazın - Kitap Vuruşları',
 		'Back to Chapters' => 'Bölümlere Geri Dön',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php
 		'Blurb' => 'Tanıtım Yazısı',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php, resources\views\user\chat.blade.php
 		'Back Cover Text' => 'Arka Kapak Metni',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php
 		'Prompt For Book' => 'Kitap İçin İpucu',
 		'Character Profiles' => 'Karakter Profilleri',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\codex.blade.php, resources\views\user\edit-book.blade.php, resources\views\user\chat.blade.php
 		'AI Engines:' => 'Yapay Zeka Motorları:',
 		'Select an AI Engine' => 'Bir Yapay Zeka Motoru Seçin',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php
 		'Number of beats per chapter:' => 'Bölüm başına vuruş sayısı:',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php, resources\views\user\chat.blade.php
 		'Writing Style' => 'Yazım Tarzı',
 		'Narrative Style' => 'Anlatım Tarzı',
 
-// Found in: resources\views\user\all-beats.blade.php
 		'Recreate Beats' => 'Vuruşları Yeniden Oluştur',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php
 		'Open Codex' => 'Kodeksi Aç',
 
-// Found in: resources\views\user\all-beats.blade.php
 		'No beats have been generated for this chapter. Please click the "Recreate Beats" button to generate beats. You will need to save the beats before proceeding to write the beat contents.' => 'Bu bölüm için henüz vuruş oluşturulmadı. Lütfen vuruşları oluşturmak için "Vuruşları Yeniden Oluştur" düğmesine tıklayın. Vuruş içeriklerini yazmaya geçmeden önce vuruşları kaydetmeniz gerekecek.',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\book-details.blade.php, resources\views\user\codex.blade.php, resources\views\user\edit-book.blade.php, resources\views\user\chat.blade.php
 		'Restart Tour' => 'Turu Yeniden Başlat',
 
-// Found in: resources\views\user\all-beats.blade.php
 		'Chapter' => 'Bölüm',
 		'Description' => 'Açıklama',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php
 		'Events' => 'Olaylar',
 		'People' => 'İnsanlar',
 		'Places' => 'Yerler',
 		'Previous Chapter' => 'Önceki Bölüm',
 		'Next Chapter' => 'Sonraki Bölüm',
 
-// Found in: resources\views\user\all-beats.blade.php
 		'Beat' => 'Vuruş',
 		'Add Empty Beat Before' => 'Öncesine Boş Vuruş Ekle',
 		'Add Empty Beat After' => 'Sonrasına Boş Vuruş Ekle',
@@ -109,34 +82,32 @@
 		'Write Beat Text' => 'Vuruş Metnini Yaz',
 		'Write Beat Description' => 'Vuruş Açıklamasını Yaz',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\book-details.blade.php
 		'Save' => 'Kaydet',
 
-// Found in: resources\views\user\all-beats.blade.php
 		'Save Beats' => 'Vuruşları Kaydet',
 		'Alert' => 'Uyarı',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\book-details.blade.php, resources\views\user\codex.blade.php, resources\views\user\edit-book.blade.php, resources\views\user\settings.blade.php, resources\views\user\chat.blade.php
+
 		'Close' => 'Kapat',
 
-// Found in: resources\views\user\all-beats.blade.php
+
 		'Write Beat' => 'Vuruş Yaz',
 		'The User Prompt you see here has been generated from the book details as well as current chapter and previous beats or chapters if they exist.' => 'Burada gördüğünüz Kullanıcı İpucu, kitap detaylarından ve mevcut bölümden ve varsa önceki vuruşlar veya bölümlerden oluşturulmuştur.',
 		'It also contains the beat description that the AI will write out.' => 'Ayrıca yapay zekanın yazacağı vuruş açıklamasını da içerir.',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php
+
 		'User Prompt' => 'Kullanıcı İpucu',
 
-// Found in: resources\views\user\all-beats.blade.php
+
 		'Accept Output' => 'Çıktıyı Kabul Et',
 		'Edit Beat Summary' => 'Vuruş Özetini Düzenle',
 		'Save Summary' => 'Özeti Kaydet',
 		'Cancel' => 'İptal',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\codex.blade.php, resources\views\user\chat.blade.php
+
 		'Processing your request. This may take a few minutes...' => 'İsteğiniz işleniyor. Bu birkaç dakika sürebilir...',
 
-// Found in: resources\views\user\all-beats.blade.php
+
 		'All chapter Beat Descriptions generated successfully.' => 'Tüm bölüm Vuruş Açıklamaları başarıyla oluşturuldu.',
 		'Please review the beats and click "Save Beats" to save the changes.' => 'Lütfen vuruşları gözden geçirin ve değişiklikleri kaydetmek için "Vuruşları Kaydet" düğmesine tıklayın.',
 		'You will need to save the beats before proceeding to write the beat contents.' => 'Vuruş içeriklerini yazmaya geçmeden önce vuruşları kaydetmeniz gerekecek.',
@@ -151,24 +122,24 @@
 		'Beat and summary saved successfully!' => 'Vuruş ve özet başarıyla kaydedildi!',
 		'Failed to save beat with summary: ' => 'Özetli vuruş kaydedilemedi: ',
 
-// Found in: resources\views\user\all-beats.blade.php, resources\views\user\edit-book.blade.php
+
 		'Rewriting...' => 'Yeniden yazılıyor...',
 
-// Found in: resources\views\user\all-beats.blade.php
+
 		'Failed to write beat:' => 'Vuruş yazılamadı:',
 		'Error write beat' => 'Vuruş yazma hatası',
 		'Beats saved successfully!' => 'Vuruşlar başarıyla kaydedildi!',
 		'Failed to save beats: ' => 'Vuruşlar kaydedilemedi: ',
 
-// Found in: resources\views\user\book-details.blade.php
+
 		'Cover Image' => 'Kapak Resmi',
 		'Create Cover' => 'Kapak Oluştur',
 		'Enter cover description' => 'Kapak açıklamasını girin',
 
-// Found in: resources\views\user\book-details.blade.php, resources\views\user\chat.blade.php
+
 		'Book Title' => 'Kitap Başlığı',
 
-// Found in: resources\views\user\book-details.blade.php
+
 		'Book Author' => 'Kitap Yazarı',
 		'Enhance Prompt' => 'İpucunu Geliştir',
 		'AI will optimize for creative visuals' => 'Yapay zeka yaratıcı görseller için optimize edecek',
@@ -181,14 +152,14 @@
 		'Failed to save cover: ' => 'Kapak kaydedilemedi: ',
 		'An error occurred while saving the cover.' => 'Kapak kaydedilirken bir hata oluştu.',
 
-// Found in: resources\views\user\codex.blade.php
+
 		'Already Added' => 'Zaten Eklendi',
 		'Showing sample beats. Please add beats to your chapters to generate codex data.' => 'Örnek vuruşlar gösteriliyor. Kodeks verisi oluşturmak için lütfen bölümlerinize vuruşlar ekleyin.',
 		'Please select at least one beat to update the codex.' => 'Kodeksi güncellemek için lütfen en az bir vuruş seçin.',
 		'Codex Data Update, please verify then save' => 'Kodeks Verisi Güncelleme, lütfen doğrulayın ve ardından kaydedin',
 		'Error updating codex' => 'Kodeks güncellenirken hata oluştu',
 
-// Found in: resources\views\user\edit-book.blade.php
+
 		'Back to My Books' => 'Kitaplarıma Geri Dön',
 		'Back to Book Page' => 'Kitap Sayfasına Geri Dön',
 		'Write All Beats' => 'Tüm Vuruşları Yaz',
@@ -196,10 +167,10 @@
 		'Chat with AI' => 'Yapay Zeka ile Sohbet Et',
 		'Delete Book' => 'Kitabı Sil',
 
-// Found in: resources\views\user\edit-book.blade.php, resources\views\user\settings.blade.php
+
 		'Name' => 'Ad',
 
-// Found in: resources\views\user\edit-book.blade.php
+
 		'Order' => 'Sıra',
 		'Short Description' => 'Kısa Açıklama',
 		'Update Chapter' => 'Bölümü Güncelle',
@@ -207,12 +178,12 @@
 		'Rewrite Chapter' => 'Bölümü Yeniden Yaz',
 		'Generating Beats for All Chapters' => 'Tüm Bölümler İçin Vuruşlar Oluşturuluyor',
 
-// Found in: resources\views\user\edit-book.blade.php, resources\views\user\chat.blade.php
+
 		'Character Profiles' => 'Karakter Profilleri',
 		'User Name' => 'Yazar Adı',
 		'Publisher Name' => 'Yayınevi Adı',
 
-// Found in: resources\views\user\edit-book.blade.php
+
 		'Save Changes' => 'Değişiklikleri Kaydet',
 		'LLM Response' => 'LLM Yanıtı',
 		'Send Prompt' => 'İpucu Gönder',
@@ -232,18 +203,18 @@
 		'Error saving rewritten chapter' => 'Yeniden yazılan bölüm kaydedilirken hata oluştu',
 		'An error occurred while deleting the book.' => 'Kitap silinirken bir hata oluştu.',
 
-// Found in: resources\views\user\my-books.blade.php
+
 		'Your Private Library' => 'Kitaplarım',
 		'Here are all the books both complete and in progress.' => 'İşte hem tamamlanmış hem de devam eden tüm kitaplar.',
 		'Click on the book cover to read or edit the full book.' => 'Tam kitabı okumak veya düzenlemek için kitap kapağına tıklayın.',
 
-// Found in: resources\views\user\read-book.blade.php
+
 		'Export as PDF' => 'PDF olarak dışa aktar',
 		'PDF' => 'PDF',
 		'Export as DocX' => 'DocX olarak dışa aktar',
 		'DocX' => 'DocX',
 
-// Found in: resources\views\user\settings.blade.php
+
 		'Account' => 'Hesap',
 		'Close Account' => 'Hesabı Kapat',
 		'Account Settings' => 'Hesap Ayarları',
@@ -272,12 +243,12 @@
 		'Keep my account' => 'Hesabımı koru',
 		'Delete my account' => 'Hesabımı sil',
 
-// Found in: resources\views\user\showcase-library.blade.php
+
 		'Sample Books and Short Stories' => 'Örnek Kitaplar ve Kısa Hikayeler',
 		'Read a sample of our books and short stories.' => 'Kitaplarımızdan ve kısa hikayelerimizden bir örnek okuyun.',
 		'Click on the book cover to read the full book or story.' => 'Tam kitabı veya hikayeyi okumak için kitap kapağına tıklayın.',
 
-// Found in: resources\views\user\chat.blade.php
+
 		'Add Book' => 'Kitap Ekle',
 		'Book Description' => 'Kitap Tanıtımı',
 		'Language' => 'Dil',
@@ -461,118 +432,115 @@
 		'Our dedicated customer support team is available to help' => 'Uzman müşteri destek ekibimiz yardımcı olmaya hazır',
 		'Contact us' => 'Bize ulaşın',
 
-		//----------------------------------------
+
 		'hero' => [
-			'title' => '2 Dakikada Mizah Dolu Kitabınızı Yazdırın',
-			'subtitle' => 'En Sevdiğiniz Kişiye ya da Kendinize Özel: Yapay Zekayla Yazılmış Mizah Dolu Bir Armağan!',
-			'cta' => 'Başlayın'
+			'title' => 'Kitap Yazmak Zor İş Dediler... Biz 2 Dakikada Hallettik (Yapay Zekayla!)', // They Said Writing a Book is Hard Work... We Did It in 2 Minutes (With AI!)
+			'subtitle' => 'En İyi (veya En Kötü?) Şaka Hediyesi: Arkadaşlarınızın \'Yazar\' Olduğunu Görmeye Hazır Olun!', // The Best (or Worst?) Gag Gift: Get Ready to See Your Friends Become 'Authors'!
+			'cta' => 'Komik Kitabımı Yarat!' // Create My Funny Book!
 		],
 		'testimonials' => [
-			'heading' => '1000\'den Fazla Kitap Basıldı',
+			'heading' => '1000\'den Fazla \'Yazar\' Yarattık (ve Saymaya Devam Ediyoruz!)', // We've Created Over 1000 'Authors' (and Counting!)
 			'reviews' => [
 				[
-					'text' => "Doyamıyorsunuz!",
+					'text' => "Arkadaşım kitabı okurken kahkahadan sandalyeden düştü. Ambulans çağırmadık, o kadar komikti.", // My friend fell off the chair laughing while reading. We didn't call an ambulance, it was *that* funny.
 					'image' => '/images/testimonial1.jpg'
 				],
 				[
-					'text' => "Bu en unutulmaz parti hediyesi!",
+					'text' => "Partideki en çok konuşulan hediye oldu. Diğer hediyeler sıkıcıydı zaten.", // It was the most talked-about gift at the party. The other gifts were boring anyway.
 					'image' => '/images/testimonial2.jpg'
 				],
 				[
-					'text' => "Yüksek kalite ve hızlı teslimat!",
+					'text' => "Kitap o kadar hızlı geldi ki, AI'ın gerçekten yazdığına emin olamadım. Kalitesi de şaşırtıcı derecede iyi!", // The book arrived so fast, I wasn't sure the AI actually wrote it. The quality is surprisingly good too!
 					'image' => '/images/testimonial3.jpg'
 				],
 				[
-					'text' => "Her özel gün için mükemmel hediye!",
+					'text' => "Doğum günü, yıl dönümü, Salı... Her bahaneyle bir kitap yazdırıyorum.", // Birthday, anniversary, Tuesday... I'm finding any excuse to get a book written.
 					'image' => '/images/testimonial4.jpg'
 				],
 				[
-					'text' => "Harika kalite ve hizmet!",
+					'text' => "Müşteri hizmetleri bile komik. Şaka yapmıyorum (belki biraz).", // Even customer service is funny. I'm not kidding (maybe a little).
 					'image' => '/images/testimonial5.jpg'
 				],
 				[
-					'text' => "Şimdiye kadarki en iyi kişiselleştirilmiş hediye!",
+					'text' => "Kendi hakkımda kitap yazdırdım. Egoma iyi geldi. Tavsiye ederim.", // I had a book written about myself. It boosted my ego. Recommended.
 					'image' => '/images/testimonial6.jpg'
 				],
 			]
 		],
-
 		'how_it_works' => [
-			'title' => 'Nasıl Çalışır',
+			'title' => 'Sihir (ve Biraz Kod) Nasıl Çalışır', // How the Magic (and Some Code) Works
 			'step1' => [
 				'number' => '1',
-				'heading' => 'Yazar hakkında soruları yanıtlayın',
-				'description' => 'Ne kadar spesifik olursanız, kitap o kadar kişiselleştirilmiş ve eğlenceli olacaktır',
-				'profile_title' => "Elif'i tanıyalım",
-				'hobby_question' => "Elif'in hobileri nelerdir?",
-				'hobby_answer' => '12 yaşından beri model tren koleksiyonu yapıyor ve bu konuda çok bilgili',
-				'save_button' => 'Cevabı kaydet',
-				'friends_question' => "Elif'in en iyi arkadaşları kimler?"
+				'heading' => 'Kurbanı... Yani \'Yazarı\' Tanıyalım', // Let's Get to Know the Victim... I Mean, 'Author'
+				'description' => 'Ne kadar utanç verici detay verirseniz, kitap o kadar komik olur. Sır saklamayın!', // The more embarrassing details you give, the funnier the book. Don't hold back secrets!
+				'profile_title' => "Elif'i tanıyalım (veya ifşa edelim)", // Let's get to know (or expose) Elif
+				'hobby_question' => "Elif'in tuhaf hobileri neler?", // What are Elif's weird hobbies?
+				'hobby_answer' => '12 yaşından beri model tren biriktiriyor ve bunu *çok* ciddiye alıyor. Trenlerine isim bile verdi.', // Collects model trains since age 12 and takes it *very* seriously. Even named his trains.
+				'save_button' => 'Dedikoduyu Kaydet', // Save the Gossip
+				'friends_question' => "Elif'in suç ortakları kimler?" // Who are Elif's partners in crime?
 			],
 			'step2' => [
 				'number' => '2',
-				'heading' => 'Bir kitap fikri ve kapak tasarımı seçin',
-				'description' => "Yapay zekamız eğlenceli kitap başlıkları önerecek—beğendiğinizi ve güzel koleksiyonumuzdan bir kapak tasarımını seçeceksiniz"
+				'heading' => 'AI\'ın Garip Fikirlerinden Birini Seçin (ve Güzel Bir Kapakla Kamufle Edin)', // Choose One of the AI's Weird Ideas (and Camouflage It With a Nice Cover)
+				'description' => "AI'ımız size birkaç absürt kitap başlığı sunacak. En az kötü olanı seçin ve havalı kapaklarımızdan biriyle durumu kurtarın." // Our AI will offer a few absurd book titles. Pick the least bad one and save the day with one of our cool covers.
 			],
 			'step3' => [
 				'number' => '3',
-				'heading' => "240 sayfalık tam bir kitap yazıp size teslim edeceğiz",
-				'description' => "Yapay zeka tarafından oluşturulan eğlenceli içeriklerle dolu olacak ve gerçek bir kitap gibi profesyonel olarak basılacak"
+				'heading' => "Arkanıza Yaslanın, AI Saçmalasın (ve Biz Basıp Gönderelim)", // Sit Back While the AI Spouts Nonsense (and We Print & Ship It)
+				'description' => "İçinde ne olacağını biz de tam bilmiyoruz, ama 160 sayfa yapay zeka ürünü 'bilgelik' (veya zırva) olacak. Gerçek kitap gibi görünecek, şaşırtıcı!" // We don't entirely know what will be inside, but it'll be 160 pages of AI-generated 'wisdom' (or nonsense). It'll look like a real book, surprisingly!
 			]
 		],
-
 		'cover_options' => [
-			'title' => 'Kapak Seçenekleri',
-			'description' => 'Her biri kendine özgü çekiciliğe sahip iki cilt stili',
+			'title' => 'Kitabınızın Dış Görünüşünü Kurtarma Seçenekleri', // Options to Save Your Book's Appearance
+			'description' => 'İçeriği ne olursa olsun, en azından kapağı güzel görünsün diye iki seçeneğiniz var.', // Whatever the content, at least you have two options to make the cover look good.
 			'paperback' => [
-				'title' => 'Normal Boy',
-				'description' => '13x19,5 cm'
+				'title' => 'Normal Boy (Cep Yakmayan)', // Normal Size (Pocket-Friendly)
+				'description' => '13x19,5 cm - Standart Şaka Boyutu' // Standard Gag Size
 			],
 			'hardcover' => [
-				'title' => 'Büyük Boy',
-				'description' => '16x23 cm'
+				'title' => 'Büyük Boy (Daha Havalı)', // Large Size (Looks Cooler)
+				'description' => '16x23 cm - Hediyeyi Biraz Daha Ciddi Gösterir' // Makes the Gift Look Slightly More Serious
 			]
 		],
-
 		'faq' => [
-			'title' => 'Sıkça Sorulan Sorular',
+			'title' => 'Muhtemelen Merak Ettiğiniz (veya Etmeniz Gereken) Şeyler', // Things You're Probably Wondering (or Should Be)
 			'items' => [
 				[
-					'question' => 'HerkesYazar nasıl çalışır?',
-					'answer' => 'Kitap başlığı, içindekiler tablosu ve 240 sayfalık içeriğin tamamı tamamen yapay zekamız tarafından oluşturulur (ve gerçekten komiktir). Yazar hakkındaki detayları doldurduktan sonra, beğendiğiniz kitap fikrini seçebilir, içindekiler tablosunu görebilir, bir kapak seçebilir ve siparişinizi verebilirsiniz.'
+					'question' => 'Bu HerkesYazar tam olarak nasıl çalışıyor?', // How exactly does HerkesYazar work?
+					'answer' => 'Siz kurban hakkında dedikodu yaparsınız, yapay zeka bunları (umarız komik) bir kitaba dönüştürür, biz de basıp göndeririz. Basit ama etkili (genellikle).' // You provide gossip about the victim, the AI turns it into a (hopefully funny) book, and we print and ship it. Simple but effective (usually).
 				],
 				[
-					'question' => 'Kitabı almak ne kadar sürer?',
-					'answer' => 'Sipariş verdikten sonra, basılı kitabın gelmesi yaklaşık 15-18 iş günü sürer.'
+					'question' => 'Kitabın elime ulaşması ne kadar sürer?', // How long does it take to get the book?
+					'answer' => 'Yapay zeka hızlı yazar ama postacılar... eh. Sipariş sonrası yaklaşık 15-18 iş günü sabredin. Beklerken başka şakalar düşünebilirsiniz.' // The AI writes fast, but the mail carriers... eh. Be patient for about 15-18 business days after ordering. You can think of other pranks while waiting.
 				],
 				[
-					'question' => 'Kitabın boyutu nedir?',
-					'answer' => 'Basılı kitap, kurgu dışı kitaplar için standart bir boyut olan 6"x9" boyutundadır. Karton kapak ve sert kapak seçenekleri mevcuttur.'
+					'question' => 'Kitabın boyutu ne kadar? İçindeki bilgiler kadar küçük mü?', // What's the book size? Is it as small as the information inside?
+					'answer' => 'Standart 6"x9" (yaklaşık 15x23 cm). İçindeki bilgilerin derinliği veya doğruluğu konusunda garanti veremiyoruz, sonuçta bir şaka bu.' // Standard 6"x9" (approx 15x23 cm). We can't guarantee the depth or accuracy of the information inside, it's a joke after all.
 				],
 				[
-					'question' => 'Kargo ücretsiz mi?',
-					'answer' => 'Evet, kargo tamamen ücretsizdir.'
+					'question' => 'Kargo ücreti var mı? Yoksa bu da mı şaka?', // Is there a shipping fee? Or is that a joke too?
+					'answer' => 'Hayır, kargo tamamen ücretsiz! En azından bir konuda ciddiyiz.' // No, shipping is totally free! We're serious about at least one thing.
 				],
 				[
-					'question' => 'Bir kitabın kopyalarını nasıl yeniden sipariş edebilirim?',
-					'answer' => 'Daha önce satın aldığınız bir kitabın kopyalarını yeniden sipariş etmek için Menü\'ye gidin ve \'Siparişlerim\'i seçin. Oradan, yeniden sipariş etmek istediğiniz kitabı seçebilir ve ek kopyalar için siparişinizi verebilirsiniz.'
+					'question' => 'Aynı kitaptan tekrar nasıl sipariş verebilirim? Bağımlılık yaptı da.', // How can I reorder copies of the same book? It's addictive.
+					'answer' => 'Menüdeki \'Siparişlerim\' bölümünden istediğiniz kadar kopya sipariş edebilirsiniz. Bağımlılık yaparsa sorumluluk kabul etmiyoruz, doktora görünün.' // You can order as many copies as you want from the 'My Orders' section in the Menu. We take no responsibility if it becomes an addiction, see a doctor.
 				],
 				[
-					'question' => 'Yardıma ihtiyacım olursa müşteri desteği var mı?',
-					'answer' => 'Evet, iletisim@herkesyazar.app adresine e-posta gönderin, ihtiyacınız olan her konuda size memnuniyetle yardımcı olacağız.'
+					'question' => 'Yardıma ihtiyacım olursa kime yazacağım? Yapay zekaya mı?', // Who do I contact if I need help? The AI?
+					'answer' => 'Hayır, iletisim@herkesyazar.app adresine e-posta gönderin. Gerçek insanlar (çoğunlukla mizah anlayışı olan) cevap veriyor.' // No, email iletisim@herkesyazar.app. Real humans (mostly with a sense of humor) answer.
 				],
 				[
-					'question' => 'İade politikanız nedir?',
-					'answer' => 'Sadece kitap kusurlu veya hasarlı geldiğinde iade sağlıyoruz. Kitabı aldıktan sonra 7 gün içinde iletisim@herkesyazar.app adresine sipariş numaranız ve sorunun açıklamasıyla birlikte e-posta gönderin, sorunu hızlıca çözeceğiz.'
+					'question' => 'İade politikası nedir? Kitaptaki şakaları beğenmezsem?', // What's the return policy? If I don't like the jokes in the book?
+					'answer' => 'Sadece kitap fiziksel olarak kusurlu veya hasarlı geldiyse iade kabul ediyoruz. İçeriği beğenmedim diye iade yok, yapay zekanın da duyguları var (belki).' // We only accept returns if the book arrives physically defective or damaged. No returns for not liking the content, the AI has feelings too (maybe).
 				],
 				[
-					'question' => 'Kitap ticari kullanım için mi tasarlanmıştır?',
-					'answer' => 'Hayır, hizmetimizi kullanarak oluşturduğunuz kitaplar sadece şaka hediyesi ve eğlence amaçlı olarak tasarlanmıştır. Ciddiye alınmaması ve ticari amaçlarla veya gerçek bilgi kaynağı olarak kullanılmaması gerekir. Bu kitaplar tamamen eğlence amaçlı, birinin yüzünde gülümseme oluşturmak ve unutulmaz, eğlenceli bir hediye yaratmak içindir!'
+					'question' => 'Bu kitapları ticari amaçla kullanabilir miyim? Mesela bestseller yapmak?', // Can I use these books for commercial purposes? Like making it a bestseller?
+					'answer' => 'Kesinlikle hayır! Bu kitaplar tamamen geyik muhabbeti ve şaka hediyesi içindir. Ciddiye alıp Nobel Edebiyat Ödülü\'ne aday göstermeye kalkmayın lütfen.' // Absolutely not! These books are purely for fun and gag gifts. Please don't take it seriously and nominate it for the Nobel Prize in Literature.
 				]
 			]
 		],
 
-		//-----------------------------
+
 		'Books' => 'Kitaplar',
 		'No books found' => 'Kitap bulunamadı',
 		'Create New Book' => 'Yeni Kitap Oluştur',
@@ -690,7 +658,7 @@
 					'no_suggestions' => 'Öneri bulunmamaktadır',
 					'loading_error' => 'Öneriler yüklenirken hata oluştu'
 				],
-				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
+				'author_prefix' => 'yazan',
 			],
 			'step4' => [
 				'page_title' => '4. Adım - :author\'ın Fotoğrafı',
@@ -700,7 +668,7 @@
 				'processing' => 'Görüntü işleniyor...',
 				'error_processing' => 'Görüntü işlenirken hata oluştu. Lütfen tekrar deneyin.',
 				'error_upload' => 'Görüntü yüklenirken hata oluştu. Lütfen tekrar deneyin.',
-				'author_prefix' => 'yazan', // "[yazar adı] tarafından" metni için
+				'author_prefix' => 'yazan',
 			],
 			'step5' => [
 				'page_title' => '5. Adım - :author\'ın ":title" Kapak Tasarımı',
@@ -740,28 +708,28 @@
 			]
 		],
 		'checkout' => [
-			'page_title' => 'Ödeme',
-			'title' => 'Ödeme',
-			'loading' => 'Yükleniyor',
-			'page_count' => '160 sayfa',
-			'page_count_description' => 'Bu kitap, 160 sayfalık komik yapay zeka içeriği ile dolacak 📖',
-			'normal_cover_size' => '13x19,5 cm',
+			'page_title' => 'Ödeme (İşin Ciddiye Bindiği Yer)', // Checkout (Where Things Get Serious)
+			'title' => 'Ödeme', // Checkout
+			'loading' => 'Yükleniyor (Paranızın Gittiğini Görmeden Önceki Son Anlar)', // Loading (Last moments before you see your money go)
+			'page_count' => '160 sayfa', // 160 pages
+			'page_count_description' => 'Bu kitap, 160 sayfalık komik (umarız) yapay zeka içeriği ile dolacak 📖', // This book will be filled with 160 pages of funny (we hope) AI content 📖
+			'normal_cover_size' => '13x19,5 cm (Standart Şaka)', // Standard Joke
 			'currency_prefix' => '₺ ',
 			'currency_suffix' => '',
 			'normal_cover_size_price' => '1600',
-			'large_cover_size' => '16x23 cm',
+			'large_cover_size' => '16x23 cm (Havalı Şaka)', // Cool Joke
 			'large_cover_size_price' => '2000',
-			'copies' => 'Ek Kopya Sayısı',
-			'copies_description' => 'Her 4 kopya için ₺ 1000 ek ücret',
-			'shipping' => 'Kargo',
-			'standard_shipping' => 'Standart Kargo',
-			'shipping_time' => '15-18 iş günü',
-			'free_shipping' => 'Ücretsiz',
-			'summary' => 'Sipariş Özeti',
-			'base_product' => '160 Sayfalık Kitap - İlk 4 Adet',
-			'additional_copies' => 'Ek 4 Adet',
+			'copies' => 'Ek Kopya Sayısı (Şakayı Yaymak İçin)', // Additional Copies (To Spread the Joke)
+			'copies_description' => 'Her 4 kopya için ₺ 1000 ek ücret (Daha Fazla Kahkaha Garantili Değil)', // Additional ₺ 1000 for every 4 copies (More Laughter Not Guaranteed)
+			'shipping' => 'Kargo', // Shipping
+			'standard_shipping' => 'Standart Kargo (Sabır Gerektirir)', // Standard Shipping (Requires Patience)
+			'shipping_time' => '15-18 iş günü (Tahmini, Postacıya Bağlı)', // 15-18 business days (Estimated, Depends on the Mail Carrier)
+			'free_shipping' => 'Ücretsiz (Evet, Hâlâ Ücretsiz)', // Free (Yes, Still Free)
+			'summary' => 'Sipariş Özeti (Cüzdanınızla Yüzleşme Anı)', // Order Summary (Moment of Truth with Your Wallet)
+			'base_product' => '160 Sayfalık Kitap - İlk 4 Adet (Başlangıç Paketi)', // 160 Page Book - First 4 Copies (Starter Pack)
+			'additional_copies' => 'Ek 4 Adet (Bağımlılık Belirtisi)', // Additional 4 Copies (Sign of Addiction)
 			'additional_copies_price' => '1000',
-			'subtotal' => 'Toplam',
-			'checkout_button' => 'Ödemeye Geç',
+			'subtotal' => 'Toplam (Acı Gerçek)', // Total (The Bitter Truth)
+			'checkout_button' => 'Ödemeye Geç (Geri Dönüş Yok!)', // Proceed to Payment (No Turning Back!)
 		],
 	];

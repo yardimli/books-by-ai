@@ -450,7 +450,7 @@
 					'image' => '/images/testimonial2.jpg'
 				],
 				[
-					'text' => "Kitap o kadar hızlı geldi ki, YZ'nin gerçekten yazdığına emin olamadım. Kalitesi de şaşırtıcı derecede iyi!", // The book arrived so fast, I wasn't sure the AI actually wrote it. The quality is surprisingly good too!
+					'text' => "Kitap o kadar hızlı geldi ki, YZ'nın gerçekten yazdığına emin olamadım. Kalitesi de şaşırtıcı derecede iyi!", // The book arrived so fast, I wasn't sure the AI actually wrote it. The quality is surprisingly good too!
 					'image' => '/images/testimonial3.jpg'
 				],
 				[
@@ -481,7 +481,7 @@
 			],
 			'step2' => [
 				'number' => '2',
-				'heading' => 'YZ\'nin Garip Fikirlerinden Birini Seçin (ve Güzel Bir Kapakla Kamufle Edin)', // Choose One of the AI's Weird Ideas (and Camouflage It With a Nice Cover)
+				'heading' => 'YZ\'nın Garip Fikirlerinden Birini Seçin (ve Güzel Bir Kapakla Kamufle Edin)', // Choose One of the AI's Weird Ideas (and Camouflage It With a Nice Cover)
 				'description' => "YZ'ımız size birkaç absürt kitap başlığı sunacak. En az kötü olanı seçin ve havalı kapaklarımızdan biriyle durumu kurtarın." // Our AI will offer a few absurd book titles. Pick the least bad one and save the day with one of our cool covers.
 			],
 			'step3' => [

@@ -473,11 +473,11 @@
 				'number' => '1',
 				'heading' => 'Kurbanı... Yani \'Yazarı\' Tanıyalım', // Let's Get to Know the Victim... I Mean, 'Author'
 				'description' => 'Ne kadar utanç verici detay verirseniz, kitap o kadar komik olur. Sır saklamayın!', // The more embarrassing details you give, the funnier the book. Don't hold back secrets!
-				'profile_title' => "Elif'i tanıyalım (veya ifşa edelim)", // Let's get to know (or expose) Elif
-				'hobby_question' => "Elif'in tuhaf hobileri neler?", // What are Elif's weird hobbies?
+				'profile_title' => "Ali'yi tanıyalım (veya ifşa edelim)", // Let's get to know (or expose) Elif
+				'hobby_question' => "Ali'nin tuhaf hobileri neler?", // What are Elif's weird hobbies?
 				'hobby_answer' => '12 yaşından beri model tren biriktiriyor ve bunu *çok* ciddiye alıyor. Trenlerine isim bile verdi.', // Collects model trains since age 12 and takes it *very* seriously. Even named his trains.
 				'save_button' => 'Dedikoduyu Kaydet', // Save the Gossip
-				'friends_question' => "Elif'in suç ortakları kimler?" // Who are Elif's partners in crime?
+				'friends_question' => "Ali'in suç ortakları kimler?" // Who are Elif's partners in crime?
 			],
 			'step2' => [
 				'number' => '2',
